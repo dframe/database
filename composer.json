@@ -1,14 +1,15 @@
 {
-    "name": "slaszka/database",
-    "description": "dframe/database",
+    "name": "dframe/database",
+    "description": "Database pdo wrapper",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "slawek kaleta",
+            "name": "Slawek Kaleta",
             "email": "slaszka@gmail.com"
         }
     ],
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {"Dframe\\Database\\": "src/"}
     },
