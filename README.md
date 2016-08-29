@@ -8,7 +8,7 @@ Hey! This library is a modyfy Wrapper PDO  Original author is **neerajsinghsonu/
 
 Methods
 -------------
-Name | Method
+Description | name
 -------- | ---
 MySQL query                         |        pdoQuery()
 MySQL select query                  |        select ()
