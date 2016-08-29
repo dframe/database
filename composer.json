@@ -10,7 +10,7 @@
         }
     ],
     "autoload": {
-        "psr-4": {"Dframe\\Database\\": "src/"},
+        "psr-4": {"Dframe\\Database\\": "src/"}
     },
     "require": {}
 }
