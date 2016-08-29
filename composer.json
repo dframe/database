@@ -1,0 +1,13 @@
+{
+    "name": "slaszka/database",
+    "description": "dframe/database",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "slawek kaleta",
+            "email": "slaszka@gmail.com"
+        }
+    ],
+    "require": {}
+}
