@@ -90,7 +90,7 @@ $getLastInsertId = $db->pdoQuery('INSERT INTO table (col_one, col_two) VALUES (?
 
 ----------
 
-whereChunk
+WhereChunk
 ===================
 
 **Return all search result array query;**
@@ -99,7 +99,7 @@ $where[] = new Dframe\Database\WhereChunk('col_id', '1'); // col_id = 1
 $prepareWhere = $this->baseClass->db->prepareWhere($where); // bindprepare
 $results = $this->baseClass->db->pdoQuery('SELECT * FROM `table` '.$prepareWhere->getWhere(), $prepareWhere->getParams())->results();  //Auto bind parms
 ```
-whereChunkString
+WhereStringChunk
 ===================
 
 **Return search result array query;**
