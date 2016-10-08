@@ -83,11 +83,31 @@ $affectedRows = $db->pdoQuery('UPDATE table SET col_one = ?, col_two = ?', array
 **Insert;**
 ```php
  
-$getLastInsertId = $db->pdoQuery('INSERT INTO articles_statistic (col_one, col_two) VALUES (?,?)', array($col_one, $col_two))->getLastInsertId();
+$getLastInsertId = $db->pdoQuery('INSERT INTO table (col_one, col_two) VALUES (?,?)', array($col_one, $col_two))->getLastInsertId();
 ```
 > **Note:** getLastInsertId() will return insert ID;
 > 
 
+----------
+
+whereChunk
+===================
+
+**Return all search result array query;**
+```php
+$where[] = new \WhereChunk('col_id', '1'); // col_id = 1
+$prepareWhere = $this->baseClass->db->prepareWhere($where); // bindprepare
+$results = $this->baseClass->db->pdoQuery('SELECT * FROM `table` '.$prepareWhere->getWhere(), $prepareWhere->getParams())->results();  //Auto bind parms
+```
+whereChunkString
+===================
+
+**Return search result array query;**
+```php
+$where[] = new \WhereStringChunk('col_id > ?', array('1')); // col_id > 1
+$prepareWhere = $this->baseClass->db->prepareWhere($where); // bindprepare
+$results = $this->baseClass->db->pdoQuery('SELECT * FROM `table` '.$prepareWhere->getWhere(), $prepareWhere->getParams())->results(); //Auto bind parms
+```
 
 ### Original author
 
