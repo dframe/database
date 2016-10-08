@@ -5,8 +5,6 @@ namespace Dframe\Database;
 * Nakładka na PDO_Class_Wrapper_master
 */
 include_once(dirname( __FILE__ ) . '/PDO_Class_Wrapper/classx/PdoWrapper.php');
-include_once(dirname( __FILE__ ) . '/WhereChunk.class.php');
-include_once(dirname( __FILE__ ) . '/WhereChunkString.class.php');
 
 class Database extends \PdoWrapper
 {

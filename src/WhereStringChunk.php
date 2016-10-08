@@ -1,4 +1,6 @@
 <?php
+namespace Dframe\Database;
+
 /*
  * Klasa wspomagająca warunki wyszukiwania
  * new WhereStringChunk('`kolumna` LIKE ?', array('test'));
