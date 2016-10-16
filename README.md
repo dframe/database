@@ -6,6 +6,14 @@ Hey! This library is a modyfy Wrapper PDO  Original author is **neerajsinghsonu/
 
 ----------
 
+
+### Installation Composer
+
+```sh
+$ composer require dframe/dframe
+```
+
+
 Methods
 -------------
 Description | name
