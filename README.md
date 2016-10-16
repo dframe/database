@@ -1,16 +1,10 @@
 Dframe/Database
 ===================
 
-
-Hey! This library is a modyfy Wrapper PDO  Original author is **neerajsinghsonu/PDO_Class_Wrapper**.  
-
-----------
-
-
 ### Installation Composer
 
 ```sh
-$ composer require dframe/dframe
+$ composer require dframe/database
 ```
 
 
