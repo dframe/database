@@ -22,6 +22,9 @@ class Database extends \PdoWrapper
     }
 
     public function getWhere(){
+        if(!isset($this->setWhere) OR empty($this->setWhere))
+            $this->setWhere = null;
+        
         return $this->setWhere;
     }
 
@@ -59,7 +62,7 @@ class Database extends \PdoWrapper
             $this->setParams = $params;
         }else{
             $this->setWhere = null;
-            $this->setParams = null;
+            $this->setParams = array();
         }
 
         if (!empty($order)) {
