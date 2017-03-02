@@ -4,7 +4,7 @@ namespace Dframe\Database;
 * Autor: Sławek Kaleta
 * Nakładka na PDO_Class_Wrapper_master
 */
-include_once(dirname( __FILE__ ) . '/PDO_Class_Wrapper/classx/PdoWrapper.php');
+include_once(dirname( __FILE__ ) . '/PDO_Class_Wrapper/src/PdoWrapper.php');
 
 class Database extends \PdoWrapper
 {
@@ -36,6 +36,14 @@ class Database extends \PdoWrapper
         return $this->setOrderBy;
     }
 
+    public function getLimit(){
+        return $this->setLimit;
+    }
+
+    public function getQuery(){
+        return $this->setQuery;
+    }
+
     public function addWhereBeginParams($params){
         array_unshift($this->setParams, $params);
     }
@@ -43,7 +51,6 @@ class Database extends \PdoWrapper
     public function addWhereEndParams($params){
         array_push($this->setParams, $params);
     }
-
 
     public function prepareWhere($whereObject, $order = null, $sort = null){
         $where = null;
@@ -65,16 +72,61 @@ class Database extends \PdoWrapper
             $this->setParams = array();
         }
 
-        if (!empty($order)) {
-            if(!in_array($sort, array('ASC', 'DESC'))) 
-                $sort = 'DESC';
-    
-            $this->setOrderBy = 'ORDER BY '.$order.' '.$sort;
-        }
+
+
+        if(!empty($order))
+            $this->prepareOrder($order, $sort);
+
 
         return $this;
 
     }
- 
+
+    public function prepareOrder($order = null, $sort = null){
+        if(!in_array($sort, array('ASC', 'DESC'))) 
+            $sort = 'DESC';
+    
+        $this->setOrderBy = ' ORDER BY '.$order.' '.$sort;
+        return $this;
+    }
+
+    public function prepareQuery($query){
+        /* 
+
+        $sql = $this->baseClass->db->prepareQuery('SELECT * FROM `table`');
+        $sql->prepareWhere($whereObject, $order, $sort);
+        $sql->prepareOrder($order, $sort);
+        $sql->prepareLimit($start, $limit);
+
+        $data = $this->baseClass->db->pdoQuery($sql->getQuery(), $sql->getParams())->results();
+
+        */
+
+        $sql. = $query.' ';
+        $sql. = $this->getWhere();
+        $sql. = $this->getOrderBy();
+        $sql. = $this->getLimit();
+
+        $this->setQuery($sql);
+        return $this;
+
+    }
+
+
+     /**
+     * @param $start int
+     * @param $offset int
+     */
+
+   public function prepareLimit($limit, $offset) {
+        if($offset) {
+            $from = ($limit - 1) * $offset;
+            $this->limit .= ' LIMIT '.$from.', '.$offset.'';
+        }else {
+            $this->limit .= ' LIMIT '.$limit.'';
+        }
+
+        return $this;
+    }
 
 }

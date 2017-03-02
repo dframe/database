@@ -5,7 +5,6 @@
  * PdoWrapper for using PDO methods
  *
  * PHP version 5.3.13
- * Edit: Sławek Kaleta
  *
  * MIT License
  *
@@ -1154,4 +1153,3 @@ class PdoWrapper extends \PDO {
     }
 }
 /** Class End **/
-?>
