@@ -2,6 +2,7 @@
     "name": "dframe/database",
     "description": "Database pdo wrapper",
     "type": "library",
+    "keywords": ["database", "mysql", "pdo", "pdowraper", "wraper", "update", "insert", "query"],
     "license": "MIT",
     "authors": [
         {
