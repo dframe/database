@@ -41,7 +41,11 @@ class Database extends \PdoWrapper
     }
 
     public function getQuery(){
-        return $this->setQuery;
+        $sql = $this->setQuery;
+        $sql .= $this->getWhere();
+        $sql .= $this->getOrderBy();
+        $sql .= $this->getLimit();
+        return $sql;
     }
 
     public function addWhereBeginParams($params){
@@ -91,23 +95,7 @@ class Database extends \PdoWrapper
     }
 
     public function prepareQuery($query){
-        /* 
-
-        $sql = $this->baseClass->db->prepareQuery('SELECT * FROM `table`');
-        $sql->prepareWhere($whereObject, $order, $sort);
-        $sql->prepareOrder($order, $sort);
-        $sql->prepareLimit($start, $limit);
-
-        $data = $this->baseClass->db->pdoQuery($sql->getQuery(), $sql->getParams())->results();
-
-        */
-
-        $sql. = $query.' ';
-        $sql. = $this->getWhere();
-        $sql. = $this->getOrderBy();
-        $sql. = $this->getLimit();
-
-        $this->setQuery($sql);
+        $this->setQuery = $query;
         return $this;
 
     }
@@ -121,9 +109,9 @@ class Database extends \PdoWrapper
    public function prepareLimit($limit, $offset) {
         if($offset) {
             $from = ($limit - 1) * $offset;
-            $this->limit .= ' LIMIT '.$from.', '.$offset.'';
+            $this->setLimit = ' LIMIT '.$from.', '.$offset.'';
         }else {
-            $this->limit .= ' LIMIT '.$limit.'';
+            $this->setLimit = ' LIMIT '.$limit.'';
         }
 
         return $this;
