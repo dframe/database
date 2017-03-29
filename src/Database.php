@@ -40,12 +40,17 @@ class Database extends \PdoWrapper
         return $this->setLimit;
     }
 
+    public function getGroupBy(){
+    	return $this->setGroupBy;
+    }
+
     public function getQuery(){
         $sql = $this->setQuery;
         $sql .= $this->getWhere();
+        $sql .= $this->getGroupBy();
         $sql .= $this->getOrderBy();
         $sql .= $this->getLimit();
-        return $sql;
+        return str_replace('  ', ' ', $sql);
     }
 
     public function addWhereBeginParams($params){
@@ -100,6 +105,12 @@ class Database extends \PdoWrapper
 
     }
 
+
+    public function prepareGroupBy($groupBy){
+        $this->setGroupBy = ' GROUP BY '.$groupBy;
+        return $this;
+
+    }
 
      /**
      * @param $start int
