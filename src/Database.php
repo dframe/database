@@ -11,6 +11,7 @@ class Database extends \PdoWrapper
     private $setWhere = null;
     private $setParams = array();
     private $setOrderBy = null;
+    private $setGroupBy = null;
 
     public $WhereChunkKey;
     public $WhereChunkValue;
