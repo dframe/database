@@ -12,6 +12,7 @@ class Database extends \PdoWrapper
     private $setParams = array();
     private $setOrderBy = null;
     private $setGroupBy = null;
+    private $setLimit = null;
 
     public $WhereChunkKey;
     public $WhereChunkValue;
@@ -30,7 +31,9 @@ class Database extends \PdoWrapper
     }
 
     public function getParams(){
-        return $this->setParams;
+        $setParams = $this->setParams;
+        $this->setParams = array();
+        return $setParams;
     }
 
     public function getOrderBy(){
@@ -51,6 +54,13 @@ class Database extends \PdoWrapper
         $sql .= $this->getGroupBy();
         $sql .= $this->getOrderBy();
         $sql .= $this->getLimit();
+
+
+        $this->setQuery = null;
+        $this->setWhere  = null;
+        $this->setOrderBy = null;
+        $this->setGroupBy  = null;
+
         return str_replace('  ', ' ', $sql);
     }
 
@@ -76,10 +86,16 @@ class Database extends \PdoWrapper
                 }
             }
             $this->setWhere = " WHERE ".implode(' AND ', $arr);
-            $this->setParams = $params;
+
+            if(is_array($this->setParams) AND !empty($this->setParams))
+                $this->setParams = array_merge($this->setParams, $params);
+            else
+                $this->setParams = $params;
+
+
         }else{
             $this->setWhere = null;
-            $this->setParams = array();
+            //$this->setParams = array();
         }
 
 
@@ -101,7 +117,11 @@ class Database extends \PdoWrapper
     }
 
     public function prepareQuery($query){
-        $this->setQuery = $query;
+        if(!isset($this->setQuery))
+            $this->setQuery = $query.' ';
+        else
+            $this->setQuery .= $this->getQuery().' '.$query.' ';
+        
         return $this;
 
     }

@@ -22,9 +22,11 @@ class WhereStringChunk
         $paramName = str_replace('.', '_', $this->string);
         $column = explode(' ' , $paramName);
 
-        
-        $params[":{$column[0]}"] = $this->bindWhere;
-        $params = $this->flatter($params);
+        $params = array();
+        if(is_array($this->bindWhere)){
+            $params[":{$column[0]}"] = $this->bindWhere;
+            $params = $this->flatter($params);
+        }
 
         return array($this->string, $params);
     }
