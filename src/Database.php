@@ -149,4 +149,14 @@ class Database extends \PdoWrapper
         return $this;
     }
 
+
+    public function prepareParms($params){
+        if(is_array($params)){
+            foreach ($params as $key => $value) {
+                array_push($this->setParams, $value);
+            }
+        }else
+            array_push($this->setParams, $params);
+    }
+
 }
