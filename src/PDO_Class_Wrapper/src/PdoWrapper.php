@@ -145,13 +145,7 @@ class PdoWrapper extends \PDO {
      *
      * @var string
      */
-    const ERROR_LOG_FILE = 'PDO_Errors.log';
-    /**
-     * PDO SQL log File
-     *
-     * @var string
-     */
-    const SQL_LOG_FILE = 'PDO_Sql.log';
+    const LOG_FILE = 'mysql.error.log';
     /**
      * PDO Config/Settings
      *
@@ -1020,18 +1014,18 @@ class PdoWrapper extends \PDO {
      * @param mixed $msg
      */
     public function error( $msg ) {
+        file_put_contents($this->config['logDir'].self::LOG_FILE, date( 'Y-m-d h:m:s' ) . ' :: ' . $msg . "\n", FILE_APPEND);
+        
         // log set as true
-        if ( $this->log ) {
+        if($this->log){
             // show executed query with error
             $this->showQuery();
             // die code
             $this->helper()->errorBox($msg);
-        } else {
-            // show error message in log file
-            file_put_contents( self::ERROR_LOG_FILE, date( 'Y-m-d h:m:s' ) . ' :: ' . $msg . "\n", FILE_APPEND );
-            // die with user message
-            $this->helper()->error();
         }
+        
+
+
     }
     /**
      * Show executed query on call
@@ -1044,13 +1038,13 @@ class PdoWrapper extends \PDO {
             echo " Executed Query -> <span style='color:#008000;'> ";
             echo $this->helper()->formatSQL( $this->interpolateQuery() );
             echo "</span></div>";
-            return $this;
-        }else{
-            // show error message in log file
-            file_put_contents( self::SQL_LOG_FILE, date( 'Y-m-d h:m:s' ) . ' :: ' . $this->interpolateQuery() . "\n", FILE_APPEND );
-            return $this;
+            
         }
+
+        file_put_contents($this->config['logDir'].self::LOG_FILE, date( 'Y-m-d h:m:s' ) . ' :: ' . $this->interpolateQuery() . "\n", FILE_APPEND );
+        return $this;
     }
+
     /**
      * Replaces any parameter placeholders in a query with the value of that
      * parameter. Useful for debugging. Assumes anonymous parameters from
@@ -1132,17 +1126,20 @@ class PdoWrapper extends \PDO {
            }
        }
     }
+    
     /**
      * Return real table column from array key
      * @param array $array_key
      * @return mixed
      */
+
     public function getFieldFromArrayKey($array_key=array()){
         // get table column from array key
         $key_array = explode(' ',$array_key);
         // check no of chunk
         return (count($key_array)=='2') ? $key_array[0] : ((count($key_array)> 2) ? $key_array[1] : $key_array[0]);
     }
+
     /**
      * Set PDO Error Mode to get an error log file or true to show error on screen
      *
@@ -1151,5 +1148,86 @@ class PdoWrapper extends \PDO {
     public function setErrorLog( $mode = false ) {
         $this->log = $mode;
     }
+
+
+    /**
+     * prepare PDO Query
+     *
+     * @param string $sSql
+     * @param array option Value
+     *
+     * @return PdoWrapper
+     */
+
+    public function pdoPrepare($statement, $options = array()) {
+        $this->_oSTH = $this->prepare($statement, $options);
+        return $this;
+    }
+
+    /**
+     * Execute PDO Query
+     *
+     * @param string $sSql
+     * @param array Bind Param Value
+     *
+     * @return PdoWrapper|multi type:|number
+     */
+
+    public function execute($aBindWhereParam = array()){
+
+            // clean query from white space
+            $sSql         = trim($this->_oSTH->queryString); 
+            // get operation type
+            $operation    = explode(' ', $sSql);
+            // make first word in uppercase
+            $operation[0] = strtoupper($operation[0]);
+
+            if(!empty($aBindWhereParam))
+                $this->_bindPdoParam( $aBindWhereParam );
+
+            // use try catch block to get pdo error
+            try {
+                // run pdo statement with bind param
+                if ( $this->_oSTH->execute() ) {
+                    // check operation type
+                    switch ($operation[0]){
+                        case 'SELECT':
+                            // get affected rows by select statement
+                            $this->iAffectedRows = $this->_oSTH->rowCount();
+                            // get pdo result array
+                            $this->aResults      = $this->_oSTH->fetchAll();
+                            // return PDO instance
+                            return $this;
+                            break;
+                        case 'INSERT':
+                            // return last insert id
+                            $this->iLastId = $this->lastInsertId();
+                            // return PDO instance
+                            return $this;
+                            break;
+                        case 'UPDATE':
+                            // get affected rows
+                            $this->iAffectedRows = $this->_oSTH->rowCount();
+                            // return PDO instance
+                            return $this;
+                            break;
+                        case 'DELETE':
+                            // get affected rows
+                            $this->iAffectedRows = $this->_oSTH->rowCount();
+                            // return PDO instance
+                            return $this;
+                        break;
+                    }
+                    // close pdo cursor
+                    $this->_oSTH->closeCursor();
+                } else {
+                    self::error($this->_oSTH->errorInfo());
+                }
+        }catch ( PDOException $e ) {
+            // get pdo error and pass on error method
+            self::error( $e->getMessage() . ': ' . __LINE__ );
+        }
+    }
+
 }
 /** Class End **/

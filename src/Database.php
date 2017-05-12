@@ -13,14 +13,21 @@ class Database extends \PdoWrapper
     private $setOrderBy = null;
     private $setGroupBy = null;
     private $setLimit = null;
+    protected $config;
 
     public $WhereChunkKey;
     public $WhereChunkValue;
     public $WhereChunkperator;
     public $addWhereEndParams = array();
 
-    function __construct($dsn = array()){
-        parent::__construct($dsn);
+    function __construct($dsn = array(), $config = null){
+        $this->config = $config;
+        if(is_null($this->config))
+            $this->config = array(
+                'logDir' => appDir.'../app/View/logs/',
+            );
+
+        parent::__construct($dsn, $this->config);
     }
 
     public function getWhere(){
