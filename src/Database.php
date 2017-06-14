@@ -146,12 +146,10 @@ class Database extends \PdoWrapper
      */
 
    public function prepareLimit($limit, $offset) {
-        if($offset) {
-            $from = ($limit - 1) * $offset;
-            $this->setLimit = ' LIMIT '.$from.', '.$offset.'';
-        }else {
+        if($offset)
+            $this->setLimit = ' LIMIT '.$limit.', '.$offset.'';
+        else
             $this->setLimit = ' LIMIT '.$limit.'';
-        }
 
         return $this;
     }
