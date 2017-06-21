@@ -309,22 +309,31 @@ class PdoWrapper extends \PDO {
      * @return PdoWrapper|multi type:|number
      */
     public function pdoQuery( $sSql = '', $aBindWhereParam = array() ) {
+
+        if(empty($sSql)){
+            self::error( 'Query is empty..' );
+        }
+
         // clean query from white space
-        $sSql         = trim( $sSql );
+        $sSql         = trim($sSql);
         // get operation type
-        $operation    = explode( ' ', $sSql );
+        $operation    = explode(' ', $sSql );
         // make first word in uppercase
-        $operation[0] = strtoupper( $operation[0] );
+        $operation[0] = strtoupper($operation[0]);
+
+        // set class property with pass value
+        $this->sSql  = $sSql;
+        // set class statement handler
+        $this->_oSTH = $this->prepare( $this->sSql );
+
         // check valid sql operation statement
         if ( !in_array( $operation[0], $this->aValidOperation ) ) {
-            self::error( 'invalid operation called in query. use only ' . implode( ', ', $this->aValidOperation ) );
+            self::error( 'invalid operation called in query. use only ' . implode( ', ', $this->aValidOperation ). ' You can have NO SPACE be between '. implode( ', ', $this->aValidOperation ).' AND parms');
         }
+
         // sql query pass with no bind param
-        if ( !empty( $sSql ) && count( $aBindWhereParam ) <= 0 ) {
-            // set class property with pass value
-            $this->sSql  = $sSql;
-            // set class statement handler
-            $this->_oSTH = $this->prepare( $this->sSql );
+        if (count($aBindWhereParam) <= 0 ) {
+
             // try catch block start
             try {
                 // execute pdo statement
@@ -345,14 +354,10 @@ class PdoWrapper extends \PDO {
             catch ( PDOException $e ) {
                 self::error( $e->getMessage() . ': ' . __LINE__ );
             } // end try catch block
-        } // if query pass with bind param 
-        else if ( !empty( $sSql ) && count( $aBindWhereParam ) > 0 ) {
-            // set class property with pass query
-            $this->sSql   = $sSql;
-            // set class where array
+
+        }elseif(count( $aBindWhereParam ) > 0){  // if query pass with bind param 
+
             $this->aData = $aBindWhereParam;
-            // set class pdo statement handler
-            $this->_oSTH  = $this->prepare( $this->sSql );
             // start binding fields
             // bind pdo param
             $this->_bindPdoParam( $aBindWhereParam );
@@ -391,17 +396,20 @@ class PdoWrapper extends \PDO {
                     endswitch;
                     // close pdo cursor
                     $this->_oSTH->closeCursor();
+                    
                 } else {
                     self::error( $this->_oSTH->errorInfo() );
                 }
-            }
-            catch ( PDOException $e ) {
+
+            }catch ( PDOException $e ) {
                 self::error( $e->getMessage() . ': ' . __LINE__ );
             } // end try catch block to get pdo error
+
         } else {
-            self::error( 'Query is empty..' );
+            self::error( 'Error Query' );
         }
     }
+
     /**
      * MySQL SELECT Query/Statement
      *
