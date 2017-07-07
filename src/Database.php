@@ -4,7 +4,7 @@ namespace Dframe\Database;
 * Autor: Sławek Kaleta
 * Nakładka na PDO_Class_Wrapper_master
 */
-include_once(dirname( __FILE__ ) . '/PDO_Class_Wrapper/src/PdoWrapper.php');
+include_once(dirname( __FILE__ ) . '/PdoClassWrapper/src/PdoWrapper.php');
 
 class Database extends \PdoWrapper
 {
