@@ -52,7 +52,7 @@ class Database extends \PdoWrapper
     }
 
     public function getGroupBy(){
-    	return $this->setGroupBy;
+        return $this->setGroupBy;
     }
 
     public function getQuery(){
@@ -67,6 +67,7 @@ class Database extends \PdoWrapper
         $this->setWhere  = null;
         $this->setOrderBy = null;
         $this->setGroupBy  = null;
+        $this->setLimit  = null;
 
         return str_replace('  ', ' ', $sql);
     }
@@ -79,7 +80,7 @@ class Database extends \PdoWrapper
         array_push($this->setParams, $params);
     }
 
-    public function prepareWhere($whereObject, $order = null, $sort = null){
+    public function prepareWhere($whereObject){
         $where = null;
         $params = null;
         if (!empty($whereObject)) {
@@ -107,15 +108,21 @@ class Database extends \PdoWrapper
 
 
 
-        if(!empty($order))
-            $this->prepareOrder($order, $sort);
-
+        //if(!empty($order))
+        //    $this->prepareOrder($order, $sort);
+        //
 
         return $this;
 
     }
 
     public function prepareOrder($order = null, $sort = null){
+
+        if($order == null OR $sort == null){
+            $this->setOrderBy = '';
+            return $this;
+        }
+
         if(!in_array($sort, array('ASC', 'DESC'))) 
             $sort = 'DESC';
     
