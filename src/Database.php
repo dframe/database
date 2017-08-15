@@ -130,7 +130,12 @@ class Database extends \PdoWrapper
         return $this;
     }
 
-    public function prepareQuery($query){
+    public function prepareQuery($query, $params = false){
+
+        if(isset($params) AND is_array($params)){
+            $this>prepareParms($params);
+        }
+
         if(!isset($this->setQuery))
             $this->setQuery = $query.' ';
         else
