@@ -133,7 +133,7 @@ class Database extends \PdoWrapper
     public function prepareQuery($query, $params = false){
 
         if(isset($params) AND is_array($params)){
-            $this>prepareParms($params);
+            $this->prepareParms($params);
         }
 
         if(!isset($this->setQuery))
