@@ -169,13 +169,20 @@ class PdoWrapper extends \PDO{
                 die("Dude!! You haven't set valid db config array.");
             
         }
+
+        if(!isset($dsn['dbtype']))
+        	$dsn['dbtype'] = 'mysql';
+
         // Okay, everything is clear. now connect
         // spilt array key in php variable
         extract($this->db_info);
         // try catch block start
         try{
+
+
+
             // use native pdo class and connect
-            parent::__construct("mysql:host=$host; dbname=$dbname", $username, $password, array(
+            parent::__construct($dsn['dbtype'].":host=$host; dbname=$dbname", $username, $password, array(
                 PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
             ));
 
