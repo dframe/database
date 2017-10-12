@@ -9,6 +9,7 @@ include_once(dirname( __FILE__ ) . '/PdoClassWrapper/src/PdoWrapper.php');
 class Database extends \PdoWrapper
 {
     private $setWhere = null;
+    private $setHaving = null;
     private $setParams = array();
     private $setOrderBy = null;
     private $setGroupBy = null;
@@ -37,6 +38,13 @@ class Database extends \PdoWrapper
         return $this->setWhere;
     }
 
+    public function getHaving(){
+        if(!isset($this->setHaving) OR empty($this->setHaving))
+            $this->setHaving = null;
+        
+        return $this->setHaving;
+    }
+
     public function getParams(){
         $setParams = $this->setParams;
         $this->setParams = array();
@@ -60,11 +68,13 @@ class Database extends \PdoWrapper
         $sql .= $this->getWhere();
         $sql .= $this->getGroupBy();
         $sql .= $this->getOrderBy();
+        $sql .= $this->getHaving();
         $sql .= $this->getLimit();
 
 
         $this->setQuery = null;
         $this->setWhere  = null;
+        $this->setHaving = null;
         $this->setOrderBy = null;
         $this->setGroupBy  = null;
         $this->setLimit  = null;
@@ -103,6 +113,43 @@ class Database extends \PdoWrapper
 
         }else{
             $this->setWhere = null;
+            //$this->setParams = array();
+        }
+
+
+
+        //if(!empty($order))
+        //    $this->prepareOrder($order, $sort);
+        //
+
+        return $this;
+
+    }
+
+    public function prepareHaving($havingObject){
+        $where = null;
+        $params = null;
+        if (!empty($havingObject)) {
+            $arr = array();
+            /** @var $chunk WhereChunk */
+            foreach ($havingObject as $chunk) {
+                list($wSQL, $wParams) = $chunk->build();
+                $arr[] = $wSQL;
+                foreach ($wParams as $k=>$v) {
+                    $params[] = $v;
+                }
+            }
+
+            $this->setHaving = " HAVING ".implode(' AND ', $arr);
+
+            if(is_array($this->setParams) AND !empty($this->setParams))
+                $this->setParams = array_merge($this->setParams, $params);
+            else
+                $this->setParams = $params;
+
+
+        }else{
+            $this->setHaving = null;
             //$this->setParams = array();
         }
 
