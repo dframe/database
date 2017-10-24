@@ -25,7 +25,7 @@ class Database extends \PdoWrapper
         $this->config = $config;
         if(is_null($this->config))
             $this->config = array(
-                'logDir' => appDir.'../app/View/logs/',
+                'logDir' => APP_DIR.'View/logs/',
             );
 
         parent::__construct($dsn, $this->config);
