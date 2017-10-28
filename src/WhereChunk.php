@@ -14,26 +14,28 @@ class WhereChunk
     public $value;
     public $operator;
 
-    function __construct($key, $value, $operator = null) {
+    function __construct($key, $value, $operator = null) 
+    {
         $this->key = $key;
         $this->value = $value;
         $this->operator = $operator;
     }
 
-    function build() {
+    function build() 
+    {
         $params = array();
         if ($this->value !== null) {
             $op = !is_null($this->operator) ? $this->operator : '=';
 
             $paramName = str_replace('.', '_', $this->key);
-            if($op == 'BETWEEN'){
+            if ($op == 'BETWEEN') {
                 $sql = "{$this->key} $op ? AND ?";
 
-                $between = explode('AND' , $this->value);
+                $between = explode('AND', $this->value);
 
                 $params[":dateFrom"] = trim($between[0]);
                 $params[":dateTo"] = trim($between[1]);
-            }else{
+            } else {
                 $sql = "{$this->key} $op ?";                                    // $sql = "{$this->key} $op {$paramName}";
                 $params[":{$paramName}"] = $this->value;
             }

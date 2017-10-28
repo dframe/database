@@ -4,16 +4,16 @@ namespace Dframe\Database;
 * Autor: Sławek Kaleta
 * Nakładka na PDO_Class_Wrapper_master
 */
-include_once(dirname( __FILE__ ) . '/PdoClassWrapper/src/PdoWrapper.php');
+require_once dirname(__FILE__) . '/PdoClassWrapper/src/PdoWrapper.php';
 
 class Database extends \PdoWrapper
 {
-    private $setWhere = null;
-    private $setHaving = null;
-    private $setParams = array();
-    private $setOrderBy = null;
-    private $setGroupBy = null;
-    private $setLimit = null;
+    private $_setWhere = null;
+    private $_setHaving = null;
+    private $_setParams = array();
+    private $_setOrderBy = null;
+    private $_setGroupBy = null;
+    private $_setLimit = null;
     protected $config;
 
     public $WhereChunkKey;
@@ -21,49 +21,60 @@ class Database extends \PdoWrapper
     public $WhereChunkperator;
     public $addWhereEndParams = array();
 
-    function __construct($dsn = array(), $config = null){
+    function __construct($dsn = array(), $config = null)
+    {
         $this->config = $config;
-        if(is_null($this->config))
+        if (is_null($this->config)) {
             $this->config = array(
                 'logDir' => APP_DIR.'View/logs/',
             );
+        }
 
         parent::__construct($dsn, $this->config);
     }
 
-    public function getWhere(){
-        if(!isset($this->setWhere) OR empty($this->setWhere))
-            $this->setWhere = null;
+    public function getWhere()
+    {
+        if (!isset($this->_setWhere) OR empty($this->_setWhere)) {
+            $this->_setWhere = null;
+        }
         
-        return $this->setWhere;
+        return $this->_setWhere;
     }
 
-    public function getHaving(){
-        if(!isset($this->setHaving) OR empty($this->setHaving))
-            $this->setHaving = null;
+    public function getHaving()
+    {
+        if (!isset($this->_setHaving) OR empty($this->_setHaving)) {
+            $this->_setHaving = null;
+        }
         
-        return $this->setHaving;
+        return $this->_setHaving;
     }
 
-    public function getParams(){
-        $setParams = $this->setParams;
-        $this->setParams = array();
-        return $setParams;
+    public function getParams()
+    {
+        $_setParams = $this->_setParams;
+        $this->_setParams = array();
+        return $_setParams;
     }
 
-    public function getOrderBy(){
-        return $this->setOrderBy;
+    public function getOrderBy()
+    {
+        return $this->_setOrderBy;
     }
 
-    public function getLimit(){
-        return $this->setLimit;
+    public function getLimit()
+    {
+        return $this->_setLimit;
     }
 
-    public function getGroupBy(){
-        return $this->setGroupBy;
+    public function getGroupBy()
+    {
+        return $this->_setGroupBy;
     }
 
-    public function getQuery(){
+    public function getQuery()
+    {
         $sql = $this->setQuery;
         $sql .= $this->getWhere();
         $sql .= $this->getGroupBy();
@@ -73,29 +84,34 @@ class Database extends \PdoWrapper
 
 
         $this->setQuery = null;
-        $this->setWhere  = null;
-        $this->setHaving = null;
-        $this->setOrderBy = null;
-        $this->setGroupBy  = null;
-        $this->setLimit  = null;
+        $this->_setWhere  = null;
+        $this->_setHaving = null;
+        $this->_setOrderBy = null;
+        $this->_setGroupBy  = null;
+        $this->_setLimit  = null;
 
         return str_replace('  ', ' ', $sql);
     }
 
-    public function addWhereBeginParams($params){
-        array_unshift($this->setParams, $params);
+    public function addWhereBeginParams($params)
+    {
+        array_unshift($this->_setParams, $params);
     }
 
-    public function addWhereEndParams($params){
-        array_push($this->setParams, $params);
+    public function addWhereEndParams($params)
+    {
+        array_push($this->_setParams, $params);
     }
 
-    public function prepareWhere($whereObject){
+    public function prepareWhere($whereObject)
+    {
         $where = null;
         $params = null;
         if (!empty($whereObject)) {
             $arr = array();
-            /** @var $chunk WhereChunk */
+            /*** 
+             ** @var $chunk WhereChunk 
+             */
             foreach ($whereObject as $chunk) {
                 list($wSQL, $wParams) = $chunk->build();
                 $arr[] = $wSQL;
@@ -103,22 +119,23 @@ class Database extends \PdoWrapper
                     $params[] = $v;
                 }
             }
-            $this->setWhere = " WHERE ".implode(' AND ', $arr);
+            $this->_setWhere = " WHERE ".implode(' AND ', $arr);
 
-            if(is_array($this->setParams) AND !empty($this->setParams))
-                $this->setParams = array_merge($this->setParams, $params);
-            else
-                $this->setParams = $params;
+            if (is_array($this->_setParams) AND !empty($this->_setParams)) {
+                $this->_setParams = array_merge($this->_setParams, $params);
+            } else {
+                $this->_setParams = $params;
+            }
 
 
-        }else{
-            $this->setWhere = null;
-            //$this->setParams = array();
+        } else {
+            $this->_setWhere = null;
+            //$this->_setParams = array();
         }
 
 
 
-        //if(!empty($order))
+        //if (!empty($order))
         //    $this->prepareOrder($order, $sort);
         //
 
@@ -126,12 +143,17 @@ class Database extends \PdoWrapper
 
     }
 
-    public function prepareHaving($havingObject){
+    public function prepareHaving($havingObject)
+    {
         $where = null;
         $params = null;
         if (!empty($havingObject)) {
             $arr = array();
-            /** @var $chunk WhereChunk */
+            /**
+             * 
+             *
+             * @var $chunk WhereChunk 
+             */
             foreach ($havingObject as $chunk) {
                 list($wSQL, $wParams) = $chunk->build();
                 $arr[] = $wSQL;
@@ -140,22 +162,23 @@ class Database extends \PdoWrapper
                 }
             }
 
-            $this->setHaving = " HAVING ".implode(' AND ', $arr);
+            $this->_setHaving = " HAVING ".implode(' AND ', $arr);
 
-            if(is_array($this->setParams) AND !empty($this->setParams))
-                $this->setParams = array_merge($this->setParams, $params);
-            else
-                $this->setParams = $params;
+            if (is_array($this->_setParams) AND !empty($this->_setParams)) {
+                $this->_setParams = array_merge($this->_setParams, $params);
+            } else {
+                $this->_setParams = $params;
+            }
 
 
-        }else{
-            $this->setHaving = null;
-            //$this->setParams = array();
+        } else {
+            $this->_setHaving = null;
+            //$this->_setParams = array();
         }
 
 
 
-        //if(!empty($order))
+        //if (!empty($order))
         //    $this->prepareOrder($order, $sort);
         //
 
@@ -163,64 +186,73 @@ class Database extends \PdoWrapper
 
     }
 
-    public function prepareOrder($order = null, $sort = null){
+    public function prepareOrder($order = null, $sort = null)
+    {
 
-        if($order == null OR $sort == null){
-            $this->setOrderBy = '';
+        if ($order == null OR $sort == null) {
+            $this->_setOrderBy = '';
             return $this;
         }
 
-        if(!in_array($sort, array('ASC', 'DESC'))) 
+        if (!in_array($sort, array('ASC', 'DESC'))) { 
             $sort = 'DESC';
+        }
     
-        $this->setOrderBy = ' ORDER BY '.$order.' '.$sort;
+        $this->_setOrderBy = ' ORDER BY '.$order.' '.$sort;
         return $this;
     }
 
-    public function prepareQuery($query, $params = false){
+    public function prepareQuery($query, $params = false)
+    {
 
-        if(isset($params) AND is_array($params)){
+        if (isset($params) AND is_array($params)) {
             $this->prepareParms($params);
         }
 
-        if(!isset($this->setQuery))
+        if (!isset($this->setQuery)) {
             $this->setQuery = $query.' ';
-        else
+        } else {
             $this->setQuery .= $this->getQuery().' '.$query.' ';
+        }
         
         return $this;
 
     }
 
 
-    public function prepareGroupBy($groupBy){
-        $this->setGroupBy = ' GROUP BY '.$groupBy;
+    public function prepareGroupBy($groupBy)
+    {
+        $this->_setGroupBy = ' GROUP BY '.$groupBy;
         return $this;
 
     }
 
      /**
-     * @param $start int
-     * @param $offset int
-     */
+      * @param $start int
+      * @param $offset int
+      */
 
-   public function prepareLimit($limit, $offset) {
-        if($offset)
-            $this->setLimit = ' LIMIT '.$limit.', '.$offset.'';
-        else
-            $this->setLimit = ' LIMIT '.$limit.'';
+    public function prepareLimit($limit, $offset) 
+    {
+        if ($offset) {
+            $this->_setLimit = ' LIMIT '.$limit.', '.$offset.'';
+        } else {
+            $this->_setLimit = ' LIMIT '.$limit.'';
+        }
 
         return $this;
     }
 
 
-    public function prepareParms($params){
-        if(is_array($params)){
+    public function prepareParms($params)
+    {
+        if (is_array($params)) {
             foreach ($params as $key => $value) {
-                array_push($this->setParams, $value);
+                array_push($this->_setParams, $value);
             }
-        }else
-            array_push($this->setParams, $params);
+        } else {
+            array_push($this->_setParams, $params);
+        }
     }
 
 }
