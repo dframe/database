@@ -6,19 +6,11 @@
  *
  * PHP version 7.0
  *
- * @category      PHP_Class
- * @package       PdoWrapper (PDO)
- * @orginalauthor Neeraj Singh <neeraj.singh@lbi.co.in>
- * @edited        Sławomir Kaleta 
- * @copyright     The PHP Groups Of LBi India (2013-14)
- * @license       MIT
- * @version       1.01 Beta (modify - 13-August-2013) - Update for Dframe/Database
- *
- * @example code
- *
- * $config = array("host"=>"localhost", "dbname"=>'sampledb', "username"=>'root', "password"=>'');
- * $db = new PdoWrapper($config);
- * $db->setErrorLog(true);
+ * @category PHP_Class
+ * @package  PdoWrapper_PDO
+ * @author   Neeraj Singh <neeraj.singh@lbi.co.in>
+ * @author   Sławomir Kaleta <slaszka@gmail.com>
+ * @license  https://github.com/dframe/database/blob/master/LICENSE (MIT)
  */
 
 /**
@@ -28,6 +20,9 @@ require_once 'class.pdohelper.php';
 
 /**
  * Class Start 
+ *
+ * @author Neeraj Singh <neeraj.singh@lbi.co.in>
+ * @author Sławomir Kaleta <slaszka@gmail.com>
  **/
 class PdoWrapper extends \PDO
 {
@@ -36,7 +31,7 @@ class PdoWrapper extends \PDO
      *
      * @var object
      */
-    public $_oSTH = null;
+    private $_oSTH = null;
     /**
      * PDO SQL Statement
      *
@@ -133,13 +128,13 @@ class PdoWrapper extends \PDO
      *
      * @var array
      */
-    private $db_info = array();
+    private $_db_info = array();
     /**
      * Set PDO valid Query operation
      *
      * @var array
      */
-    private $aValidOperation = array('SELECT', 'INSERT', 'UPDATE', 'DELETE');
+    private $_aValidOperation = array('SELECT', 'INSERT', 'UPDATE', 'DELETE');
     /**
      * PDO Object
      *
@@ -162,11 +157,11 @@ class PdoWrapper extends \PDO
             if (!isset($dsn['host']) || !isset($dsn['dbname']) || !isset($dsn['username']) || !isset($dsn['password'])) {
                 die("Dude!! You haven't pass valid db config array key.");
             }
-            $this->db_info = $dsn;
+            $this->_db_info = $dsn;
         } else {
 
-            if (count($this->db_info) > 0) {
-                $dsn = $this->db_info;
+            if (count($this->_db_info) > 0) {
+                $dsn = $this->_db_info;
                 // check valid array key name
                 if (!isset($dsn['host']) || !isset($dsn['dbname']) || !isset($dsn['username']) || !isset($dsn['password'])) {
                     die("Dude!! You haven't set valid db config array key.");
@@ -184,11 +179,9 @@ class PdoWrapper extends \PDO
 
         // Okay, everything is clear. now connect
         // spilt array key in php variable
-        extract($this->db_info);
+        extract($this->_db_info);
         // try catch block start
         try{
-
-
 
             // use native pdo class and connect
             parent::__construct(
@@ -199,14 +192,9 @@ class PdoWrapper extends \PDO
 
             // set pdo error mode silent
             $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
-            /**
- * If you want to Show Class exceptions on Screen, Uncomment below code 
-**/
+            // If you want to Show Class exceptions on Screen, Uncomment below code 
             $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            /**
- * Use this setting to force PDO to either always emulate prepared statements (if TRUE),
-            or to try to use native prepared statements (if FALSE). 
-**/
+            // Use this setting to force PDO to either always emulate prepared statements (if TRUE), or to try to use native prepared statements (if FALSE). 
             $this->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
             // set default pdo fetch mode as fetch assoc
             $this->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
@@ -241,10 +229,8 @@ class PdoWrapper extends \PDO
      */
     public function start()
     {
-        /***
- * begin the transaction 
-***/
-        $this->beginTransaction();
+        // begin the transaction 
+        $this->beginTransaction(); 
     }
 
     /**
@@ -252,10 +238,8 @@ class PdoWrapper extends \PDO
      */
     public function end()
     {
-        /***
- * commit the transaction 
-***/
-        $this->commit();
+        // commit the transaction
+        $this->commit();  
     }
 
     /**
@@ -263,10 +247,8 @@ class PdoWrapper extends \PDO
      */
     public function back()
     {
-        /***
- * roll back the transaction if we fail 
-***/
-        $this->rollback();
+        // roll back the transaction if we fail 
+        $this->rollback(); 
     }
 
     /**
@@ -324,8 +306,8 @@ class PdoWrapper extends \PDO
     /**
      * Execute PDO Query
      *
-     * @param string                 $sSql
-     * @param array Bind Param Value
+     * @param string $sSql
+     * @param array  $aBindWhereParam Bind Param Value
      *
      * @return PdoWrapper|multi type:|number
      */
@@ -337,9 +319,9 @@ class PdoWrapper extends \PDO
         }
         
         // clean query from white space
-        $sSql         = trim($sSql);
+        $sSql = trim($sSql);
         // get operation type
-        $operation    = explode(' ', $sSql);
+        $operation = explode(' ', $sSql);
         // make first word in uppercase
         $operation[0] = strtoupper($operation[0]);
 
@@ -349,8 +331,8 @@ class PdoWrapper extends \PDO
         $this->_oSTH = $this->prepare($this->sSql);
 
         // check valid sql operation statement
-        if (!in_array($operation[0], $this->aValidOperation)) {
-            self::error('invalid operation called in query. use only ' . implode(', ', $this->aValidOperation). ' You can have NO SPACE be between '. implode(', ', $this->aValidOperation).' AND parms');
+        if (!in_array($operation[0], $this->_aValidOperation)) {
+            self::error('invalid operation called in query. use only ' . implode(', ', $this->_aValidOperation). ' You can have NO SPACE be between '. implode(', ', $this->_aValidOperation).' AND parms');
         }
         
         // sql query pass with no bind param
@@ -628,6 +610,7 @@ class PdoWrapper extends \PDO
                         }
                         
                     }
+
                     catch (PDOException $e) {
                         // get pdo error and pass on error method
                         self::error($e->getMessage() . ': ' . __LINE__);
@@ -642,6 +625,7 @@ class PdoWrapper extends \PDO
                     // return this object
                     return $this;
                 }
+
                 // end here safe mode
                 // set pdo insert statement in class property
                 $this->sSql  = "INSERT INTO `$sTable` ($sFields) VALUES ($sNameSpaceParam);";
@@ -860,8 +844,9 @@ class PdoWrapper extends \PDO
     /**
      * Get Total Number Of Records in Requested Table
      *
-     * @param  string $sTable
-     * @param  string $where
+     * @param string $sTable
+     * @param string $sWhere
+     *
      * @return number
      */
     public function count($sTable = '', $sWhere = '')
@@ -1137,7 +1122,7 @@ class PdoWrapper extends \PDO
      * @param  boolean $logfile set true if wanna log all query in file
      * @return PdoWrapper
      */
-    public function showQuery($logfile=false)
+    public function showQuery($logfile = false)
     {
         if (!$logfile) {
             echo "<div style='color:#990099; border:1px solid #777; padding:2px; background-color: #E5E5E5;'>";
@@ -1171,12 +1156,12 @@ class PdoWrapper extends \PDO
                         // update param value with quotes, if string value
                         $params[$key] = is_string($value) ? '"' . $value . '"' : $value;
                         // make replace array
-                        $keys[]       = is_string($real_key) ? '/:s_' . $real_key . '/' : '/[?]/';
+                        $keys[] = is_string($real_key) ? '/:s_' . $real_key . '/' : '/[?]/';
                     } else {
                         // update param value with quotes, if string value
                         $params[$key] = is_string($value) ? '"' . $value . '"' : $value;
                         // make replace array
-                        $keys[]       = is_string($key) ? '/:s_' . $key . '/' : '/[?]/';
+                        $keys[] = is_string($key) ? '/:s_' . $key . '/' : '/[?]/';
                     }
                 }
                 $sql = preg_replace($keys, $params, $sql, 1, $count);
@@ -1188,12 +1173,12 @@ class PdoWrapper extends \PDO
                             // update param value with quotes, if string value
                             $params[$key] = is_string($value) ? '"' . $value . '"' : $value;
                             // make replace array
-                            $keys[]       = is_string($real_key) ? '/:s_' . $real_key . '/' : '/[?]/';
+                            $keys[] = is_string($real_key) ? '/:s_' . $real_key . '/' : '/[?]/';
                         } else {
                             // update param value with quotes, if string value
                             $params[$key] = is_string($value) ? '"' . $value . '"' : $value;
                             // make replace array
-                            $keys[]       = is_string($key) ? '/:s_' . $key . '/' : '/[?]/';
+                            $keys[] = is_string($key) ? '/:s_' . $key . '/' : '/[?]/';
                         }
                     }
                     $sql = preg_replace($keys, $params, $sql, 1, $count);
@@ -1220,12 +1205,12 @@ class PdoWrapper extends \PDO
                             // update param value with quotes, if string value
                             $params[$key] = is_string($value) ? '"' . $value . '"' : $value;
                             // make replace array
-                            $array_keys[]       = is_string($real_key) ? '/:s_' . $real_key . '/' : '/[?]/';
+                            $array_keys[] = is_string($real_key) ? '/:s_' . $real_key . '/' : '/[?]/';
                         } else {
                             // update param value with quotes, if string value
                             $params[$key] = is_string($value) ? '"' . $value . '"' : $value;
                             // make replace array
-                            $array_keys[]       = is_string($key) ? '/:s_' . $key . '/' : '/[?]/';
+                            $array_keys[] = is_string($key) ? '/:s_' . $key . '/' : '/[?]/';
                         }
                     }
                     $batch_query .= "<br />".preg_replace($array_keys, $params, $sql, 1, $count);
@@ -1247,7 +1232,7 @@ class PdoWrapper extends \PDO
      * @return mixed
      */
 
-    public function getFieldFromArrayKey($array_key=array())
+    public function getFieldFromArrayKey($array_key = array())
     {
         // get table column from array key
         $key_array = explode(' ', $array_key);
@@ -1269,8 +1254,8 @@ class PdoWrapper extends \PDO
     /**
      * prepare PDO Query
      *
-     * @param string             $sSql
-     * @param array option Value
+     * @param string $statement
+     * @param array  $options   Value
      *
      * @return PdoWrapper
      */
@@ -1284,7 +1269,6 @@ class PdoWrapper extends \PDO
     /**
      * Execute PDO Query
      *
-     * @param string                 $sSql
      * @param array Bind Param Value
      *
      * @return PdoWrapper|multi type:|number
@@ -1294,9 +1278,9 @@ class PdoWrapper extends \PDO
     {
 
         // clean query from white space
-        $sSql         = trim($this->_oSTH->queryString); 
+        $sSql = trim($this->_oSTH->queryString); 
         // get operation type
-        $operation    = explode(' ', $sSql);
+        $operation = explode(' ', $sSql);
         // make first word in uppercase
         $operation[0] = strtoupper($operation[0]);
 
@@ -1358,7 +1342,3 @@ class PdoWrapper extends \PDO
     }
 
 }
-
-/**
- * Class End 
-**/
