@@ -3,10 +3,11 @@
     "description": "Database pdo wrapper",
     "type": "library",
     "keywords": ["database", "mysql", "pdo", "pdowraper", "wraper", "update", "query-builder", "query"],
+    "homepage": "https://dframeframework.com",
     "license": "MIT",
     "authors": [
         {
-            "name": "Slawek Kaleta",
+            "name": "Sławomir Kaleta",
             "email": "slaszka@gmail.com"
         }
     ],
