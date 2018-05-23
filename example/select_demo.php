@@ -1,8 +1,8 @@
 <?php
 // include pdo helper class to use common methods
-include_once '../class/class.pdohelper.php';
+require_once '../src/Helper/PDOHelper.php';
 // include pdo class wrapper
-include_once '../class/class.pdowrapper.php';
+require_once '../src/class.pdowrapper.php';
 
 // database connection setings
 $dbConfig = array("host"=>"localhost", "dbname"=>'sampledb', "username"=>'root', "password"=>'');
@@ -21,13 +21,13 @@ $selectFields = array('customerNumber','customerName','contactLastName','contact
 // set where condition
 $whereConditions = array('customerNumber'=>103);
 // select with where and bind param use select method
-$q = $db->select('customers',$selectFields,$whereConditions)->showQuery()->results();
+$q = $db->select('customers', $selectFields, $whereConditions)->showQuery()->results();
 // print array result
 PDOHelper::PA($q);
 
 // Example -2 
 $whereConditions = array('lastname ='=>'bow', 'or jobtitle ='=> 'Sales Rep', 'and isactive ='=>1, 'and officecode ='=> 1 );
-$data = $db->select('employees',array('employeenumber','lastname','jobtitle'),$whereConditions)->showQuery()->results();
+$data = $db->select('employees', array('employeenumber','lastname','jobtitle'), $whereConditions)->showQuery()->results();
 // print array result
 PDOHelper::PA($q);
 
@@ -35,7 +35,7 @@ PDOHelper::PA($q);
 // Example -3 
 $whereConditions = array('lastname ='=>'bow', 'or jobtitle ='=> 'Sales Rep', 'and isactive ='=>1, 'and officecode ='=> 1 );
 // select with where and bind param use select method
-$q = $db->select('employees',array('employeeNumber','lastName','firstName'),$whereConditions)->showQuery()->results();
+$q = $db->select('employees', array('employeeNumber','lastName','firstName'), $whereConditions)->showQuery()->results();
 // print array result
 PDOHelper::PA($q);
 
@@ -53,7 +53,7 @@ $array_data = array(
     'or age >'=> 65
 );
 // select with where and bind param use select method
-$q = $db->select('customers',$selectFields,$array_data);
+$q = $db->select('customers', $selectFields, $array_data);
 // print array result
 PDOHelper::PA($q);
 
@@ -63,7 +63,7 @@ $selectFields = array('customerNumber','customerName','contactLastName','contact
 // set where condition
 $whereConditions = array();
 // select with where and bind param use select method
-$q = $db->select('customers',$selectFields,$whereConditions, 'LIMIT 10')->showQuery()->results();
+$q = $db->select('customers', $selectFields, $whereConditions, 'LIMIT 10')->showQuery()->results();
 // print array result
 PDOHelper::PA($q);
 
@@ -73,6 +73,6 @@ $selectFields = array('customerNumber','customerName','contactLastName','contact
 // set where condition
 $whereConditions = array();
 // select with where and bind param use select method
-$q = $db->select('customers',$selectFields,$whereConditions, 'ORDER BY customerNumber DESC LIMIT 5')->showQuery()->results();
+$q = $db->select('customers', $selectFields, $whereConditions, 'ORDER BY customerNumber DESC LIMIT 5')->showQuery()->results();
 // print array result
 PA($q);

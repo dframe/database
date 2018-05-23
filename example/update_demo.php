@@ -1,8 +1,8 @@
 <?php
 // include pdo helper class to use common methods
-include_once '../class/class.pdohelper.php';
+require_once '../src/Helper/PDOHelper.php';
 // include pdo class wrapper
-include_once '../class/class.pdowrapper.php';
+require_once '../src/class.pdowrapper.php';
 
 // database connection setings
 $dbConfig = array("host"=>"localhost", "dbname"=>'sampledb', "username"=>'root', "password"=>'');

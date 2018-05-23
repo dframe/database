@@ -1,8 +1,8 @@
 <?php
 // include pdo helper class to use common methods
-include_once '../class/class.pdohelper.php';
+require_once '../src/Helper/PDOHelper.php';
 // include pdo class wrapper
-include_once '../class/class.pdowrapper.php';
+require_once '../src/class.pdowrapper.php';
 
 // database connection setings
 $dbConfig = array("host"=>"localhost", "dbname"=>'sampledb', "username"=>'root', "password"=>'');
@@ -33,7 +33,7 @@ $helper->PA($q);
  *
  *  ? presenting place holder here for where clause values
  */
-$q = $db->pdoQuery('select * from customers where (customernumber = ? OR customernumber = ?) ;',array(103,119))->showQuery()->results();
+$q = $db->pdoQuery('select * from customers where (customernumber = ? OR customernumber = ?) ;', array(103,119))->showQuery()->results();
 // print array result
 $helper->PA($q);
 
@@ -51,7 +51,7 @@ $helper->PA($q);
 /**
  *  run mysql select query with where clause and or using parametrise array param
  */
-$q = $db->pdoQuery('select * from customers where (customernumber = ? OR contactLastName = ?) ;',array(112,'Schmitt'))->showQuery()->results();
+$q = $db->pdoQuery('select * from customers where (customernumber = ? OR contactLastName = ?) ;', array(112,'Schmitt'))->showQuery()->results();
 // print array result
 $helper->PA($q);
 
