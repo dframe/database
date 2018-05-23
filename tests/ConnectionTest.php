@@ -18,21 +18,21 @@ class ConnectionTest extends \PHPUnit\Framework\TestCase
 
     public function getConnection()
     {
-        if ($this->db === null) {
-            try {
-                $dbConfig = array(
-                    'dbtype' => 'mysql',
-                    'host' => '',
-                    'dbname' => 'test',
-                    'username' => 'root',
-                    'password' => '',
-                );
-                $this->db = new Database($dbConfig);
 
-            } catch (\PDOException $e) {
-                echo $e->getMessage();
-            }
+        try {
+            $dbConfig = array(
+                'dbtype' => 'mysql',
+                'host' => '',
+                'dbname' => 'test',
+                'username' => 'root',
+                'password' => '',
+            );
+            $this->db = new Database($dbConfig);
+
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
         }
+        
         return $this->db;
     }
 
