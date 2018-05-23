@@ -13,13 +13,13 @@ class HaveStringChunk
     public $string;
     public $bindWhere;
 
-    function __construct($string, $bindWhere = null) 
+    function __construct($string, $bindWhere = null)
     {
         $this->string = $string;
         $this->bindWhere = $bindWhere;
     }
-    
-    function build() 
+
+    function build()
     {
         $paramName = str_replace('.', '_', $this->string);
         $column = explode(' ', $paramName);
@@ -35,7 +35,7 @@ class HaveStringChunk
 
     // Bug fix Autor Krzysztof Franek
     function flatter($array)
-    { 
+    {
         $result = array();
         foreach ($array as $item) {
             if (is_array($item)) {

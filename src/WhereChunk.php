@@ -14,14 +14,14 @@ class WhereChunk
     public $value;
     public $operator;
 
-    function __construct($key, $value, $operator = null) 
+    function __construct($key, $value, $operator = null)
     {
         $this->key = $key;
         $this->value = $value;
         $this->operator = $operator;
     }
 
-    function build() 
+    function build()
     {
         $params = array();
         if ($this->value !== null) {
@@ -43,7 +43,7 @@ class WhereChunk
         } else {
             $sql = $sql = "{$this->key} IS NULL ";
         }
-        
+
         return array($sql, $params);
     }
 }
