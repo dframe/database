@@ -10,7 +10,8 @@ services:
 
 before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
-
+  - mysql -u root --password="" < tests/data/db.sql
+  
 addons:
 apt:
   sources:
