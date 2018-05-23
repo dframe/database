@@ -14,12 +14,11 @@ if (!class_exists('\PHPUnit\Framework\TestCase') AND class_exists('\PHPUnit_Fram
 class ConnectionTest extends \PHPUnit\Framework\TestCase
 {
 
-    protected $backupGlobals = false;
-    private $conn = null;
+    private $db = null;
 
     public function getConnection()
     {
-        if ($this->conn === null) {
+        if ($this->db === null) {
             try {
                 $dbConfig = array(
                     'dbtype' => 'mysql',
