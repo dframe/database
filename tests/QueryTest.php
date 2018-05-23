@@ -46,10 +46,10 @@ class QueryTest extends \Dframe\Database\tests\TestSetUp
         $this->assertCount(3, $insert);
     }
 
-    public function testUpdate(){
-        $dataArray = array('phone' => rand(100, 999).'-'. rand(100, 999).'-'. rand(100, 999));
-        $where = array('user_id' => rand(1, 1000));
-        $update = $this->getConnection()->update('users', $dataArray, $where)->affectedRows();
-        $this->assertTrue(is_numeric($update));
-    }
+//     public function testUpdate(){
+//         $dataArray = array('phone' => rand(100, 999).'-'. rand(100, 999).'-'. rand(100, 999));
+//         $where = array('user_id' => rand(1, 1000));
+//         $update = $this->getConnection()->update('users', $dataArray, $where)->affectedRows();
+//         $this->assertTrue(is_numeric($update));
+//     }
 }
