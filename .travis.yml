@@ -1,0 +1,34 @@
+language: php
+php:
+  - 5.6
+  - 7.0
+  - 7.1
+  - 7.2
+
+services:
+  - mysql
+
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS table_test;'
+  - sudo mysql_upgrade
+  - sudo service mysql restart
+
+addons:
+apt:
+  sources:
+    - mysql-5.7-trusty
+  packages:
+    - mysql-server
+    - mysql-client
+
+# We don't want to run linux commands as super user
+sudo: false
+
+# Tell Travis CI to monitor only 'master' branch
+branches:
+only: master
+
+install: 
+   composer install
+
+script: phpunit
