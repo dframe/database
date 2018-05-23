@@ -1,4 +1,6 @@
 <?php
+namespace Dframe\Database\Helper;
+
 /**
  * PdoHelper
  *

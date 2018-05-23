@@ -1,4 +1,9 @@
 <?php
+namespace Dframe\Database;
+
+use PDO;
+use Dframe\Database\Pdohelper;
+
 /**
  * PdoWrapper
  *
@@ -12,11 +17,6 @@
  * @author   Sławomir Kaleta <slaszka@gmail.com>
  * @license  https://github.com/dframe/database/blob/master/LICENSE (MIT)
  */
-
-/**
- * Include PDO Helper Class
- */
-require_once 'class.pdohelper.php';
 
 /**
  * Class Start 

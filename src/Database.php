@@ -1,12 +1,14 @@
 <?php
 namespace Dframe\Database;
+
+use Dframe\Database\PdoWrapper;
+
 /**
 * Autor: Sławek Kaleta
 * Nakładka na PDO_Class_Wrapper_master
 */
-require_once dirname(__FILE__) . '/PdoClassWrapper/src/PdoWrapper.php';
 
-class Database extends \PdoWrapper
+class Database extends PdoWrapper
 {
     private $_setWhere = null;
     private $_setHaving = null;
