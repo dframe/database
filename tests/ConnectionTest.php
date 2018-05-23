@@ -4,7 +4,10 @@ use PHPUnit_Framework_Constraint_IsType as PHPUnit_IsType;
 use Dframe\Database\Database;
 use Dframe\Database\Pdohelper;
 
-
+// backward compatibility
+if (!class_exists('\PHPUnit\Framework\TestCase') AND class_exists('\PHPUnit_Framework_TestCase')) {
+    class_alias('\PHPUnit_Framework_TestCase', '\PHPUnit\Framework\TestCase');
+}
 //@Todo
 //@Todo
 
