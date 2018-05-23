@@ -22,7 +22,7 @@ class ConnectionTest extends \PHPUnit\Framework\TestCase
         try {
             $dbConfig = array(
                 'dbtype' => 'mysql',
-                'host' => '',
+                'host' => 'localhost',
                 'dbname' => 'test',
                 'username' => 'root',
                 'password' => '',
