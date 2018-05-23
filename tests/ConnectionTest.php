@@ -11,7 +11,7 @@ if (!class_exists('\PHPUnit\Framework\TestCase') AND class_exists('\PHPUnit_Fram
 //@Todo
 //@Todo
 
-class ConnectionTest extends PHPUnit_Framework_TestCase
+class ConnectionTest extends \PHPUnit\Framework\TestCase
 {
 
     protected $backupGlobals = false;
