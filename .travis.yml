@@ -22,7 +22,7 @@ apt:
     - mysql-client
 
 # We don't want to run linux commands as super user
-sudo: false
+sudo: true
 
 # Tell Travis CI to monitor only 'master' branch
 branches:
