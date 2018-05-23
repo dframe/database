@@ -3,7 +3,6 @@ use PHPUnit_Framework_Constraint_IsType as PHPUnit_IsType;
 
 use Dframe\Database\Database;
 use Dframe\Database\Pdohelper;
-use \PDO;
 
 
 //@Todo
@@ -28,7 +27,7 @@ class ConnectionTest extends PHPUnit_Framework_TestCase
                 );
                 $this->db = new Database($dbConfig);
 
-            } catch (PDOException $e) {
+            } catch (\PDOException $e) {
                 echo $e->getMessage();
             }
         }
