@@ -10,8 +10,6 @@ services:
 
 before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS table_test;'
-  - sudo mysql_upgrade
-  - sudo service mysql restart
 
 addons:
 apt:
@@ -22,7 +20,7 @@ apt:
     - mysql-client
 
 # We don't want to run linux commands as super user
-sudo: true
+sudo: false
 
 # Tell Travis CI to monitor only 'master' branch
 branches:
