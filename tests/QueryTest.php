@@ -49,7 +49,7 @@ class QueryTest extends \Dframe\Database\tests\TestSetUp
     public function testUpdate(){
         $dataArray = array('phone' => '"'.rand(100, 999).'-'. rand(100, 999).'-'. rand(100, 999).'"');
         $where = array('`users`.`user_id`' => rand(1, 1000));
-        $update = $this->getConnection()->update('users', $dataArray, $where)->affectedRows();
+        $update = $this->getConnection()->update('users', $dataArray, array($where))->affectedRows();
         $this->assertTrue(is_numeric($update));
     }
 }
