@@ -14,8 +14,8 @@ Methods
 Description | name
 -------- | ---
 MySQL query                         |        pdoQuery()
-MySQL select query                  |        select ()
-MySQL insert query                  |        insert ()
+MySQL select query                  |        select()
+MySQL insert query                  |        insert()
 MySQL insert batch                  |        insertBatch()
 MySQL update query                  |        update()
 MySQL delete query                  |        delete()
