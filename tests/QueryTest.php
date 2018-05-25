@@ -50,7 +50,7 @@ class QueryTest extends \Dframe\Database\tests\TestSetUp
 
         $dataArray = array('phone' => '123-123-123');
         $aWhere = array('id' => 23);
-        $data = $this->getConnection()->update('users', $dataArray, $aWhere)->affectedRows();
+        $update = $this->getConnection()->update('users', $dataArray, $aWhere)->affectedRows();
         $this->assertTrue(is_numeric($update));
         
     }
