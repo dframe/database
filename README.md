@@ -42,18 +42,18 @@ Init Connection
 use Dframe\Database\Database;
 
 try {
-	$dbConfig = array(
-		'host' => DB_HOST,
-		'dbname' => DB_DATABASE,
-		'username' => DB_USER,
-		'password' => DB_PASS
-	);
-	$db = new Database($dbConfig);
-	$db->setErrorLog(false); // Debug
-	
+    $dbConfig = array(
+        'host' => DB_HOST,
+        'dbname' => DB_DATABASE,
+        'username' => DB_USER,
+        'password' => DB_PASS
+    );
+    $db = new Database($dbConfig);
+    $db->setErrorLog(false); // Debug
+    
 }catch(DBException $e) {
-	echo 'The connect can not create: ' . $e->getMessage(); 
-	exit();
+    echo 'The connect can not create: ' . $e->getMessage(); 
+    exit();
 }
 
 ```
