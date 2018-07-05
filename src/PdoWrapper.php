@@ -198,7 +198,7 @@ class PdoWrapper extends \PDO
             // If you want to Show Class exceptions on Screen, Uncomment below code 
             $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             // Use this setting to force PDO to either always emulate prepared statements (if TRUE), or to try to use native prepared statements (if FALSE). 
-            $this->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+            $this->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             // set default pdo fetch mode as fetch assoc
             $this->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
