@@ -43,37 +43,37 @@ class PdoWrapper extends \PDO
      *
      * @var string
      */
-    public $sTable = array();
+    public $sTable = [];
     /**
      * PDO SQL Where Condition
      *
      * @var string
      */
-    public $aWhere = array();
+    public $aWhere = [];
     /**
      * PDO SQL table column
      *
      * @var string
      */
-    public $aColumn = array();
+    public $aColumn = [];
     /**
      * PDO SQL Other condition
      *
      * @var string
      */
-    public $sOther = array();
+    public $sOther = [];
     /**
      * PDO Results,Fetch All PDO Results array
      *
      * @var array
      */
-    public $aResults = array();
+    public $aResults = [];
     /**
      * PDO Result,Fetch One PDO Row
      *
      * @var array
      */
-    public $aResult = array();
+    public $aResult = [];
     /**
      * Get PDO Last Insert ID
      *
@@ -86,7 +86,7 @@ class PdoWrapper extends \PDO
      *
      * @var array
      */
-    public $iAllLastId = array();
+    public $iAllLastId = [];
     /**
      * Get PDO Error
      *
@@ -128,7 +128,7 @@ class PdoWrapper extends \PDO
      *
      * @var array
      */
-    private $_db_info = array();
+    private $_db_info = [];
     /**
      * Set PDO valid Query operation
      *
@@ -149,7 +149,7 @@ class PdoWrapper extends \PDO
      * @throws Exception
      */
 
-    public function __construct($dsn = array(), $settings = array('attributes' => array()))
+    public function __construct($dsn = [], $settings = ['attributes' => []])
     {
         // if isset $dsn and it is array
         if (is_array($dsn) && count($dsn) > 0) {
@@ -207,7 +207,7 @@ class PdoWrapper extends \PDO
      *
      * @return object $oPDO
      */
-    public static function getPDO($dsn = array())
+    public static function getPDO($dsn = [])
     {
         // if not set self pdo object property or pdo set as null
         if (!isset(self::$oPDO) || (self::$oPDO !== null)) {
@@ -305,7 +305,7 @@ class PdoWrapper extends \PDO
      *
      * @return PdoWrapper|multi type:|number
      */
-    public function pdoQuery($sSql = '', $aBindWhereParam = array())
+    public function pdoQuery($sSql = '', $aBindWhereParam = [])
     {
         // Check empty query
         if (empty($sSql)) {
@@ -419,11 +419,11 @@ class PdoWrapper extends \PDO
      *
      * @return multi type: array/error
      */
-    public function select($sTable = '', $aColumn = array(), $aWhere = array(), $sOther = '')
+    public function select($sTable = '', $aColumn = [], $aWhere = [], $sOther = '')
     {
         // handle column array data
         if (!is_array($aColumn)) {
-            $aColumn = array();
+            $aColumn = [];
         }
         // get field if pass otherwise use *
         $sField = count($aColumn) > 0 ? implode(', ', $aColumn) : '*';
@@ -499,7 +499,7 @@ class PdoWrapper extends \PDO
      * @return number last insert ID
      */
 
-    public function insert($sTable, $aData = array())
+    public function insert($sTable, $aData = [])
     {
         // check if table name not empty
         if (!empty($sTable)) {
@@ -560,7 +560,7 @@ class PdoWrapper extends \PDO
      *
      * @return number last insert ID
      */
-    public function insertBatch($sTable, $aData = array(), $safeModeInsert = true)
+    public function insertBatch($sTable, $aData = [], $safeModeInsert = true)
     {
 
         // PDO transactions start
@@ -674,7 +674,7 @@ class PdoWrapper extends \PDO
      *
      * @return number
      */
-    public function update($sTable = '', $aData = array(), $aWhere = array(), $sOther = '')
+    public function update($sTable = '', $aData = [], $aWhere = [], $sOther = '')
     {
         // if table name is empty
         if (!empty($sTable)) {
@@ -746,7 +746,7 @@ class PdoWrapper extends \PDO
      *
      * @return object PDO object
      */
-    public function delete($sTable, $aWhere = array(), $sOther = '')
+    public function delete($sTable, $aWhere = [], $sOther = '')
     {
         // if table name not pass
         if (!empty($sTable)) {
@@ -968,7 +968,7 @@ class PdoWrapper extends \PDO
      * @param array $array_data
      * @return array
      */
-    public function customWhere($array_data = array())
+    public function customWhere($array_data = [])
     {
         $syntax = '';
         foreach ($array_data as $key => $value) {
@@ -1006,7 +1006,7 @@ class PdoWrapper extends \PDO
      *
      * @param array $array
      */
-    private function _bindPdoNameSpace($array = array())
+    private function _bindPdoNameSpace($array = [])
     {
 
         if (strstr(key($array), ' ')) {
@@ -1059,7 +1059,7 @@ class PdoWrapper extends \PDO
      *
      * @param array $array
      */
-    private function _bindPdoParam($array = array())
+    private function _bindPdoParam($array = [])
     {
         // bind array data in pdo
         foreach ($array as $f => $v) {
@@ -1216,7 +1216,7 @@ class PdoWrapper extends \PDO
      * @return mixed
      */
 
-    public function getFieldFromArrayKey($array_key = array())
+    public function getFieldFromArrayKey($array_key = [])
     {
         // get table column from array key
         $key_array = explode(' ', $array_key);
@@ -1244,7 +1244,7 @@ class PdoWrapper extends \PDO
      * @return PdoWrapper
      */
 
-    public function pdoPrepare($statement, $options = array())
+    public function pdoPrepare($statement, $options = [])
     {
         $this->_oSTH = $this->prepare($statement, $options);
         return $this;
@@ -1258,7 +1258,7 @@ class PdoWrapper extends \PDO
      * @return PdoWrapper|multi type:|number
      */
 
-    public function execute($aBindWhereParam = array())
+    public function execute($aBindWhereParam = [])
     {
 
         // clean query from white space

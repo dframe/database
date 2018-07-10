@@ -13,7 +13,7 @@ class Database extends PdoWrapper
 {
     private $_setWhere = null;
     private $_setHaving = null;
-    private $_setParams = array();
+    private $_setParams = [];
     private $_setOrderBy = null;
     private $_setGroupBy = null;
     private $_setLimit = null;
@@ -22,22 +22,22 @@ class Database extends PdoWrapper
     public $WhereChunkKey;
     public $WhereChunkValue;
     public $WhereChunkperator;
-    public $addWhereEndParams = array();
+    public $addWhereEndParams = [];
 
-    function __construct($dsn = array(), $config = null)
+    function __construct($dsn = [], $config = null)
     {
         $this->config = $config;
         if (is_null($this->config)) {
-            $this->config = array(
+            $this->config = [
                 'logDir' => APP_DIR . 'View/logs/',
-                'attributes' => array(
+                'attributes' => [
                     PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8", 
                     //PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,  // Set pdo error mode silent
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // If you want to Show Class exceptions on Screen, Uncomment below code 
                     PDO::ATTR_EMULATE_PREPARES => true, // Use this setting to force PDO to either always emulate prepared statements (if TRUE), or to try to use native prepared statements (if FALSE). 
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC // Set default pdo fetch mode as fetch assoc
-                )
-            );
+                ]
+            ];
         }
 
         parent::__construct($dsn, $this->config);
@@ -64,7 +64,7 @@ class Database extends PdoWrapper
     public function getParams()
     {
         $_setParams = $this->_setParams;
-        $this->_setParams = array();
+        $this->_setParams = [];
         return $_setParams;
     }
 
@@ -118,7 +118,7 @@ class Database extends PdoWrapper
         $where = null;
         $params = [];
         if (!empty($whereObject)) {
-            $arr = array();
+            $arr = [];
             /*** 
              ** @var $chunk WhereChunk 
              */
@@ -140,7 +140,7 @@ class Database extends PdoWrapper
 
         } else {
             $this->_setWhere = null;
-            //$this->_setParams = array();
+            //$this->_setParams = [];
         }
 
 
@@ -158,7 +158,7 @@ class Database extends PdoWrapper
         $where = null;
         $params = [];
         if (!empty($havingObject)) {
-            $arr = array();
+            $arr = [];
             /**
              * 
              *
@@ -183,7 +183,7 @@ class Database extends PdoWrapper
 
         } else {
             $this->_setHaving = null;
-            //$this->_setParams = array();
+            //$this->_setParams = [];
         }
 
 
@@ -204,7 +204,7 @@ class Database extends PdoWrapper
             return $this;
         }
 
-        if (!in_array($sort, array('ASC', 'DESC'))) {
+        if (!in_array($sort, ['ASC', 'DESC'])) {
             $sort = 'DESC';
         }
 

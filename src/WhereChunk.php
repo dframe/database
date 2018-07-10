@@ -23,7 +23,7 @@ class WhereChunk
 
     function build()
     {
-        $params = array();
+        $params = [];
         if ($this->value !== null) {
             $op = !is_null($this->operator) ? $this->operator : '=';
 
@@ -44,6 +44,6 @@ class WhereChunk
             $sql = $sql = "{$this->key} IS NULL ";
         }
 
-        return array($sql, $params);
+        return [$sql, $params];
     }
 }

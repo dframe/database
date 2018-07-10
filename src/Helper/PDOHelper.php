@@ -56,7 +56,7 @@ class PDOHelper
      *
      * @return string
      */
-    public function arrayToXml($arrayData = array())
+    public function arrayToXml($arrayData = [])
     {
         $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
         $xml .= "<root>";
@@ -99,7 +99,7 @@ class PDOHelper
         foreach ($list as &$verb) {
             $verb = '/\b' . preg_quote($verb, '/') . '\b/';
         }
-        $regex_sign = array('/\b', '\b/');
+        $regex_sign = ['/\b', '\b/'];
         // replace matching words
         return str_replace(
             $regex_sign,
@@ -107,10 +107,10 @@ class PDOHelper
             preg_replace(
                 $list,
                 array_map(
-                    array(
+                    [
                         $this,
                         'highlight_sql'
-                    ),
+                    ],
                     $list
                 ),
                 strtolower($sql)
@@ -134,7 +134,7 @@ class PDOHelper
      * @param  array $aColList Result Array data
      * @return string HTML Table with data
      */
-    public function displayHtmlTable($aColList = array())
+    public function displayHtmlTable($aColList = [])
     {
         $r = '';
         if (count($aColList) > 0) {
@@ -168,7 +168,7 @@ class PDOHelper
      * @param  array $array
      * @return bool true/false
      */
-    public function isAssocArray($array = array())
+    public function isAssocArray($array = [])
     {
         return array_keys($array) !== range(0, count($array) - 1);
     }
@@ -194,7 +194,7 @@ class PDOHelper
      *
      * @param array $data
      */
-    public function errorBox($data = array())
+    public function errorBox($data = [])
     {
         $style = "style='color:#333846; border:1px solid #777; padding:2px; background-color: #FFC0CB;'";
         die("<div $style >ERROR:" . json_encode($data) . "</div>");

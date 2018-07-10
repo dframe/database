@@ -20,13 +20,13 @@ class ConnectionTest extends \PHPUnit\Framework\TestCase
     {
 
         try {
-            $dbConfig = array(
+            $dbConfig = [
                 'dbtype' => 'mysql',
                 'host' => 'localhost',
                 'dbname' => 'test',
                 'username' => 'root',
                 'password' => '',
-            );
+            ];
             $this->db = new Database($dbConfig);
 
         } catch (\PDOException $e) {

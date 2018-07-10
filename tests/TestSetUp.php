@@ -14,13 +14,13 @@ abstract class TestSetUp extends \PHPUnit\Framework\TestCase
     public function getConnection()
     {
         try {
-            $dbConfig = array(
+            $dbConfig = [
                 'dbtype' => 'mysql',
                 'host' => 'localhost',
                 'dbname' => 'test',
                 'username' => 'root',
-                'password' => '',
-            );
+                'password' => ''
+            ];
             $this->db = new Database($dbConfig);
 
         } catch (\PDOException $e) {

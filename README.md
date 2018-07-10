@@ -42,12 +42,12 @@ Init Connection
 use Dframe\Database\Database;
 
 try {
-    $dbConfig = array(
+    $dbConfig = [
         'host' => DB_HOST,
         'dbname' => DB_DATABASE,
         'username' => DB_USER,
         'password' => DB_PASS
-    );
+    ];
     $db = new Database($dbConfig);
     $db->setErrorLog(false); // Debug
     
@@ -63,7 +63,7 @@ Example - pdoQuery
 -------------------
 **Return first element array;**
 ```php
-$result = $db->pdoQuery('SELECT * FROM table WHERE id = ?', array($id))->result();
+$result = $db->pdoQuery('SELECT * FROM table WHERE id = ?', [$id])->result();
 
 ```
 > **Note:** result() will select all rows in database, so if you want select only 1 row i query connection add LIMIT 1;
@@ -78,7 +78,7 @@ $results = $db->pdoQuery('SELECT * FROM table')->results();
 
 **Update;**
 ```php
-$affectedRows = $db->pdoQuery('UPDATE table SET col_one = ?, col_two = ?', array($col_one, $col_two))->affectedRows();
+$affectedRows = $db->pdoQuery('UPDATE table SET col_one = ?, col_two = ?', [$col_one, $col_two])->affectedRows();
 ```
 > **Note:** affectedRows() will return numbers modified rows;
 
@@ -86,7 +86,7 @@ $affectedRows = $db->pdoQuery('UPDATE table SET col_one = ?, col_two = ?', array
 **Insert;**
 ```php
  
-$getLastInsertId = $db->pdoQuery('INSERT INTO table (col_one, col_two) VALUES (?,?)', array($col_one, $col_two))->getLastInsertId();
+$getLastInsertId = $db->pdoQuery('INSERT INTO table (col_one, col_two) VALUES (?,?)', [$col_one, $col_two])->getLastInsertId();
 ```
 > **Note:** getLastInsertId() will return insert ID;
 > 
@@ -107,7 +107,7 @@ WhereStringChunk
 
 **Return search result array query;**
 ```php
-$where[] = new Dframe\Database\WhereStringChunk('col_id > ?', array('1')); // col_id > 1
+$where[] = new Dframe\Database\WhereStringChunk('col_id > ?', ['1']); // col_id > 1
 $prepareWhere = $this->baseClass->db->prepareWhere($where); // bindprepare
 $results = $this->baseClass->db->pdoQuery('SELECT * FROM `table` '.$prepareWhere->getWhere(), $prepareWhere->getParams())->results(); //Auto bind parms
 ```

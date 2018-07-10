@@ -61,7 +61,7 @@ PDOHelper::PA($q);
 // Example -5 
 $selectFields = array('customerNumber','customerName','contactLastName','contactFirstName','phone');
 // set where condition
-$whereConditions = array();
+$whereConditions = [];
 // select with where and bind param use select method
 $q = $db->select('customers', $selectFields, $whereConditions, 'LIMIT 10')->showQuery()->results();
 // print array result
@@ -71,7 +71,7 @@ PDOHelper::PA($q);
 // Example -6 
 $selectFields = array('customerNumber','customerName','contactLastName','contactFirstName','phone');
 // set where condition
-$whereConditions = array();
+$whereConditions = [];
 // select with where and bind param use select method
 $q = $db->select('customers', $selectFields, $whereConditions, 'ORDER BY customerNumber DESC LIMIT 5')->showQuery()->results();
 // print array result

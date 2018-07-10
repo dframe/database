@@ -3,7 +3,7 @@ namespace Dframe\Database;
 
 /*
  * Klasa wspomagająca warunki wyszukiwania
- * new setHaving('`kolumna` = ?', array('test'));
+ * new setHaving('`kolumna` = ?', [test']);
  *
  *
  */
@@ -24,19 +24,19 @@ class HaveStringChunk
         $paramName = str_replace('.', '_', $this->string);
         $column = explode(' ', $paramName);
 
-        $params = array();
+        $params = [];
         if (is_array($this->bindWhere)) {
             $params[":{$column[0]}"] = $this->bindWhere;
             $params = $this->flatter($params);
         }
 
-        return array($this->string, $params);
+        return [$this->string, $params];
     }
 
     // Bug fix Autor Krzysztof Franek
     function flatter($array)
     {
-        $result = array();
+        $result = [];
         foreach ($array as $item) {
             if (is_array($item)) {
                 $result = array_merge($result, $this->flatter($item));

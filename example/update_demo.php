@@ -5,7 +5,7 @@ require_once '../src/Helper/PDOHelper.php';
 require_once '../src/class.pdowrapper.php';
 
 // database connection setings
-$dbConfig = array("host"=>"localhost", "dbname"=>'sampledb', "username"=>'root', "password"=>'');
+$dbConfig = ["host"=>"localhost", "dbname"=>'sampledb', "username"=>'root', "password"=>''];
 // get instance of PDO Wrapper object
 $db = new PdoWrapper($dbConfig);
 
@@ -18,9 +18,9 @@ $db->setErrorLog(true);
 // Example -1
 
 // update array data
-$dataArray = array('first_name'=>'Sangeeta','last_name'=>'Mishra','age'=>35);
+$dataArray = ['first_name'=>'Sangeeta','last_name'=>'Mishra','age'=>35];
 // where condition array
-$aWhere = array('id'=>23);
+$aWhere = ['id'=>23];
 // call update function
 $q = $p->update('test', $dataArray, $aWhere)->showQuery()->affectedRows();
 // print affected rows
@@ -32,9 +32,9 @@ PDOHelper::PA($q);
 // Example -2
 
 // update array data
-$dataArray = array('first_name'=>'Sonia','last_name'=>'Shukla','age'=>23);
+$dataArray = ['first_name'=>'Sonia','last_name'=>'Shukla','age'=>23];
 // two where condition array
-$aWhere = array('age'=>35, 'last_name'=>'Mishra');
+$aWhere = ['age'=>35, 'last_name'=>'Mishra'];
 // call update function
 $q = $p->update('test', $dataArray, $aWhere)->showQuery()->affectedRows();
 // print affected rows

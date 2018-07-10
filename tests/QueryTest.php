@@ -11,16 +11,16 @@ class QueryTest extends \Dframe\Database\tests\TestSetUp
 {
     public function setUp()
     {
-        $this->dataSetup = array(
-            'data1' => array(
+        $this->dataSetup = [
+            'data1' => [
                 'username' => 'Jack_' . uniqid()
-            ),
-            'data2' => array(
-                array('username' => 'Eli_' . uniqid()),
-                array('username' => 'Mat_' . uniqid()),
-                array('username' => 'Andre_' . uniqid())
-            )
-        );
+            ],
+            'data2' => [
+                ['username' => 'Eli_' . uniqid()],
+                ['username' => 'Mat_' . uniqid()],
+                ['username' => 'Andre_' . uniqid()]
+            ]
+        ];
     }
 
 //     public function testSelectUser()
@@ -35,7 +35,7 @@ class QueryTest extends \Dframe\Database\tests\TestSetUp
 
     public function testInsert()
     {
-        $dataArray = array('username' => $this->dataSetup['data1']['username']);
+        $dataArray = ['username' => $this->dataSetup['data1']['username']];
         $insert = $this->getConnection()->insert('users', $dataArray)->getLastInsertId();
         $this->assertTrue(is_numeric($insert));
     }
@@ -48,8 +48,8 @@ class QueryTest extends \Dframe\Database\tests\TestSetUp
 
     public function testUpdate(){
 
-        $dataArray = array('phone' => '123-123-123');
-        $aWhere = array('id' => 23);
+        $dataArray = ['phone' => '123-123-123'];
+        $aWhere = ['id' => 23];
         $update = $this->getConnection()->update('users', $dataArray, $aWhere)->affectedRows();
         $this->assertTrue(is_numeric($update));
         
