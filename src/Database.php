@@ -124,7 +124,7 @@ class Database extends PdoWrapper
             $this->_setWhere = " WHERE " . implode(' AND ', $arr);
 
             if (is_array($this->_setParams) and !empty($this->_setParams)) {
-                $this->_setParams = array_merge($this->_setParams, $params);
+                $this->_setParams = array_merge($this->_setParams, $params ?? []);
             } else {
                 $this->_setParams = $params;
             }
@@ -167,7 +167,7 @@ class Database extends PdoWrapper
             $this->_setHaving = " HAVING " . implode(' AND ', $arr);
 
             if (is_array($this->_setParams) and !empty($this->_setParams)) {
-                $this->_setParams = array_merge($this->_setParams, $params);
+                $this->_setParams = array_merge($this->_setParams, $params ?? []);
             } else {
                 $this->_setParams = $params;
             }
