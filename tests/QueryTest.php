@@ -46,12 +46,13 @@ class QueryTest extends \Dframe\Database\tests\TestSetUp
         $this->assertCount(3, $insert);
     }
 
-    public function testUpdate(){
+    public function testUpdate()
+    {
 
         $dataArray = ['phone' => '123-123-123'];
         $aWhere = ['id' => 23];
         $update = $this->getConnection()->update('users', $dataArray, $aWhere)->affectedRows();
         $this->assertTrue(is_numeric($update));
-        
+
     }
 }

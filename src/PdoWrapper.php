@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * DframeFramework - Database
+ * Copyright (c) Sławomir Kaleta
+ *
+ * @license https://github.com/dframe/database/blob/master/README.md (MIT)
+ */
+
 namespace Dframe\Database;
 
 use PDO;
@@ -192,7 +200,7 @@ class PdoWrapper extends \PDO
                 $settings['attributes']
             );
 
-       
+
         } catch (PDOException $e) {
             // get pdo error and pass on error method
             die("ERROR in establish connection: " . $e->getMessage());

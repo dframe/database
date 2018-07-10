@@ -2,7 +2,16 @@
     "name": "dframe/database",
     "description": "Database pdo wrapper",
     "type": "library",
-    "keywords": ["database", "mysql", "pdo", "pdowraper", "wraper", "update", "query-builder", "query"],
+    "keywords": [
+        "database",
+        "mysql",
+        "pdo",
+        "pdowraper",
+        "wraper",
+        "update",
+        "query-builder",
+        "query"
+    ],
     "homepage": "https://dframeframework.com",
     "license": "MIT",
     "authors": [
@@ -13,7 +22,9 @@
     ],
     "minimum-stability": "stable",
     "autoload": {
-        "psr-4": {"Dframe\\Database\\": "src/"}
+        "psr-4": {
+            "Dframe\\Database\\": "src/"
+        }
     },
     "require": {}
 }

@@ -1,10 +1,17 @@
 <?php
+
+/**
+ * DframeFramework - Database
+ * Copyright (c) Sławomir Kaleta
+ *
+ * @license https://github.com/dframe/database/blob/master/README.md (MIT)
+ */
+
 namespace Dframe\Database;
 
-/*
+/**
  * Klasa wspomagająca warunki wyszukiwania
  * new setHaving('`kolumna` = ?', [test']);
- *
  *
  */
 

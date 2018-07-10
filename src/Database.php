@@ -1,13 +1,16 @@
 <?php
+
+/**
+ * DframeFramework - Database
+ * Copyright (c) Sławomir Kaleta
+ *
+ * @license https://github.com/dframe/database/blob/master/README.md (MIT)
+ */
+
 namespace Dframe\Database;
 
 use PDO;
 use Dframe\Database\PdoWrapper;
-
-/**
- * Autor: Sławek Kaleta
- * Nakładka na PDO_Class_Wrapper_master
- */
 
 class Database extends PdoWrapper
 {

@@ -1,10 +1,17 @@
 <?php
+
+/**
+ * DframeFramework - Database
+ * Copyright (c) Sławomir Kaleta
+ *
+ * @license https://github.com/dframe/database/blob/master/README.md (MIT)
+ */
+
 namespace Dframe\Database;
 
-/*
- * Klasa wspomagająca warunki wyszukiwania
+/**
  * new WhereChunk('kolumna', 'test', 'LIKE');
- * https://github.com/Appsco/component-share/blob/9b29a7579c9bdcf9832b94b05ecebc74d771adf9/src/BWC/Share/Data/Select.php
+ * Based on https://github.com/Appsco/component-share/blob/9b29a7579c9bdcf9832b94b05ecebc74d771adf9/src/BWC/Share/Data/Select.php
  *
  */
 

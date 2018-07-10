@@ -5,7 +5,7 @@ require_once '../src/Helper/PDOHelper.php';
 require_once '../src/class.pdowrapper.php';
 
 // database connection setings
-$dbConfig = ["host"=>"localhost", "dbname"=>'sampledb', "username"=>'root', "password"=>''];
+$dbConfig = ["host" => "localhost", "dbname" => 'sampledb', "username" => 'root', "password" => ''];
 // get instance of PDO Wrapper object
 $db = new PdoWrapper($dbConfig);
 

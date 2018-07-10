@@ -5,7 +5,7 @@ use Dframe\Database\Database;
 use Dframe\Database\Pdohelper;
 
 // backward compatibility
-if (!class_exists('\PHPUnit\Framework\TestCase') AND class_exists('\PHPUnit_Framework_TestCase')) {
+if (!class_exists('\PHPUnit\Framework\TestCase') and class_exists('\PHPUnit_Framework_TestCase')) {
     class_alias('\PHPUnit_Framework_TestCase', '\PHPUnit\Framework\TestCase');
 }
 //@Todo
@@ -32,7 +32,7 @@ class ConnectionTest extends \PHPUnit\Framework\TestCase
         } catch (\PDOException $e) {
             echo $e->getMessage();
         }
-        
+
         return $this->db;
     }
 
@@ -40,7 +40,7 @@ class ConnectionTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $test = $this->getConnection()->pdoQuery();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals($e->getMessage(), 'SQLSTATE[42000]: Syntax error or access violation: 1065 Query was empty');
         }
 
