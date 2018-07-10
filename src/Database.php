@@ -116,7 +116,7 @@ class Database extends PdoWrapper
     public function prepareWhere($whereObject)
     {
         $where = null;
-        $params = null;
+        $params = [];
         if (!empty($whereObject)) {
             $arr = array();
             /*** 
@@ -132,7 +132,7 @@ class Database extends PdoWrapper
             $this->_setWhere = " WHERE " . implode(' AND ', $arr);
 
             if (is_array($this->_setParams) and !empty($this->_setParams)) {
-                $this->_setParams = array_merge($this->_setParams, $params ?? []);
+                $this->_setParams = array_merge($this->_setParams, $params);
             } else {
                 $this->_setParams = $params;
             }
@@ -156,7 +156,7 @@ class Database extends PdoWrapper
     public function prepareHaving($havingObject)
     {
         $where = null;
-        $params = null;
+        $params = [];
         if (!empty($havingObject)) {
             $arr = array();
             /**
@@ -175,7 +175,7 @@ class Database extends PdoWrapper
             $this->_setHaving = " HAVING " . implode(' AND ', $arr);
 
             if (is_array($this->_setParams) and !empty($this->_setParams)) {
-                $this->_setParams = array_merge($this->_setParams, $params ?? []);
+                $this->_setParams = array_merge($this->_setParams, $params);
             } else {
                 $this->_setParams = $params;
             }
