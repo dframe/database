@@ -7,7 +7,7 @@
  * @license https://github.com/dframe/database/blob/master/README.md (MIT)
  */
 
- 
+
 namespace Dframe\Database;
 
 /**
@@ -21,12 +21,23 @@ class WhereStringChunk
     public $string;
     public $bindWhere;
 
+    /**
+     * __construct function
+     *
+     * @param string $string
+     * @param array $bindWhere
+     */
     function __construct($string, $bindWhere = null)
     {
         $this->string = $string;
         $this->bindWhere = $bindWhere;
     }
 
+    /**
+     * Build function
+     *
+     * @return array
+     */
     function build()
     {
         $paramName = str_replace('.', '_', $this->string);
@@ -41,7 +52,12 @@ class WhereStringChunk
         return [$this->string, $params];
     }
 
-    // Bug fix Autor Krzysztof Franek
+    /**
+     * Flatter function
+     *
+     * @param array $array
+     * @return void
+     */
     function flatter($array)
     {
         $result = [];
@@ -52,6 +68,7 @@ class WhereStringChunk
                 $result[] = $item;
             }
         }
+        
         return $result;
     }
 }

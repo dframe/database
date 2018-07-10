@@ -21,6 +21,13 @@ class WhereChunk
     public $value;
     public $operator;
 
+    /**
+     * __construct function
+     *
+     * @param string $key
+     * @param string $value
+     * @param string $operator
+     */
     function __construct($key, $value, $operator = null)
     {
         $this->key = $key;
@@ -28,6 +35,11 @@ class WhereChunk
         $this->operator = $operator;
     }
 
+    /**
+     * Build function
+     *
+     * @return array
+     */
     function build()
     {
         $params = [];

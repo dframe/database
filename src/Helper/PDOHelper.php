@@ -14,8 +14,6 @@ namespace Dframe\Database\Helper;
  *
  * Pdo Helper for using PDO methods with Helper functions
  *
- * PHP version 5.3.13
- *
  * MIT License
  *
  *
@@ -40,19 +38,10 @@ namespace Dframe\Database\Helper;
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  *
- * @category  PHP PDO Helper Class
- * @package   PdoHelper
  * @author    Neeraj Singh <neeraj.singh@lbi.co.in>
  * @author    Bhaskar Rabha <bhaskar.rabha@lbi.co.in>
  * @author    Priyadarshan Salkar <priyadarshan.salkar@lbi.co.in>
- * @copyright 2013-14 The PHP Group Of LBi India
- * @license   http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version   1.0 Beta
  */
-
-/**
- * Class Start 
- **/
 
 class PDOHelper
 {
@@ -61,7 +50,6 @@ class PDOHelper
      * send an array and get xml
      *
      * @param array $arrayData
-     *
      * @return string
      */
     public function arrayToXml($arrayData = [])
@@ -92,6 +80,7 @@ class PDOHelper
         $xml .= "</root>";
         return $xml;
     }
+
     /**
      * Format the SQL Query
      *
@@ -125,6 +114,7 @@ class PDOHelper
             )
         );
     }
+
     /**
      * Coloring for MySQL reserved keywords
      *
@@ -135,6 +125,7 @@ class PDOHelper
     {
         return "<span style='color:#990099; font-weight:bold; text-transform: uppercase;'>$param</span>";
     }
+
     /**
      * Get HTML Table with Data
      * Send complete array data and get an HTML table with mysql data
@@ -180,6 +171,7 @@ class PDOHelper
     {
         return array_keys($array) !== range(0, count($array) - 1);
     }
+
     /**
      * Function to print array with pre tag
      *
@@ -189,6 +181,7 @@ class PDOHelper
     {
         echo '<pre>', print_r($array, true), '</pre>';
     }
+
     /**
      * Show Error to user
      */
@@ -197,6 +190,7 @@ class PDOHelper
         $style = "style='color:#333846; border:1px solid #777; padding:2px; background-color: #FFC0CB;'";
         die("<div $style >ERROR: error occurred. Please, Check you error log file.</div>");
     }
+
     /**
      * Show Error Array Data and stop code execution
      *

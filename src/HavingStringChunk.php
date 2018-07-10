@@ -17,7 +17,18 @@ namespace Dframe\Database;
 
 class HaveStringChunk
 {
+    /**
+     * String variable
+     *
+     * @var string
+     */
     public $string;
+
+    /**
+     * BindWhere variable
+     *
+     * @var array
+     */
     public $bindWhere;
 
     function __construct($string, $bindWhere = null)
@@ -40,7 +51,12 @@ class HaveStringChunk
         return [$this->string, $params];
     }
 
-    // Bug fix Autor Krzysztof Franek
+    /**
+     * Flatter function
+     *
+     * @param array $array
+     * @return void
+     */
     function flatter($array)
     {
         $result = [];
@@ -51,6 +67,7 @@ class HaveStringChunk
                 $result[] = $item;
             }
         }
+
         return $result;
     }
 }

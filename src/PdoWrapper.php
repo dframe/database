@@ -40,54 +40,63 @@ class PdoWrapper extends \PDO
      * @var object
      */
     private $_oSTH = null;
+
     /**
      * PDO SQL Statement
      *
      * @var string
      */
     public $sSql = '';
+
     /**
      * PDO SQL table name
      *
      * @var string
      */
     public $sTable = [];
+
     /**
      * PDO SQL Where Condition
      *
-     * @var string
+     * @var array
      */
     public $aWhere = [];
+
     /**
      * PDO SQL table column
      *
-     * @var string
+     * @var array
      */
     public $aColumn = [];
+
     /**
      * PDO SQL Other condition
      *
-     * @var string
+     * @var array
      */
     public $sOther = [];
+
     /**
      * PDO Results,Fetch All PDO Results array
      *
      * @var array
      */
     public $aResults = [];
+
     /**
      * PDO Result,Fetch One PDO Row
      *
      * @var array
      */
     public $aResult = [];
+
     /**
      * Get PDO Last Insert ID
      *
      * @var integer
      */
     public $iLastId = 0;
+
     /**
      * PDO last insert di in array
      * using with INSERT BATCH Query
@@ -95,60 +104,70 @@ class PdoWrapper extends \PDO
      * @var array
      */
     public $iAllLastId = [];
+
     /**
      * Get PDO Error
      *
      * @var string
      */
     public $sPdoError = '';
+
     /**
      * Get All PDO Affected Rows
      *
      * @var integer
      */
     public $iAffectedRows = 0;
+
     /**
      * Catch temp data
      *
      * @var null
      */
     public $aData = null;
+
     /**
      * Enable/Disable class debug mode
      *
      * @var boolean
      */
     public $log = false;
+
     /**
      * Set flag for batch insert
      *
      * @var bool
      */
     public $batch = false;
+
     /**
      * PDO Error File
      *
      * @var string
      */
     const LOG_FILE = 'mysql.error.log';
+
     /**
      * PDO Config/Settings
      *
      * @var array
      */
     private $_db_info = [];
+
     /**
      * Set PDO valid Query operation
      *
      * @var array
      */
     private $_aValidOperation = array('SELECT', 'INSERT', 'UPDATE', 'DELETE');
+
     /**
      * PDO Object
      *
      * @var object
      */
     protected static $oPDO = null;
+
     /**
      * Auto Start on Object init
      *
@@ -156,7 +175,6 @@ class PdoWrapper extends \PDO
      *
      * @throws Exception
      */
-
     public function __construct($dsn = [], $settings = ['attributes' => []])
     {
         // if isset $dsn and it is array
@@ -212,7 +230,6 @@ class PdoWrapper extends \PDO
      * Get Instance of PDO Class as Singleton Pattern
      *
      * @param array $dsn
-     *
      * @return object $oPDO
      */
     public static function getPDO($dsn = [])
@@ -257,7 +274,6 @@ class PdoWrapper extends \PDO
      * Return PDO Query result by index value
      *
      * @param int $iRow
-     *
      * @return array:boolean
      */
     public function result($iRow = 0)
@@ -310,7 +326,6 @@ class PdoWrapper extends \PDO
      *
      * @param string $sSql
      * @param array  $aBindWhereParam Bind Param Value
-     *
      * @return PdoWrapper|multi type:|number
      */
     public function pdoQuery($sSql = '', $aBindWhereParam = [])
@@ -424,7 +439,6 @@ class PdoWrapper extends \PDO
      * @param array  $aColumn
      * @param array  $aWhere
      * @param string $sOther
-     *
      * @return multi type: array/error
      */
     public function select($sTable = '', $aColumn = [], $aWhere = [], $sOther = '')
@@ -503,7 +517,6 @@ class PdoWrapper extends \PDO
      *
      * @param string $sTable
      * @param array  $aData
-     *
      * @return number last insert ID
      */
 
@@ -565,7 +578,6 @@ class PdoWrapper extends \PDO
      * @param string  $sTable         mysql table name
      * @param array   $aData          mysql insert array data
      * @param boolean $safeModeInsert set true if want to use pdo bind param
-     *
      * @return number last insert ID
      */
     public function insertBatch($sTable, $aData = [], $safeModeInsert = true)
@@ -679,7 +691,6 @@ class PdoWrapper extends \PDO
      * @param array  $aData
      * @param array  $aWhere
      * @param string $sOther
-     *
      * @return number
      */
     public function update($sTable = '', $aData = [], $aWhere = [], $sOther = '')
@@ -751,7 +762,6 @@ class PdoWrapper extends \PDO
      * @param string $sTable
      * @param array  $aWhere
      * @param string $sOther
-     *
      * @return object PDO object
      */
     public function delete($sTable, $aWhere = [], $sOther = '')
@@ -810,7 +820,6 @@ class PdoWrapper extends \PDO
      * Return PDO Query results array/json/xml type
      *
      * @param string $type
-     *
      * @return mixed
      */
     public function results($type = 'array')
@@ -954,7 +963,6 @@ class PdoWrapper extends \PDO
      * Return Table Fields of Requested Table
      *
      * @param string $sTable
-     *
      * @return array Field Type and Field Name
      */
     public function describe($sTable = '')
