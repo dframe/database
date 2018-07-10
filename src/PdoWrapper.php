@@ -2,7 +2,7 @@
 namespace Dframe\Database;
 
 use PDO;
-use Dframe\Database\Pdohelper;
+use Dframe\Database\Helper\PDOHelper;
 
 /**
  * PdoWrapper
