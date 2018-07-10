@@ -149,7 +149,7 @@ class PdoWrapper extends \PDO
      * @throws Exception
      */
 
-    public function __construct($dsn = array())
+    public function __construct($dsn = array(), $settings = array('attributes' => array()))
     {
         // if isset $dsn and it is array
         if (is_array($dsn) && count($dsn) > 0) {
@@ -182,25 +182,17 @@ class PdoWrapper extends \PDO
         extract($this->_db_info);
         // try catch block start
         try {
+            
 
             // use native pdo class and connect
             parent::__construct(
                 $dsn['dbtype'] . ":host=$host; dbname=$dbname",
                 $username,
                 $password,
-                array(
-                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
-                )
+                $settings['attributes']
             );
 
-            // set pdo error mode silent
-            $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
-            // If you want to Show Class exceptions on Screen, Uncomment below code 
-            $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            // Use this setting to force PDO to either always emulate prepared statements (if TRUE), or to try to use native prepared statements (if FALSE). 
-            $this->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-            // set default pdo fetch mode as fetch assoc
-            $this->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+       
         } catch (PDOException $e) {
             // get pdo error and pass on error method
             die("ERROR in establish connection: " . $e->getMessage());
