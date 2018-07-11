@@ -53,7 +53,19 @@ try {
         'username' => DB_USER,
         'password' => DB_PASS
     ];
-    $db = new Database($dbConfig);
+    
+    // Debug Config 
+    $config = [
+        'logDir' => APP_DIR . 'View/logs/',
+        'attributes' => [
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8", 
+            //PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,  // Set pdo error mode silent
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // If you want to Show Class exceptions on Screen, Uncomment below code 
+            PDO::ATTR_EMULATE_PREPARES => true, // Use this setting to force PDO to either always emulate prepared statements (if TRUE), or to try to use native prepared statements (if FALSE). 
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC // Set default pdo fetch mode as fetch assoc
+         ]
+    ];
+    $db = new Database($dbConfig, $config);
     $db->setErrorLog(false); // Debug
     
 }catch(DBException $e) {
