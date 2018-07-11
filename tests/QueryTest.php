@@ -1,13 +1,13 @@
 <?php
 namespace Dframe\Database\tests;
 
-use PHPUnit_Framework_Constraint_IsType as PHPUnit_IsType;
+use PHPUnit\Framework\Constraint\IsType as PHPUnitIsType;
 
 use Dframe\Database\Database;
 use Dframe\Database\Pdohelper;
 
 
-class QueryTest extends \Dframe\Database\tests\TestSetUp
+class QueryTest extends TestSetUp
 {
     public function setUp()
     {

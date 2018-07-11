@@ -2,13 +2,9 @@
 namespace Dframe\Database\tests;
 
 use Dframe\Database\Database;
+use PHPUnit\Framework\TestCase;
 
-// backward compatibility
-if (!class_exists('\PHPUnit\Framework\TestCase') and class_exists('\PHPUnit_Framework_TestCase')) {
-    class_alias('\PHPUnit_Framework_TestCase', '\PHPUnit\Framework\TestCase');
-}
-
-abstract class TestSetUp extends \PHPUnit\Framework\TestCase
+abstract class TestSetUp extends TestCase
 {
 
     public function getConnection()
