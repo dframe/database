@@ -9,7 +9,7 @@
 
 namespace Dframe\Database;
 
-use PDO;
+use \PDO;
 use Dframe\Database\Helper\PDOHelper;
 
 /**
