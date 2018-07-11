@@ -38,7 +38,7 @@ class ConnectionTest extends \PHPUnit\Framework\TestCase
                  ]
             ];
 
-            $this->db = new Database($dbConfig);
+            $this->db = new Database($dbConfig, $config);
 
         } catch (\PDOException $e) {
             echo $e->getMessage();
