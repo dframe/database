@@ -4,6 +4,7 @@ namespace Dframe\Database\tests;
 use PHPUnit\Framework\Constraint\IsType as PHPUnitIsType;
 use Dframe\Database\Database;
 use Dframe\Database\Pdohelper;
+use \PDO;
 
 //@Todo
 //@Todo
