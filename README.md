@@ -45,6 +45,7 @@ Init Connection
 ```php
 <?php 
 use Dframe\Database\Database;
+use \PDO;
 
 try {
     $dbConfig = [
