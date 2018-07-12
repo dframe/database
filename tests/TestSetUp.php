@@ -3,6 +3,7 @@ namespace Dframe\Database\tests;
 
 use Dframe\Database\Database;
 use PHPUnit\Framework\TestCase;
+use \PDO;
 
 abstract class TestSetUp extends TestCase
 {
