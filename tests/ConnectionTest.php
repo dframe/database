@@ -1,14 +1,11 @@
 <?php
-use PHPUnit_Framework_Constraint_IsType as PHPUnit_IsType;
+namespace Dframe\Database\tests;
 
+use PHPUnit\Framework\Constraint\IsType as PHPUnitIsType;
 use Dframe\Database\Database;
 use Dframe\Database\Pdohelper;
 use \PDO;
 
-// backward compatibility
-if (!class_exists('\PHPUnit\Framework\TestCase') and class_exists('\PHPUnit_Framework_TestCase')) {
-    class_alias('\PHPUnit_Framework_TestCase', '\PHPUnit\Framework\TestCase');
-}
 //@Todo
 //@Todo
 
@@ -50,12 +47,10 @@ class ConnectionTest extends \PHPUnit\Framework\TestCase
 
     public function testEmptyPdoQuery()
     {
-        try {
-            $test = $this->getConnection()->pdoQuery();
-        } catch (Exception $e) {
-            $this->assertEquals($e->getMessage(), 'SQLSTATE[42000]: Syntax error or access violation: 1065 Query was empty');
-        }
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('SQLSTATE[42000]: Syntax error or access violation: 1065 Query was empty');
 
+        $test = $this->getConnection()->pdoQuery();
     }
 
 }
