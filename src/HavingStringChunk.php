@@ -31,13 +31,13 @@ class HaveStringChunk
      */
     public $bindWhere;
 
-    function __construct($string, $bindWhere = null)
+    public function __construct($string, $bindWhere = null)
     {
         $this->string = $string;
         $this->bindWhere = $bindWhere;
     }
 
-    function build()
+    public function build()
     {
         $paramName = str_replace('.', '_', $this->string);
         $column = explode(' ', $paramName);
@@ -57,7 +57,7 @@ class HaveStringChunk
      * @param array $array
      * @return void
      */
-    function flatter($array)
+    public function flatter($array)
     {
         $result = [];
         foreach ($array as $item) {

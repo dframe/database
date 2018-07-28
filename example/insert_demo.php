@@ -20,28 +20,28 @@ $helper = new PDOHelper();
 // set error log mode true to show error on screen or false to log in log file
 $db->setErrorLog(true);
 
-// Example -1 
+// Example -1
 $dataArray = ['first_name' => 'Sid', 'last_name' => 'Mike', 'age' => 45];
 // use insert function
 $q = $db->insert('test', $dataArray)->showQuery()->getLastInsertId();
 PDOHelper::PA($q);
 
 
-// Example -2 
+// Example -2
 $dataArray = ['first_name' => 'Scott', 'last_name' => 'Dimon', 'age' => 55];
 // use insert function
 $q = $db->insert('test', $dataArray)->showQuery()->getLastInsertId();
 PDOHelper::PA($q);
 
 
-// Example -3 
+// Example -3
 $dataArray = ['first_name' => 'Simran', 'last_name' => 'Singh', 'age' => 25];
 // use insert function
 $q = $db->insert('testt', $dataArray)->showQuery()->getLastInsertId();
 PDOHelper::PA($q);
 
 
-// Example -4 
+// Example -4
 // use insert function
 $q = $db->insert('test', $dataArray)->showQuery()->getLastInsertId();
 // print array last insert id

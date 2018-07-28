@@ -5,7 +5,7 @@ require_once '../src/Helper/PDOHelper.php';
 require_once '../src/class.pdowrapper.php';
 
 // database connection setings
-$dbConfig = array("host" => "localhost", "dbname" => 'sampledb', "username" => 'root', "password" => '');
+$dbConfig = ["host" => "localhost", "dbname" => 'sampledb', "username" => 'root', "password" => ''];
 // get instance of PDO Wrapper object
 $db = new PdoWrapper($dbConfig);
 
@@ -16,50 +16,50 @@ $helper = new PDOHelper();
 $db->setErrorLog(true);
 
 
-// Example -1 
-$selectFields = array('customerNumber', 'customerName', 'contactLastName', 'contactFirstName', 'phone');
+// Example -1
+$selectFields = ['customerNumber', 'customerName', 'contactLastName', 'contactFirstName', 'phone'];
 // set where condition
-$whereConditions = array('customerNumber' => 103);
+$whereConditions = ['customerNumber' => 103];
 // select with where and bind param use select method
 $q = $db->select('customers', $selectFields, $whereConditions)->showQuery()->results();
 // print array result
 PDOHelper::PA($q);
 
-// Example -2 
-$whereConditions = array('lastname =' => 'bow', 'or jobtitle =' => 'Sales Rep', 'and isactive =' => 1, 'and officecode =' => 1);
-$data = $db->select('employees', array('employeenumber', 'lastname', 'jobtitle'), $whereConditions)->showQuery()->results();
+// Example -2
+$whereConditions = ['lastname =' => 'bow', 'or jobtitle =' => 'Sales Rep', 'and isactive =' => 1, 'and officecode =' => 1];
+$data = $db->select('employees', ['employeenumber', 'lastname', 'jobtitle'], $whereConditions)->showQuery()->results();
 // print array result
 PDOHelper::PA($q);
 
 
-// Example -3 
-$whereConditions = array('lastname =' => 'bow', 'or jobtitle =' => 'Sales Rep', 'and isactive =' => 1, 'and officecode =' => 1);
+// Example -3
+$whereConditions = ['lastname =' => 'bow', 'or jobtitle =' => 'Sales Rep', 'and isactive =' => 1, 'and officecode =' => 1];
 // select with where and bind param use select method
-$q = $db->select('employees', array('employeeNumber', 'lastName', 'firstName'), $whereConditions)->showQuery()->results();
+$q = $db->select('employees', ['employeeNumber', 'lastName', 'firstName'], $whereConditions)->showQuery()->results();
 // print array result
 PDOHelper::PA($q);
 
 
-// Example -4 
-$selectFields = array('customerNumber', 'customerName', 'contactLastName', 'contactFirstName', 'phone');
+// Example -4
+$selectFields = ['customerNumber', 'customerName', 'contactLastName', 'contactFirstName', 'phone'];
 // set where condition
-$whereConditions = array('customerNumber' => 103, 'contactLastName' => 'Schmitt');
-$array_data = array(
+$whereConditions = ['customerNumber' => 103, 'contactLastName' => 'Schmitt'];
+$array_data = [
     'customerNumber =' => 103,
     'and contactLastName =' => 'Schmitt',
     'and age =' => 30,
     'or contactLastName =' => 'Schmitt',
     'and age <' => 45,
     'or age >' => 65
-);
+];
 // select with where and bind param use select method
 $q = $db->select('customers', $selectFields, $array_data);
 // print array result
 PDOHelper::PA($q);
 
 
-// Example -5 
-$selectFields = array('customerNumber', 'customerName', 'contactLastName', 'contactFirstName', 'phone');
+// Example -5
+$selectFields = ['customerNumber', 'customerName', 'contactLastName', 'contactFirstName', 'phone'];
 // set where condition
 $whereConditions = [];
 // select with where and bind param use select method
@@ -68,8 +68,8 @@ $q = $db->select('customers', $selectFields, $whereConditions, 'LIMIT 10')->show
 PDOHelper::PA($q);
 
 
-// Example -6 
-$selectFields = array('customerNumber', 'customerName', 'contactLastName', 'contactFirstName', 'phone');
+// Example -6
+$selectFields = ['customerNumber', 'customerName', 'contactLastName', 'contactFirstName', 'phone'];
 // set where condition
 $whereConditions = [];
 // select with where and bind param use select method

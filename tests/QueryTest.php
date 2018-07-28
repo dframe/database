@@ -1,12 +1,6 @@
 <?php
 namespace Dframe\Database\tests;
 
-use PHPUnit\Framework\Constraint\IsType as PHPUnitIsType;
-
-use Dframe\Database\Database;
-use Dframe\Database\Pdohelper;
-
-
 class QueryTest extends TestSetUp
 {
     public function setUp()
@@ -48,11 +42,9 @@ class QueryTest extends TestSetUp
 
     public function testUpdate()
     {
-
         $dataArray = ['phone' => '123-123-123'];
         $aWhere = ['id' => 23];
         $update = $this->getConnection()->update('users', $dataArray, $aWhere)->affectedRows();
         $this->assertTrue(is_numeric($update));
-
     }
 }

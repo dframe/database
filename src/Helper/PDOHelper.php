@@ -201,8 +201,7 @@ class PDOHelper
         $style = "style='color:#333846; border:1px solid #777; padding:2px; background-color: #FFC0CB;'";
         die("<div $style >ERROR:" . json_encode($data) . "</div>");
     }
-
 }
 /**
- * Class End 
+ * Class End
  **/
