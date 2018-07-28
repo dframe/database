@@ -1,17 +1,11 @@
 <?php
 namespace Dframe\Database\tests;
 
-use PHPUnit\Framework\Constraint\IsType as PHPUnitIsType;
-use Dframe\Database\Database;
-use Dframe\Database\Pdohelper;
-use \PDO;
-
 //@Todo
 //@Todo
 
 class ConnectionTest extends TestSetUp
 {
-    
     public function testEmptyPdoQuery()
     {
         $this->expectException(\Exception::class);
@@ -19,5 +13,4 @@ class ConnectionTest extends TestSetUp
 
         $test = $this->getConnection()->pdoQuery();
     }
-
 }

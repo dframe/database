@@ -13,7 +13,7 @@ namespace Dframe\Database;
 /**
  * Klasa wspomagająca warunki wyszukiwania
  * new WhereStringChunk('`kolumna` LIKE ?', ['test']);
- * 
+ *
  */
 
 class WhereStringChunk
@@ -27,7 +27,7 @@ class WhereStringChunk
      * @param string $string
      * @param array $bindWhere
      */
-    function __construct($string, $bindWhere = null)
+    public function __construct($string, $bindWhere = null)
     {
         $this->string = $string;
         $this->bindWhere = $bindWhere;
@@ -38,7 +38,7 @@ class WhereStringChunk
      *
      * @return array
      */
-    function build()
+    public function build()
     {
         $paramName = str_replace('.', '_', $this->string);
         $column = explode(' ', $paramName);
@@ -58,7 +58,7 @@ class WhereStringChunk
      * @param array $array
      * @return void
      */
-    function flatter($array)
+    public function flatter($array)
     {
         $result = [];
         foreach ($array as $item) {

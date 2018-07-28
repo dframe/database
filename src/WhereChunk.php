@@ -28,7 +28,7 @@ class WhereChunk
      * @param string $value
      * @param string $operator
      */
-    function __construct($key, $value, $operator = null)
+    public function __construct($key, $value, $operator = null)
     {
         $this->key = $key;
         $this->value = $value;
@@ -40,7 +40,7 @@ class WhereChunk
      *
      * @return array
      */
-    function build()
+    public function build()
     {
         $params = [];
         if ($this->value !== null) {
@@ -58,7 +58,6 @@ class WhereChunk
                 $sql = "{$this->key} $op ?";                                    // $sql = "{$this->key} $op {$paramName}";
                 $params[":{$paramName}"] = $this->value;
             }
-
         } else {
             $sql = $sql = "{$this->key} IS NULL ";
         }

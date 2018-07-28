@@ -10,7 +10,6 @@
 namespace Dframe\Database;
 
 use \PDO;
-use Dframe\Database\PdoWrapper;
 
 class Database extends PdoWrapper
 {
@@ -33,17 +32,17 @@ class Database extends PdoWrapper
      * @param array $dsn
      * @param array $config
      */
-    function __construct($dsn = [], $config = null)
+    public function __construct($dsn = [], $config = null)
     {
         $this->config = $config;
         if (is_null($this->config)) {
             $this->config = [
                 'logDir' => APP_DIR . 'View/logs/',
                 'attributes' => [
-                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8", 
+                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,  // Set pdo error mode silent
-                    //PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // If you want to Show Class exceptions on Screen, Uncomment below code 
-                    PDO::ATTR_EMULATE_PREPARES => false, // Use this setting to force PDO to either always emulate prepared statements (if TRUE), or to try to use native prepared statements (if FALSE). 
+                    //PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // If you want to Show Class exceptions on Screen, Uncomment below code
+                    PDO::ATTR_EMULATE_PREPARES => false, // Use this setting to force PDO to either always emulate prepared statements (if TRUE), or to try to use native prepared statements (if FALSE).
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC // Set default pdo fetch mode as fetch assoc
                 ]
             ];
@@ -178,8 +177,8 @@ class Database extends PdoWrapper
         $params = [];
         if (!empty($whereObject)) {
             $arr = [];
-            /*** 
-             ** @var $chunk WhereChunk 
+            /***
+             ** @var $chunk WhereChunk
              */
             foreach ($whereObject as $chunk) {
                 list($wSQL, $wParams) = $chunk->build();
@@ -195,8 +194,6 @@ class Database extends PdoWrapper
             } else {
                 $this->_setParams = $params;
             }
-
-
         } else {
             $this->_setWhere = null;
             //$this->_setParams = [];
@@ -207,7 +204,6 @@ class Database extends PdoWrapper
         //
 
         return $this;
-
     }
 
     /**
@@ -223,9 +219,9 @@ class Database extends PdoWrapper
         if (!empty($havingObject)) {
             $arr = [];
             /**
-             * 
              *
-             * @var $chunk WhereChunk 
+             *
+             * @var $chunk WhereChunk
              */
             foreach ($havingObject as $chunk) {
                 list($wSQL, $wParams) = $chunk->build();
@@ -242,8 +238,6 @@ class Database extends PdoWrapper
             } else {
                 $this->_setParams = $params;
             }
-
-
         } else {
             $this->_setHaving = null;
             //$this->_setParams = [];
@@ -254,7 +248,6 @@ class Database extends PdoWrapper
         //
 
         return $this;
-
     }
 
     /**
@@ -266,7 +259,6 @@ class Database extends PdoWrapper
      */
     public function prepareOrder($order = null, $sort = null)
     {
-
         if ($order == null or $sort == null) {
             $this->_setOrderBy = '';
             return $this;
@@ -289,7 +281,6 @@ class Database extends PdoWrapper
      */
     public function prepareQuery($query, $params = false)
     {
-
         if (isset($params) and is_array($params)) {
             $this->prepareParms($params);
         }
@@ -301,7 +292,6 @@ class Database extends PdoWrapper
         }
 
         return $this;
-
     }
 
     /**
@@ -314,7 +304,6 @@ class Database extends PdoWrapper
     {
         $this->_setGroupBy = ' GROUP BY ' . $groupBy;
         return $this;
-
     }
 
     /**
@@ -352,5 +341,4 @@ class Database extends PdoWrapper
             array_push($this->_setParams, $params);
         }
     }
-
 }
