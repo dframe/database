@@ -2,7 +2,7 @@
 
 /**
  * DframeFramework - Database
- * Copyright (c) Sławomir Kaleta
+ * Copyright (c) Sławomir Kaleta.
  *
  * @license https://github.com/dframe/database/blob/master/README.md (MIT)
  */
@@ -11,21 +11,19 @@ namespace Dframe\Database;
 
 /**
  * Klasa wspomagająca warunki wyszukiwania
- * new setHaving('`kolumna` = ?', [test']);
- *
+ * new setHaving('`kolumna` = ?', [test']);.
  */
-
-class HaveStringChunk
+class HavingStringChunk
 {
     /**
-     * String variable
+     * String variable.
      *
      * @var string
      */
     public $string;
 
     /**
-     * BindWhere variable
+     * BindWhere variable.
      *
      * @var array
      */
@@ -52,9 +50,10 @@ class HaveStringChunk
     }
 
     /**
-     * Flatter function
+     * Flatter function.
      *
      * @param array $array
+     *
      * @return void
      */
     public function flatter($array)

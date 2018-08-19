@@ -1,4 +1,5 @@
 <?php
+
 namespace Dframe\Database\tests;
 
 class QueryTest extends TestSetUp
@@ -7,13 +8,13 @@ class QueryTest extends TestSetUp
     {
         $this->dataSetup = [
             'data1' => [
-                'username' => 'Jack_' . uniqid()
+                'username' => 'Jack_' . uniqid(),
             ],
             'data2' => [
                 ['username' => 'Eli_' . uniqid()],
                 ['username' => 'Mat_' . uniqid()],
-                ['username' => 'Andre_' . uniqid()]
-            ]
+                ['username' => 'Andre_' . uniqid()],
+            ],
         ];
     }
 

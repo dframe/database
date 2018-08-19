@@ -2,14 +2,14 @@
 
 /**
  * DframeFramework - Database
- * Copyright (c) Sławomir Kaleta
+ * Copyright (c) Sławomir Kaleta.
  *
  * @license https://github.com/dframe/database/blob/master/README.md (MIT)
  */
 
 namespace Dframe\Database;
 
-use \PDO;
+use PDO;
 
 class Database extends PdoWrapper
 {
@@ -27,7 +27,7 @@ class Database extends PdoWrapper
     public $addWhereEndParams = [];
 
     /**
-     * __construct function
+     * __construct function.
      *
      * @param array $dsn
      * @param array $config
@@ -39,12 +39,12 @@ class Database extends PdoWrapper
             $this->config = [
                 'logDir' => APP_DIR . 'View/logs/',
                 'attributes' => [
-                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
+                    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,  // Set pdo error mode silent
                     //PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // If you want to Show Class exceptions on Screen, Uncomment below code
                     PDO::ATTR_EMULATE_PREPARES => false, // Use this setting to force PDO to either always emulate prepared statements (if TRUE), or to try to use native prepared statements (if FALSE).
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC // Set default pdo fetch mode as fetch assoc
-                ]
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, // Set default pdo fetch mode as fetch assoc
+                ],
             ];
         }
 
@@ -52,7 +52,7 @@ class Database extends PdoWrapper
     }
 
     /**
-     * GetWhere function
+     * GetWhere function.
      *
      * @return void
      */
@@ -66,7 +66,7 @@ class Database extends PdoWrapper
     }
 
     /**
-     * GetHaving function
+     * GetHaving function.
      *
      * @return void
      */
@@ -80,7 +80,7 @@ class Database extends PdoWrapper
     }
 
     /**
-     * GetParams function
+     * GetParams function.
      *
      * @return void
      */
@@ -88,11 +88,12 @@ class Database extends PdoWrapper
     {
         $setParams = $this->setParams;
         $this->setParams = [];
+
         return $setParams;
     }
 
     /**
-     * GetOrderBy function
+     * GetOrderBy function.
      *
      * @return void
      */
@@ -102,7 +103,7 @@ class Database extends PdoWrapper
     }
 
     /**
-     * GetLimit function
+     * GetLimit function.
      *
      * @return void
      */
@@ -112,7 +113,7 @@ class Database extends PdoWrapper
     }
 
     /**
-     * GetGroupBy function
+     * GetGroupBy function.
      *
      * @return void
      */
@@ -122,7 +123,7 @@ class Database extends PdoWrapper
     }
 
     /**
-     * GetQuery function
+     * GetQuery function.
      *
      * @return void
      */
@@ -146,7 +147,7 @@ class Database extends PdoWrapper
     }
 
     /**
-     * AddWhereBeginParams function
+     * AddWhereBeginParams function.
      *
      * @param array $params
      */
@@ -156,7 +157,7 @@ class Database extends PdoWrapper
     }
 
     /**
-     * addWhereEndParams function
+     * addWhereEndParams function.
      *
      * @param array $params
      */
@@ -166,9 +167,10 @@ class Database extends PdoWrapper
     }
 
     /**
-     * PrepareWhere function
+     * PrepareWhere function.
      *
      * @param Dframe\WhereChunk|Dframe\WhereChunkArray $whereObject
+     *
      * @return void
      */
     public function prepareWhere($whereObject)
@@ -187,7 +189,7 @@ class Database extends PdoWrapper
                     $params[] = $v;
                 }
             }
-            $this->setWhere = " WHERE " . implode(' AND ', $arr);
+            $this->setWhere = ' WHERE ' . implode(' AND ', $arr);
 
             if (is_array($this->setParams) and !empty($this->setParams)) {
                 $this->setParams = array_merge($this->setParams, $params);
@@ -207,9 +209,10 @@ class Database extends PdoWrapper
     }
 
     /**
-     * PrepareHaving function
+     * PrepareHaving function.
      *
      * @param Dframe\WhereChunk $havingObject
+     *
      * @return void
      */
     public function prepareHaving($havingObject)
@@ -219,9 +222,7 @@ class Database extends PdoWrapper
         if (!empty($havingObject)) {
             $arr = [];
             /**
-             *
-             *
-             * @var $chunk WhereChunk
+             * @var WhereChunk
              */
             foreach ($havingObject as $chunk) {
                 list($wSQL, $wParams) = $chunk->build();
@@ -231,7 +232,7 @@ class Database extends PdoWrapper
                 }
             }
 
-            $this->setHaving = " HAVING " . implode(' AND ', $arr);
+            $this->setHaving = ' HAVING ' . implode(' AND ', $arr);
 
             if (is_array($this->setParams) and !empty($this->setParams)) {
                 $this->setParams = array_merge($this->setParams, $params);
@@ -251,16 +252,18 @@ class Database extends PdoWrapper
     }
 
     /**
-     * prepareOrder function
+     * prepareOrder function.
      *
      * @param string $order
      * @param string $sort
+     *
      * @return void
      */
     public function prepareOrder($order = null, $sort = null)
     {
         if ($order == null or $sort == null) {
             $this->setOrderBy = '';
+
             return $this;
         }
 
@@ -269,14 +272,16 @@ class Database extends PdoWrapper
         }
 
         $this->setOrderBy = ' ORDER BY ' . $order . ' ' . $sort;
+
         return $this;
     }
 
     /**
-     * Undocumented function
+     * Undocumented function.
      *
      * @param string $query
-     * @param array $params
+     * @param array  $params
+     *
      * @return void
      */
     public function prepareQuery($query, $params = false)
@@ -295,25 +300,27 @@ class Database extends PdoWrapper
     }
 
     /**
-     * PrepareGroupBy function
+     * PrepareGroupBy function.
      *
      * @param string $groupBy
+     *
      * @return void
      */
     public function prepareGroupBy($groupBy)
     {
         $this->setGroupBy = ' GROUP BY ' . $groupBy;
+
         return $this;
     }
 
     /**
-     * PrepareLimit function
+     * PrepareLimit function.
      *
      * @param int $limit
      * @param int $offset
+     *
      * @return void
      */
-
     public function prepareLimit($limit, $offset)
     {
         if ($offset) {
@@ -326,9 +333,10 @@ class Database extends PdoWrapper
     }
 
     /**
-     * PrepareParms function
+     * PrepareParms function.
      *
      * @param array|string $params
+     *
      * @return void
      */
     public function prepareParms($params)
