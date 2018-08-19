@@ -1,11 +1,12 @@
 <?php
+
 // include pdo helper class to use common methods
 require_once '../src/Helper/PDOHelper.php';
 // include pdo class wrapper
 require_once '../src/class.pdowrapper.php';
 
 // database connection setings
-$dbConfig = ["host" => "localhost", "dbname" => 'sampledb', "username" => 'root', "password" => ''];
+$dbConfig = ['host' => 'localhost', 'dbname' => 'sampledb', 'username' => 'root', 'password' => ''];
 // get instance of PDO Wrapper object
 $db = new PdoWrapper($dbConfig);
 

@@ -1,4 +1,5 @@
 <?php
+
 //300 seconds = 5 minutes execution time
 ini_set('max_execution_time', 300);
 // overrides the default PHP memory limit.
@@ -10,7 +11,7 @@ require_once '../src/Helper/PDOHelper.php';
 require_once '../src/class.pdowrapper.php';
 
 // database connection setings
-$dbConfig = ["host" => "localhost", "dbname" => 'sampledb', "username" => 'root', "password" => ''];
+$dbConfig = ['host' => 'localhost', 'dbname' => 'sampledb', 'username' => 'root', 'password' => ''];
 // get instance of PDO Wrapper object
 $db = new PdoWrapper($dbConfig);
 
@@ -26,13 +27,11 @@ $dataArray = ['first_name' => 'Sid', 'last_name' => 'Mike', 'age' => 45];
 $q = $db->insert('test', $dataArray)->showQuery()->getLastInsertId();
 PDOHelper::PA($q);
 
-
 // Example -2
 $dataArray = ['first_name' => 'Scott', 'last_name' => 'Dimon', 'age' => 55];
 // use insert function
 $q = $db->insert('test', $dataArray)->showQuery()->getLastInsertId();
 PDOHelper::PA($q);
-
 
 // Example -3
 $dataArray = ['first_name' => 'Simran', 'last_name' => 'Singh', 'age' => 25];
@@ -40,13 +39,11 @@ $dataArray = ['first_name' => 'Simran', 'last_name' => 'Singh', 'age' => 25];
 $q = $db->insert('testt', $dataArray)->showQuery()->getLastInsertId();
 PDOHelper::PA($q);
 
-
 // Example -4
 // use insert function
 $q = $db->insert('test', $dataArray)->showQuery()->getLastInsertId();
 // print array last insert id
 PDOHelper::PA($q);
-
 
 // Example -5 (Bulk Insert)
 // loop start to create insert data

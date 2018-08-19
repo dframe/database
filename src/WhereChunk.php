@@ -2,7 +2,7 @@
 
 /**
  * DframeFramework - Database
- * Copyright (c) Sławomir Kaleta
+ * Copyright (c) Sławomir Kaleta.
  *
  * @license https://github.com/dframe/database/blob/master/README.md (MIT)
  */
@@ -11,10 +11,8 @@ namespace Dframe\Database;
 
 /**
  * new WhereChunk('kolumna', 'test', 'LIKE');
- * Based on https://github.com/Appsco/component-share/blob/9b29a7579c9bdcf9832b94b05ecebc74d771adf9/src/BWC/Share/Data/Select.php
- *
+ * Based on https://github.com/Appsco/component-share/blob/9b29a7579c9bdcf9832b94b05ecebc74d771adf9/src/BWC/Share/Data/Select.php.
  */
-
 class WhereChunk
 {
     public $key;
@@ -22,7 +20,7 @@ class WhereChunk
     public $operator;
 
     /**
-     * __construct function
+     * __construct function.
      *
      * @param string $key
      * @param string $value
@@ -36,7 +34,7 @@ class WhereChunk
     }
 
     /**
-     * Build function
+     * Build function.
      *
      * @return array
      */
@@ -52,8 +50,8 @@ class WhereChunk
 
                 $between = explode('AND', $this->value);
 
-                $params[":dateFrom"] = trim($between[0]);
-                $params[":dateTo"] = trim($between[1]);
+                $params[':dateFrom'] = trim($between[0]);
+                $params[':dateTo'] = trim($between[1]);
             } else {
                 $sql = "{$this->key} $op ?";                                    // $sql = "{$this->key} $op {$paramName}";
                 $params[":{$paramName}"] = $this->value;

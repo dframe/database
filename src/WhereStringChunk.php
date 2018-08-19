@@ -2,30 +2,27 @@
 
 /**
  * DframeFramework - Database
- * Copyright (c) Sławomir Kaleta
+ * Copyright (c) Sławomir Kaleta.
  *
  * @license https://github.com/dframe/database/blob/master/README.md (MIT)
  */
-
 
 namespace Dframe\Database;
 
 /**
  * Klasa wspomagająca warunki wyszukiwania
- * new WhereStringChunk('`kolumna` LIKE ?', ['test']);
- *
+ * new WhereStringChunk('`kolumna` LIKE ?', ['test']);.
  */
-
 class WhereStringChunk
 {
     public $string;
     public $bindWhere;
 
     /**
-     * __construct function
+     * __construct function.
      *
      * @param string $string
-     * @param array $bindWhere
+     * @param array  $bindWhere
      */
     public function __construct($string, $bindWhere = null)
     {
@@ -34,7 +31,7 @@ class WhereStringChunk
     }
 
     /**
-     * Build function
+     * Build function.
      *
      * @return array
      */
@@ -53,9 +50,10 @@ class WhereStringChunk
     }
 
     /**
-     * Flatter function
+     * Flatter function.
      *
      * @param array $array
+     *
      * @return void
      */
     public function flatter($array)
@@ -68,7 +66,7 @@ class WhereStringChunk
                 $result[] = $item;
             }
         }
-        
+
         return $result;
     }
 }
