@@ -39,7 +39,7 @@ class PdoWrapper extends \PDO
      *
      * @var object
      */
-    private $_oSTH = null;
+    private $oSTH = null;
 
     /**
      * PDO SQL Statement
@@ -152,14 +152,14 @@ class PdoWrapper extends \PDO
      *
      * @var array
      */
-    private $_db_info = [];
+    private $dbInfo = [];
 
     /**
      * Set PDO valid Query operation
      *
      * @var array
      */
-    private $_aValidOperation = ['SELECT', 'INSERT', 'UPDATE', 'DELETE'];
+    private $aValidOperation = ['SELECT', 'INSERT', 'UPDATE', 'DELETE'];
 
     /**
      * PDO Object
@@ -183,10 +183,10 @@ class PdoWrapper extends \PDO
             if (!isset($dsn['host']) || !isset($dsn['dbname']) || !isset($dsn['username']) || !isset($dsn['password'])) {
                 die("Dude!! You haven't pass valid db config array key.");
             }
-            $this->_db_info = $dsn;
+            $this->dbInfo = $dsn;
         } else {
-            if (count($this->_db_info) > 0) {
-                $dsn = $this->_db_info;
+            if (count($this->dbInfo) > 0) {
+                $dsn = $this->dbInfo;
                 // check valid array key name
                 if (!isset($dsn['host']) || !isset($dsn['dbname']) || !isset($dsn['username']) || !isset($dsn['password'])) {
                     die("Dude!! You haven't set valid db config array key.");
@@ -202,7 +202,7 @@ class PdoWrapper extends \PDO
 
         // Okay, everything is clear. now connect
         // spilt array key in php variable
-        extract($this->_db_info);
+        extract($this->dbInfo);
         // try catch block start
         try {
             
@@ -339,11 +339,11 @@ class PdoWrapper extends \PDO
         // set class property with pass value
         $this->sSql = $sSql;
         // set class statement handler
-        $this->_oSTH = $this->prepare($this->sSql);
+        $this->oSTH = $this->prepare($this->sSql);
 
         // check valid sql operation statement
-        if (!in_array($operation[0], $this->_aValidOperation)) {
-            self::error('invalid operation called in query. use only ' . implode(', ', $this->_aValidOperation) . ' You can have NO SPACE be between ' . implode(', ', $this->_aValidOperation) . ' AND parms');
+        if (!in_array($operation[0], $this->aValidOperation)) {
+            self::error('invalid operation called in query. use only ' . implode(', ', $this->aValidOperation) . ' You can have NO SPACE be between ' . implode(', ', $this->aValidOperation) . ' AND parms');
         }
         
         // sql query pass with no bind param
@@ -352,17 +352,17 @@ class PdoWrapper extends \PDO
             // try catch block start
             try {
                 // execute pdo statement
-                if ($this->_oSTH->execute()) {
+                if ($this->oSTH->execute()) {
                     // get affected rows and set it to class property
-                    $this->iAffectedRows = $this->_oSTH->rowCount();
+                    $this->iAffectedRows = $this->oSTH->rowCount();
                     // set pdo result array with class property
-                    $this->aResults = $this->_oSTH->fetchAll();
+                    $this->aResults = $this->oSTH->fetchAll();
                     // close pdo cursor
-                    $this->_oSTH->closeCursor();
+                    $this->oSTH->closeCursor();
                     // return pdo result
                     return $this;
                 } else {
-                    self::error($this->_oSTH->errorInfo()); // if not run pdo statement sed error
+                    self::error($this->oSTH->errorInfo()); // if not run pdo statement sed error
                 }
             } catch (PDOException $e) {
                 self::error($e->getMessage() . ': ' . __LINE__);
@@ -376,14 +376,14 @@ class PdoWrapper extends \PDO
             // use try catch block to get pdo error
             try {
                 // run pdo statement with bind param
-                if ($this->_oSTH->execute()) {
+                if ($this->oSTH->execute()) {
                     // check operation type
                     switch ($operation[0]) :
                         case 'SELECT':
                         // get affected rows by select statement
-                        $this->iAffectedRows = $this->_oSTH->rowCount();
+                        $this->iAffectedRows = $this->oSTH->rowCount();
                     // get pdo result array
-                    $this->aResults = $this->_oSTH->fetchAll();
+                    $this->aResults = $this->oSTH->fetchAll();
                     // return PDO instance
                     return $this;
                     break;
@@ -395,21 +395,21 @@ class PdoWrapper extends \PDO
                     break;
                     case 'UPDATE':
                         // get affected rows
-                        $this->iAffectedRows = $this->_oSTH->rowCount();
+                        $this->iAffectedRows = $this->oSTH->rowCount();
                     // return PDO instance
                     return $this;
                     break;
                     case 'DELETE':
                         // get affected rows
-                        $this->iAffectedRows = $this->_oSTH->rowCount();
+                        $this->iAffectedRows = $this->oSTH->rowCount();
                     // return PDO instance
                     return $this;
                     break;
                     endswitch;
                     // close pdo cursor
-                    $this->_oSTH->closeCursor();
+                    $this->oSTH->closeCursor();
                 } else {
-                    self::error($this->_oSTH->errorInfo());
+                    self::error($this->oSTH->errorInfo());
                 }
             } catch (PDOException $e) {
                 self::error($e->getMessage() . ': ' . __LINE__);
@@ -463,7 +463,7 @@ class PdoWrapper extends \PDO
             }
             
             // pdo prepare statement with sql query
-            $this->_oSTH = $this->prepare($this->sSql);
+            $this->oSTH = $this->prepare($this->sSql);
             // if where condition has valid array number
 
             if (count($aWhere) > 0 && is_array($aWhere)) {
@@ -473,17 +473,17 @@ class PdoWrapper extends \PDO
             // use try catch block to get pdo error
             try {
                 // check if pdo execute
-                if ($this->_oSTH->execute()) {
+                if ($this->oSTH->execute()) {
                     // set class property with affected rows
-                    $this->iAffectedRows = $this->_oSTH->rowCount();
+                    $this->iAffectedRows = $this->oSTH->rowCount();
                     // set class property with sql result
-                    $this->aResults = $this->_oSTH->fetchAll();
+                    $this->aResults = $this->oSTH->fetchAll();
                     // close pdo
-                    $this->_oSTH->closeCursor();
+                    $this->oSTH->closeCursor();
                     // return self object
                     return $this;
                 } else {
-                    self::error($this->_oSTH->errorInfo());  // catch pdo error
+                    self::error($this->oSTH->errorInfo());  // catch pdo error
                 }
             } catch (PDOException $e) {
                 // get pdo error and pass on error method
@@ -521,7 +521,7 @@ class PdoWrapper extends \PDO
                 // set pdo insert statement in class property
                 $this->sSql = "INSERT INTO `$sTable` ($sFields) VALUES ($sNameSpaceParam);";
                 // pdo prepare statement
-                $this->_oSTH = $this->prepare($this->sSql);
+                $this->oSTH = $this->prepare($this->sSql);
                 // set class where property with array data
                 $this->aData = $aData;
                 // bind pdo param
@@ -529,15 +529,15 @@ class PdoWrapper extends \PDO
                 // use try catch block to get pdo error
                 try {
                     // execute pdo statement
-                    if ($this->_oSTH->execute()) {
+                    if ($this->oSTH->execute()) {
                         // set class property with last insert id
                         $this->iLastId = $this->lastInsertId();
                         // close pdo
-                        $this->_oSTH->closeCursor();
+                        $this->oSTH->closeCursor();
                         // return this object
                         return $this;
                     } else {
-                        self::error($this->_oSTH->errorInfo());
+                        self::error($this->oSTH->errorInfo());
                     }
                 } catch (PDOException $e) {
                     // get pdo error and pass on error method
@@ -589,15 +589,15 @@ class PdoWrapper extends \PDO
                     // return this object
                     // return $this;
                     // pdo prepare statement
-                    $this->_oSTH = $this->prepare($this->sSql);
+                    $this->oSTH = $this->prepare($this->sSql);
                     // start try catch block
                     try {
                         // execute pdo statement
-                        if ($this->_oSTH->execute()) {
+                        if ($this->oSTH->execute()) {
                             // store all last insert id in array
                             $this->iAllLastId[] = $this->lastInsertId();
                         } else {
-                            self::error($this->_oSTH->errorInfo());
+                            self::error($this->oSTH->errorInfo());
                         }
                     } catch (PDOException $e) {
                         // get pdo error and pass on error method
@@ -609,7 +609,7 @@ class PdoWrapper extends \PDO
                     // PDO Commit
                     $this->end();
                     // close pdo
-                    $this->_oSTH->closeCursor();
+                    $this->oSTH->closeCursor();
                     // return this object
                     return $this;
                 }
@@ -618,7 +618,7 @@ class PdoWrapper extends \PDO
                 // set pdo insert statement in class property
                 $this->sSql = "INSERT INTO `$sTable` ($sFields) VALUES ($sNameSpaceParam);";
                 // pdo prepare statement
-                $this->_oSTH = $this->prepare($this->sSql);
+                $this->oSTH = $this->prepare($this->sSql);
                 // set class property with array
                 $this->aData = $aData;
                 // set batch insert flag true
@@ -629,11 +629,11 @@ class PdoWrapper extends \PDO
                     $this->_bindPdoNameSpace($value);
                     try {
                         // execute pdo statement
-                        if ($this->_oSTH->execute()) {
+                        if ($this->oSTH->execute()) {
                             // set class property with last insert id as array
                             $this->iAllLastId[] = $this->lastInsertId();
                         } else {
-                            self::error($this->_oSTH->errorInfo());
+                            self::error($this->oSTH->errorInfo());
                             // on error PDO Rollback
                             $this->back();
                         }
@@ -647,7 +647,7 @@ class PdoWrapper extends \PDO
                 // fine now PDO Commit
                 $this->end();
                 // close pdo
-                $this->_oSTH->closeCursor();
+                $this->oSTH->closeCursor();
                 // return this object
                 return $this;
             } else {
@@ -696,7 +696,7 @@ class PdoWrapper extends \PDO
                 // make sql query to update
                 $this->sSql = "UPDATE `$sTable` SET $sFields WHERE $sWhere $sOther;";
                 // on PDO prepare statement
-                $this->_oSTH = $this->prepare($this->sSql);
+                $this->oSTH = $this->prepare($this->sSql);
                 // bind pdo param for update statement
                 $this->_bindPdoNameSpace($aData);
                 // bind pdo param for where clause
@@ -704,15 +704,15 @@ class PdoWrapper extends \PDO
                 // try catch block start
                 try {
                     // if PDO run
-                    if ($this->_oSTH->execute()) {
+                    if ($this->oSTH->execute()) {
                         // get affected rows
-                        $this->iAffectedRows = $this->_oSTH->rowCount();
+                        $this->iAffectedRows = $this->oSTH->rowCount();
                         // close PDO
-                        $this->_oSTH->closeCursor();
+                        $this->oSTH->closeCursor();
                         // return self object
                         return $this;
                     } else {
-                        self::error($this->_oSTH->errorInfo());
+                        self::error($this->oSTH->errorInfo());
                     }
                 } catch (PDOException $e) {
                     // get pdo error and pass on error method
@@ -751,7 +751,7 @@ class PdoWrapper extends \PDO
                 // set DELETE PDO Statement
                 $this->sSql = "DELETE FROM `$sTable` WHERE $sWhere $sOther;";
                 // Call PDo Prepare Statement
-                $this->_oSTH = $this->prepare($this->sSql);
+                $this->oSTH = $this->prepare($this->sSql);
                 // bind delete where param
                 $this->_bindPdoNameSpace($aWhere);
                 // set array data
@@ -759,15 +759,15 @@ class PdoWrapper extends \PDO
                 // Use try Catch
 
                 try {
-                    if ($this->_oSTH->execute()) {
+                    if ($this->oSTH->execute()) {
                         // get affected rows
-                        $this->iAffectedRows = $this->_oSTH->rowCount();
+                        $this->iAffectedRows = $this->oSTH->rowCount();
                         // close pdo
-                        $this->_oSTH->closeCursor();
+                        $this->oSTH->closeCursor();
                         // return this object
                         return $this;
                     } else {
-                        self::error($this->_oSTH->errorInfo());
+                        self::error($this->oSTH->errorInfo());
                     }
                 } catch (PDOException $e) {
                     // get pdo error and pass on error method
@@ -829,17 +829,17 @@ class PdoWrapper extends \PDO
         
 
             // pdo prepare statement
-            $this->_oSTH = $this->prepare($this->sSql);
+            $this->oSTH = $this->prepare($this->sSql);
             try {
-                if ($this->_oSTH->execute()) {
+                if ($this->oSTH->execute()) {
                     // fetch array result
-                    $this->aResults = $this->_oSTH->fetch();
+                    $this->aResults = $this->oSTH->fetch();
                     // close pdo
-                    $this->_oSTH->closeCursor();
+                    $this->oSTH->closeCursor();
                     // return number of count
                     return $this->aResults['NUMROWS'];
                 } else {
-                    self::error($this->_oSTH->errorInfo());
+                    self::error($this->oSTH->errorInfo());
                 }
             } catch (PDOException $e) {
                 // get pdo error and pass on error method
@@ -863,15 +863,15 @@ class PdoWrapper extends \PDO
             // create count query
             $this->sSql = "TRUNCATE TABLE `$sTable`;";
             // pdo prepare statement
-            $this->_oSTH = $this->prepare($this->sSql);
+            $this->oSTH = $this->prepare($this->sSql);
             try {
-                if ($this->_oSTH->execute()) {
+                if ($this->oSTH->execute()) {
                     // close pdo
-                    $this->_oSTH->closeCursor();
+                    $this->oSTH->closeCursor();
                     // return number of count
                     return true;
                 } else {
-                    self::error($this->_oSTH->errorInfo());
+                    self::error($this->oSTH->errorInfo());
                 }
             } catch (PDOException $e) {
                 // get pdo error and pass on error method
@@ -895,15 +895,15 @@ class PdoWrapper extends \PDO
             // create count query
             $this->sSql = "DROP TABLE `$sTable`;";
             // pdo prepare statement
-            $this->_oSTH = $this->prepare($this->sSql);
+            $this->oSTH = $this->prepare($this->sSql);
             try {
-                if ($this->_oSTH->execute()) {
+                if ($this->oSTH->execute()) {
                     // close pdo
-                    $this->_oSTH->closeCursor();
+                    $this->oSTH->closeCursor();
                     // return number of count
                     return true;
                 } else {
-                    self::error($this->_oSTH->errorInfo());
+                    self::error($this->oSTH->errorInfo());
                 }
             } catch (PDOException $e) {
                 // get pdo error and pass on error method
@@ -923,9 +923,9 @@ class PdoWrapper extends \PDO
     public function describe($sTable = '')
     {
         $this->sSql = $sSql = "DESC $sTable;";
-        $this->_oSTH = $this->prepare($sSql);
-        $this->_oSTH->execute();
-        $aColList = $this->_oSTH->fetchAll();
+        $this->oSTH = $this->prepare($sSql);
+        $this->oSTH->execute();
+        $aColList = $this->oSTH->fetchAll();
 
         foreach ($aColList as $key) {
             $aField[] = $key['Field'];
@@ -985,15 +985,15 @@ class PdoWrapper extends \PDO
                 switch (gettype($array[$f])) :
                     // is string found then pdo param as string
                 case 'string':
-                    $this->_oSTH->bindParam(":s" . "_" . "$field", $array[$f], PDO::PARAM_STR);
+                    $this->oSTH->bindParam(":s" . "_" . "$field", $array[$f], PDO::PARAM_STR);
                 break;
                 // if int found then pdo param set as int
                 case 'integer':
-                    $this->_oSTH->bindParam(":s" . "_" . "$field", $array[$f], PDO::PARAM_INT);
+                    $this->oSTH->bindParam(":s" . "_" . "$field", $array[$f], PDO::PARAM_INT);
                 break;
                 // if boolean found then set pdo param as boolean
                 case 'boolean':
-                    $this->_oSTH->bindParam(":s" . "_" . "$field", $array[$f], PDO::PARAM_BOOL);
+                    $this->oSTH->bindParam(":s" . "_" . "$field", $array[$f], PDO::PARAM_BOOL);
                 break;
                 endswitch;
             } // end for each here
@@ -1005,15 +1005,15 @@ class PdoWrapper extends \PDO
                 switch (gettype($array[$f])) :
                     // is string found then pdo param as string
                 case 'string':
-                    $this->_oSTH->bindParam(":s" . "_" . "$f", $array[$f], PDO::PARAM_STR);
+                    $this->oSTH->bindParam(":s" . "_" . "$f", $array[$f], PDO::PARAM_STR);
                 break;
                 // if int found then pdo param set as int
                 case 'integer':
-                    $this->_oSTH->bindParam(":s" . "_" . "$f", $array[$f], PDO::PARAM_INT);
+                    $this->oSTH->bindParam(":s" . "_" . "$f", $array[$f], PDO::PARAM_INT);
                 break;
                 // if boolean found then set pdo param as boolean
                 case 'boolean':
-                    $this->_oSTH->bindParam(":s" . "_" . "$f", $array[$f], PDO::PARAM_BOOL);
+                    $this->oSTH->bindParam(":s" . "_" . "$f", $array[$f], PDO::PARAM_BOOL);
                 break;
                 endswitch;
             } // end for each here
@@ -1033,15 +1033,15 @@ class PdoWrapper extends \PDO
             switch (gettype($array[$f])) :
                 // is string found then pdo param as string
             case 'string':
-                $this->_oSTH->bindParam($f + 1, $array[$f], PDO::PARAM_STR);
+                $this->oSTH->bindParam($f + 1, $array[$f], PDO::PARAM_STR);
             break;
             // if int found then pdo param set as int
             case 'integer':
-                $this->_oSTH->bindParam($f + 1, $array[$f], PDO::PARAM_INT);
+                $this->oSTH->bindParam($f + 1, $array[$f], PDO::PARAM_INT);
             break;
             // if boolean found then set pdo param as boolean
             case 'boolean':
-                $this->_oSTH->bindParam($f + 1, $array[$f], PDO::PARAM_BOOL);
+                $this->oSTH->bindParam($f + 1, $array[$f], PDO::PARAM_BOOL);
             break;
             endswitch;
         } // end for each here
@@ -1092,7 +1092,7 @@ class PdoWrapper extends \PDO
      */
     protected function interpolateQuery()
     {
-        $sql = $this->_oSTH->queryString;
+        $sql = $this->oSTH->queryString;
         // handle insert batch data
         if (!$this->batch) {
             $params = ((is_array($this->aData)) && (count($this->aData) > 0)) ? $this->aData : $this->sSql;
@@ -1207,7 +1207,7 @@ class PdoWrapper extends \PDO
 
     public function pdoPrepare($statement, $options = [])
     {
-        $this->_oSTH = $this->prepare($statement, $options);
+        $this->oSTH = $this->prepare($statement, $options);
         return $this;
     }
 
@@ -1223,7 +1223,7 @@ class PdoWrapper extends \PDO
     {
 
         // clean query from white space
-        $sSql = trim($this->_oSTH->queryString);
+        $sSql = trim($this->oSTH->queryString);
         // get operation type
         $operation = explode(' ', $sSql);
         // make first word in uppercase
@@ -1236,14 +1236,14 @@ class PdoWrapper extends \PDO
         // use try catch block to get pdo error
         try {
             // run pdo statement with bind param
-            if ($this->_oSTH->execute()) {
+            if ($this->oSTH->execute()) {
                 // check operation type
                 switch ($operation[0]) {
                     case 'SELECT':
                     // get affected rows by select statement
-                        $this->iAffectedRows = $this->_oSTH->rowCount();
+                        $this->iAffectedRows = $this->oSTH->rowCount();
                     // get pdo result array
-                        $this->aResults = $this->_oSTH->fetchAll();
+                        $this->aResults = $this->oSTH->fetchAll();
                     // return PDO instance
                         return $this;
                         break;
@@ -1255,21 +1255,21 @@ class PdoWrapper extends \PDO
                         break;
                     case 'UPDATE':
                     // get affected rows
-                        $this->iAffectedRows = $this->_oSTH->rowCount();
+                        $this->iAffectedRows = $this->oSTH->rowCount();
                     // return PDO instance
                         return $this;
                         break;
                     case 'DELETE':
                     // get affected rows
-                        $this->iAffectedRows = $this->_oSTH->rowCount();
+                        $this->iAffectedRows = $this->oSTH->rowCount();
                     // return PDO instance
                         return $this;
                         break;
                 }
                 // close pdo cursor
-                $this->_oSTH->closeCursor();
+                $this->oSTH->closeCursor();
             } else {
-                self::error($this->_oSTH->errorInfo());
+                self::error($this->oSTH->errorInfo());
             }
         } catch (PDOException $e) {
             // get pdo error and pass on error method

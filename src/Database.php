@@ -13,12 +13,12 @@ use \PDO;
 
 class Database extends PdoWrapper
 {
-    private $_setWhere = null;
-    private $_setHaving = null;
-    private $_setParams = [];
-    private $_setOrderBy = null;
-    private $_setGroupBy = null;
-    private $_setLimit = null;
+    private $setWhere = null;
+    private $setHaving = null;
+    private $setParams = [];
+    private $setOrderBy = null;
+    private $setGroupBy = null;
+    private $setLimit = null;
     protected $config;
 
     public $WhereChunkKey;
@@ -58,11 +58,11 @@ class Database extends PdoWrapper
      */
     public function getWhere()
     {
-        if (!isset($this->_setWhere) or empty($this->_setWhere)) {
-            $this->_setWhere = null;
+        if (!isset($this->setWhere) or empty($this->setWhere)) {
+            $this->setWhere = null;
         }
 
-        return $this->_setWhere;
+        return $this->setWhere;
     }
 
     /**
@@ -72,11 +72,11 @@ class Database extends PdoWrapper
      */
     public function getHaving()
     {
-        if (!isset($this->_setHaving) or empty($this->_setHaving)) {
-            $this->_setHaving = null;
+        if (!isset($this->setHaving) or empty($this->setHaving)) {
+            $this->setHaving = null;
         }
 
-        return $this->_setHaving;
+        return $this->setHaving;
     }
 
     /**
@@ -86,9 +86,9 @@ class Database extends PdoWrapper
      */
     public function getParams()
     {
-        $_setParams = $this->_setParams;
-        $this->_setParams = [];
-        return $_setParams;
+        $setParams = $this->setParams;
+        $this->setParams = [];
+        return $setParams;
     }
 
     /**
@@ -98,7 +98,7 @@ class Database extends PdoWrapper
      */
     public function getOrderBy()
     {
-        return $this->_setOrderBy;
+        return $this->setOrderBy;
     }
 
     /**
@@ -108,7 +108,7 @@ class Database extends PdoWrapper
      */
     public function getLimit()
     {
-        return $this->_setLimit;
+        return $this->setLimit;
     }
 
     /**
@@ -118,7 +118,7 @@ class Database extends PdoWrapper
      */
     public function getGroupBy()
     {
-        return $this->_setGroupBy;
+        return $this->setGroupBy;
     }
 
     /**
@@ -136,11 +136,11 @@ class Database extends PdoWrapper
         $sql .= $this->getLimit();
 
         $this->setQuery = null;
-        $this->_setWhere = null;
-        $this->_setHaving = null;
-        $this->_setOrderBy = null;
-        $this->_setGroupBy = null;
-        $this->_setLimit = null;
+        $this->setWhere = null;
+        $this->setHaving = null;
+        $this->setOrderBy = null;
+        $this->setGroupBy = null;
+        $this->setLimit = null;
 
         return str_replace('  ', ' ', $sql);
     }
@@ -152,7 +152,7 @@ class Database extends PdoWrapper
      */
     public function addWhereBeginParams($params)
     {
-        array_unshift($this->_setParams, $params);
+        array_unshift($this->setParams, $params);
     }
 
     /**
@@ -162,7 +162,7 @@ class Database extends PdoWrapper
      */
     public function addWhereEndParams($params)
     {
-        array_push($this->_setParams, $params);
+        array_push($this->setParams, $params);
     }
 
     /**
@@ -187,16 +187,16 @@ class Database extends PdoWrapper
                     $params[] = $v;
                 }
             }
-            $this->_setWhere = " WHERE " . implode(' AND ', $arr);
+            $this->setWhere = " WHERE " . implode(' AND ', $arr);
 
-            if (is_array($this->_setParams) and !empty($this->_setParams)) {
-                $this->_setParams = array_merge($this->_setParams, $params);
+            if (is_array($this->setParams) and !empty($this->setParams)) {
+                $this->setParams = array_merge($this->setParams, $params);
             } else {
-                $this->_setParams = $params;
+                $this->setParams = $params;
             }
         } else {
-            $this->_setWhere = null;
-            //$this->_setParams = [];
+            $this->setWhere = null;
+            //$this->setParams = [];
         }
 
         //if (!empty($order))
@@ -231,16 +231,16 @@ class Database extends PdoWrapper
                 }
             }
 
-            $this->_setHaving = " HAVING " . implode(' AND ', $arr);
+            $this->setHaving = " HAVING " . implode(' AND ', $arr);
 
-            if (is_array($this->_setParams) and !empty($this->_setParams)) {
-                $this->_setParams = array_merge($this->_setParams, $params);
+            if (is_array($this->setParams) and !empty($this->setParams)) {
+                $this->setParams = array_merge($this->setParams, $params);
             } else {
-                $this->_setParams = $params;
+                $this->setParams = $params;
             }
         } else {
-            $this->_setHaving = null;
-            //$this->_setParams = [];
+            $this->setHaving = null;
+            //$this->setParams = [];
         }
 
         //if (!empty($order))
@@ -260,7 +260,7 @@ class Database extends PdoWrapper
     public function prepareOrder($order = null, $sort = null)
     {
         if ($order == null or $sort == null) {
-            $this->_setOrderBy = '';
+            $this->setOrderBy = '';
             return $this;
         }
 
@@ -268,7 +268,7 @@ class Database extends PdoWrapper
             $sort = 'DESC';
         }
 
-        $this->_setOrderBy = ' ORDER BY ' . $order . ' ' . $sort;
+        $this->setOrderBy = ' ORDER BY ' . $order . ' ' . $sort;
         return $this;
     }
 
@@ -302,7 +302,7 @@ class Database extends PdoWrapper
      */
     public function prepareGroupBy($groupBy)
     {
-        $this->_setGroupBy = ' GROUP BY ' . $groupBy;
+        $this->setGroupBy = ' GROUP BY ' . $groupBy;
         return $this;
     }
 
@@ -317,9 +317,9 @@ class Database extends PdoWrapper
     public function prepareLimit($limit, $offset)
     {
         if ($offset) {
-            $this->_setLimit = ' LIMIT ' . $limit . ', ' . $offset . '';
+            $this->setLimit = ' LIMIT ' . $limit . ', ' . $offset . '';
         } else {
-            $this->_setLimit = ' LIMIT ' . $limit . '';
+            $this->setLimit = ' LIMIT ' . $limit . '';
         }
 
         return $this;
@@ -335,10 +335,10 @@ class Database extends PdoWrapper
     {
         if (is_array($params)) {
             foreach ($params as $key => $value) {
-                array_push($this->_setParams, $value);
+                array_push($this->setParams, $value);
             }
         } else {
-            array_push($this->_setParams, $params);
+            array_push($this->setParams, $params);
         }
     }
 }
