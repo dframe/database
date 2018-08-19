@@ -96,7 +96,7 @@ class PDOHelper
         // convert in array
         $list = explode('|', $reserveSqlKey);
         foreach ($list as &$verb) {
-            $verb = '/\b'.preg_quote($verb, '/').'\b/';
+            $verb = '/\b' . preg_quote($verb, '/') . '\b/';
         }
         $regex_sign = ['/\b', '\b/'];
         // replace matching words
@@ -145,7 +145,7 @@ class PDOHelper
             $r .= '<thead>';
             $r .= '<tr>';
             foreach ($aColList[0] as $k => $v) {
-                $r .= '<td>'.$k.'</td>';
+                $r .= '<td>' . $k . '</td>';
             }
             $r .= '</tr>';
             $r .= '</thead>';
@@ -153,7 +153,7 @@ class PDOHelper
             foreach ($aColList as $record) {
                 $r .= '<tr>';
                 foreach ($record as $data) {
-                    $r .= '<td>'.$data.'</td>';
+                    $r .= '<td>' . $data . '</td>';
                 }
                 $r .= '</tr>';
             }
@@ -205,7 +205,7 @@ class PDOHelper
     public function errorBox($data = [])
     {
         $style = "style='color:#333846; border:1px solid #777; padding:2px; background-color: #FFC0CB;'";
-        die("<div $style >ERROR:".json_encode($data).'</div>');
+        die("<div $style >ERROR:" . json_encode($data) . '</div>');
     }
 }
 /*
