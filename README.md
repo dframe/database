@@ -135,6 +135,12 @@ $query->prepareOrder('col_id', 'DESC');
 $results = $this->baseClass->db->pdoQuery($query->getQuery(), $query->getParams())->results();
 ```
 
+HavingStringChunk
+===================
+```php
+$where[] = new Dframe\Database\HavingStringChunk('col_id = ?', ['1']); // col_id > 1
+```
+
 ### Original author
 
 neerajsinghsonu/PDO_Class_Wrapper [^neerajsinghsonu/PDO_Class_Wrapper]
