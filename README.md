@@ -128,7 +128,7 @@ $where[] = new Dframe\Database\WhereStringChunk('col_id > ?', ['1']); // col_id 
 
 Query builder
 ===================
-```
+```php
 $query = $this->baseClass->db->prepareQuery('SELECT * FROM users');
 $query->prepareWhere($where);
 $query->prepareOrder('col_id', 'DESC');
