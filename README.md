@@ -138,7 +138,7 @@ $results = $this->baseClass->db->pdoQuery($query->getQuery(), $query->getParams(
 HavingStringChunk
 ===================
 ```php
-$where[] = new Dframe\Database\HavingStringChunk('col_id = ?', ['1']); // col_id > 1
+$where[] = new Dframe\Database\HavingStringChunk('col_id > ?', ['1']); // col_id > 1
 ```
 
 ### Original author
