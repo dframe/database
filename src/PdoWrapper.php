@@ -347,29 +347,29 @@ class PdoWrapper extends \PDO
                         case 'SELECT':
                             // get affected rows by select statement
                             $this->iAffectedRows = $this->oSTH->rowCount();
-                            // get pdo result array
-                            $this->aResults = $this->oSTH->fetchAll();
-                            // return PDO instance
-                            return $this;
-                            break;
-                        case 'INSERT':
+                    // get pdo result array
+                    $this->aResults = $this->oSTH->fetchAll();
+                    // return PDO instance
+                    return $this;
+                    break;
+                    case 'INSERT':
                             // return last insert id
                             $this->iLastId = $this->lastInsertId();
-                            // return PDO instance
-                            return $this;
-                            break;
-                        case 'UPDATE':
+                    // return PDO instance
+                    return $this;
+                    break;
+                    case 'UPDATE':
                             // get affected rows
                             $this->iAffectedRows = $this->oSTH->rowCount();
-                            // return PDO instance
-                            return $this;
-                            break;
-                        case 'DELETE':
+                    // return PDO instance
+                    return $this;
+                    break;
+                    case 'DELETE':
                             // get affected rows
                             $this->iAffectedRows = $this->oSTH->rowCount();
-                            // return PDO instance
-                            return $this;
-                            break;
+                    // return PDO instance
+                    return $this;
+                    break;
                     endswitch;
                     // close pdo cursor
                     $this->oSTH->closeCursor();
@@ -548,15 +548,15 @@ class PdoWrapper extends \PDO
                 // is string found then pdo param as string
                 case 'string':
                     $this->oSTH->bindParam($f + 1, $array[$f], PDO::PARAM_STR);
-                    break;
-                // if int found then pdo param set as int
-                case 'integer':
+            break;
+            // if int found then pdo param set as int
+            case 'integer':
                     $this->oSTH->bindParam($f + 1, $array[$f], PDO::PARAM_INT);
-                    break;
-                // if boolean found then set pdo param as boolean
-                case 'boolean':
+            break;
+            // if boolean found then set pdo param as boolean
+            case 'boolean':
                     $this->oSTH->bindParam($f + 1, $array[$f], PDO::PARAM_BOOL);
-                    break;
+            break;
             endswitch;
         } // end for each here
     }
@@ -689,15 +689,15 @@ class PdoWrapper extends \PDO
                     // is string found then pdo param as string
                     case 'string':
                         $this->oSTH->bindParam(':s' . '_' . "$field", $array[$f], PDO::PARAM_STR);
-                        break;
-                    // if int found then pdo param set as int
-                    case 'integer':
+                break;
+                // if int found then pdo param set as int
+                case 'integer':
                         $this->oSTH->bindParam(':s' . '_' . "$field", $array[$f], PDO::PARAM_INT);
-                        break;
-                    // if boolean found then set pdo param as boolean
-                    case 'boolean':
+                break;
+                // if boolean found then set pdo param as boolean
+                case 'boolean':
                         $this->oSTH->bindParam(':s' . '_' . "$field", $array[$f], PDO::PARAM_BOOL);
-                        break;
+                break;
                 endswitch;
             } // end for each here
         } else {
@@ -709,15 +709,15 @@ class PdoWrapper extends \PDO
                     // is string found then pdo param as string
                     case 'string':
                         $this->oSTH->bindParam(':s' . '_' . "$f", $array[$f], PDO::PARAM_STR);
-                        break;
-                    // if int found then pdo param set as int
-                    case 'integer':
+                break;
+                // if int found then pdo param set as int
+                case 'integer':
                         $this->oSTH->bindParam(':s' . '_' . "$f", $array[$f], PDO::PARAM_INT);
-                        break;
-                    // if boolean found then set pdo param as boolean
-                    case 'boolean':
+                break;
+                // if boolean found then set pdo param as boolean
+                case 'boolean':
                         $this->oSTH->bindParam(':s' . '_' . "$f", $array[$f], PDO::PARAM_BOOL);
-                        break;
+                break;
                 endswitch;
             } // end for each here
         }
