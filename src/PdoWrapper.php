@@ -173,7 +173,7 @@ class PdoWrapper extends \PDO
      *
      * @param array $dsn
      *
-     * @throws Exception
+     * @param array $settings
      */
     public function __construct($dsn = [], $settings = ['attributes' => []])
     {
@@ -269,7 +269,7 @@ class PdoWrapper extends \PDO
      *
      * @param int $iRow
      *
-     * @return array:boolean
+     * @return array|bool
      */
     public function result($iRow = 0)
     {
@@ -279,7 +279,7 @@ class PdoWrapper extends \PDO
     /**
      * Get Affected rows by PDO Statement.
      *
-     * @return number:boolean
+     * @return int|bool
      */
     public function affectedRows()
     {
@@ -289,7 +289,7 @@ class PdoWrapper extends \PDO
     /**
      * Get Last Insert id by Insert query.
      *
-     * @return number
+     * @return int
      */
     public function getLastInsertId()
     {
@@ -322,7 +322,7 @@ class PdoWrapper extends \PDO
      * @param string $sSql
      * @param array  $aBindWhereParam Bind Param Value
      *
-     * @return PdoWrapper|multi type:|number
+     * @return self|void
      */
     public function pdoQuery($sSql = '', $aBindWhereParam = [])
     {
@@ -429,7 +429,7 @@ class PdoWrapper extends \PDO
      * @param array  $aWhere
      * @param string $sOther
      *
-     * @return multi type: array/error
+     * @return self type: array/error
      */
     public function select($sTable = '', $aColumn = [], $aWhere = [], $sOther = '')
     {
@@ -503,7 +503,7 @@ class PdoWrapper extends \PDO
      * @param string $sTable
      * @param array  $aData
      *
-     * @return number last insert ID
+     * @return self|void
      */
     public function insert($sTable, $aData = [])
     {
@@ -561,7 +561,7 @@ class PdoWrapper extends \PDO
      * @param array  $aData          mysql insert array data
      * @param bool   $safeModeInsert set true if want to use pdo bind param
      *
-     * @return number last insert ID
+     * @return self last insert ID
      */
     public function insertBatch($sTable, $aData = [], $safeModeInsert = true)
     {
@@ -672,7 +672,7 @@ class PdoWrapper extends \PDO
      * @param array  $aWhere
      * @param string $sOther
      *
-     * @return number
+     * @return self|void
      */
     public function update($sTable = '', $aData = [], $aWhere = [], $sOther = '')
     {
@@ -739,7 +739,7 @@ class PdoWrapper extends \PDO
      * @param array  $aWhere
      * @param string $sOther
      *
-     * @return object PDO object
+     * @return self|void
      */
     public function delete($sTable, $aWhere = [], $sOther = '')
     {
@@ -1084,7 +1084,7 @@ class PdoWrapper extends \PDO
      *
      * @param bool $logfile set true if wanna log all query in file
      *
-     * @return PdoWrapper
+     * @return self
      */
     public function showQuery($logfile = false)
     {
@@ -1217,7 +1217,7 @@ class PdoWrapper extends \PDO
      * @param string $statement
      * @param array  $options   Value
      *
-     * @return PdoWrapper
+     * @return self
      */
     public function pdoPrepare($statement, $options = [])
     {
@@ -1231,7 +1231,7 @@ class PdoWrapper extends \PDO
      *
      * @param array Bind Param Value
      *
-     * @return PdoWrapper|multi type:|number
+     * @return self|int
      */
     public function execute($aBindWhereParam = [])
     {

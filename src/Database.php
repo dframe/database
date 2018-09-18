@@ -11,6 +11,11 @@ namespace Dframe\Database;
 
 use PDO;
 
+/**
+ * Class Database
+ *
+ * @package Dframe\Database
+ */
 class Database extends PdoWrapper
 {
     private $setWhere = null;
@@ -82,7 +87,7 @@ class Database extends PdoWrapper
     /**
      * GetParams function.
      *
-     * @return void
+     * @return array
      */
     public function getParams()
     {
@@ -171,7 +176,7 @@ class Database extends PdoWrapper
      *
      * @param Dframe\WhereChunk|Dframe\WhereChunkArray $whereObject
      *
-     * @return void
+     * @return Database
      */
     public function prepareWhere($whereObject)
     {
@@ -213,7 +218,7 @@ class Database extends PdoWrapper
      *
      * @param Dframe\WhereChunk $havingObject
      *
-     * @return void
+     * @return Database
      */
     public function prepareHaving($havingObject)
     {
@@ -257,7 +262,7 @@ class Database extends PdoWrapper
      * @param string $order
      * @param string $sort
      *
-     * @return void
+     * @return Database
      */
     public function prepareOrder($order = null, $sort = null)
     {
@@ -280,9 +285,9 @@ class Database extends PdoWrapper
      * Undocumented function.
      *
      * @param string $query
-     * @param array  $params
+     * @param bool   $params
      *
-     * @return void
+     * @return Database
      */
     public function prepareQuery($query, $params = false)
     {
@@ -304,7 +309,7 @@ class Database extends PdoWrapper
      *
      * @param string $groupBy
      *
-     * @return void
+     * @return Database
      */
     public function prepareGroupBy($groupBy)
     {
@@ -319,7 +324,7 @@ class Database extends PdoWrapper
      * @param int $limit
      * @param int $offset
      *
-     * @return void
+     * @return Database
      */
     public function prepareLimit($limit, $offset)
     {

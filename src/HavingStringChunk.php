@@ -29,12 +29,21 @@ class HavingStringChunk
      */
     public $bindWhere;
 
+    /**
+     * HavingStringChunk constructor.
+     *
+     * @param      $string
+     * @param null $bindWhere
+     */
     public function __construct($string, $bindWhere = null)
     {
         $this->string = $string;
         $this->bindWhere = $bindWhere;
     }
 
+    /**
+     * @return array
+     */
     public function build()
     {
         $paramName = str_replace('.', '_', $this->string);
