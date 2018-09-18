@@ -16,6 +16,7 @@ namespace Dframe\Database;
 class WhereStringChunk
 {
     public $string;
+
     public $bindWhere;
 
     /**

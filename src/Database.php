@@ -18,18 +18,27 @@ use PDO;
  */
 class Database extends PdoWrapper
 {
-    private $setWhere = null;
-    private $setHaving = null;
-    private $setParams = [];
-    private $setOrderBy = null;
-    private $setGroupBy = null;
-    private $setLimit = null;
+    public $WhereChunkKey;
+
+    public $WhereChunkValue;
+
+    public $WhereChunkperator;
+
+    public $addWhereEndParams = [];
+
     protected $config;
 
-    public $WhereChunkKey;
-    public $WhereChunkValue;
-    public $WhereChunkperator;
-    public $addWhereEndParams = [];
+    private $setWhere = null;
+
+    private $setHaving = null;
+
+    private $setParams = [];
+
+    private $setOrderBy = null;
+
+    private $setGroupBy = null;
+
+    private $setLimit = null;
 
     /**
      * __construct function.
@@ -57,34 +66,6 @@ class Database extends PdoWrapper
     }
 
     /**
-     * GetWhere function.
-     *
-     * @return void
-     */
-    public function getWhere()
-    {
-        if (!isset($this->setWhere) or empty($this->setWhere)) {
-            $this->setWhere = null;
-        }
-
-        return $this->setWhere;
-    }
-
-    /**
-     * GetHaving function.
-     *
-     * @return void
-     */
-    public function getHaving()
-    {
-        if (!isset($this->setHaving) or empty($this->setHaving)) {
-            $this->setHaving = null;
-        }
-
-        return $this->setHaving;
-    }
-
-    /**
      * GetParams function.
      *
      * @return array
@@ -95,60 +76,6 @@ class Database extends PdoWrapper
         $this->setParams = [];
 
         return $setParams;
-    }
-
-    /**
-     * GetOrderBy function.
-     *
-     * @return void
-     */
-    public function getOrderBy()
-    {
-        return $this->setOrderBy;
-    }
-
-    /**
-     * GetLimit function.
-     *
-     * @return void
-     */
-    public function getLimit()
-    {
-        return $this->setLimit;
-    }
-
-    /**
-     * GetGroupBy function.
-     *
-     * @return void
-     */
-    public function getGroupBy()
-    {
-        return $this->setGroupBy;
-    }
-
-    /**
-     * GetQuery function.
-     *
-     * @return void
-     */
-    public function getQuery()
-    {
-        $sql = $this->setQuery;
-        $sql .= $this->getWhere();
-        $sql .= $this->getGroupBy();
-        $sql .= $this->getOrderBy();
-        $sql .= $this->getHaving();
-        $sql .= $this->getLimit();
-
-        $this->setQuery = null;
-        $this->setWhere = null;
-        $this->setHaving = null;
-        $this->setOrderBy = null;
-        $this->setGroupBy = null;
-        $this->setLimit = null;
-
-        return str_replace('  ', ' ', $sql);
     }
 
     /**
@@ -305,6 +232,106 @@ class Database extends PdoWrapper
     }
 
     /**
+     * PrepareParms function.
+     *
+     * @param array|string $params
+     *
+     * @return void
+     */
+    public function prepareParms($params)
+    {
+        if (is_array($params)) {
+            foreach ($params as $key => $value) {
+                array_push($this->setParams, $value);
+            }
+        } else {
+            array_push($this->setParams, $params);
+        }
+    }
+
+    /**
+     * GetQuery function.
+     *
+     * @return void
+     */
+    public function getQuery()
+    {
+        $sql = $this->setQuery;
+        $sql .= $this->getWhere();
+        $sql .= $this->getGroupBy();
+        $sql .= $this->getOrderBy();
+        $sql .= $this->getHaving();
+        $sql .= $this->getLimit();
+
+        $this->setQuery = null;
+        $this->setWhere = null;
+        $this->setHaving = null;
+        $this->setOrderBy = null;
+        $this->setGroupBy = null;
+        $this->setLimit = null;
+
+        return str_replace('  ', ' ', $sql);
+    }
+
+    /**
+     * GetWhere function.
+     *
+     * @return void
+     */
+    public function getWhere()
+    {
+        if (!isset($this->setWhere) or empty($this->setWhere)) {
+            $this->setWhere = null;
+        }
+
+        return $this->setWhere;
+    }
+
+    /**
+     * GetGroupBy function.
+     *
+     * @return void
+     */
+    public function getGroupBy()
+    {
+        return $this->setGroupBy;
+    }
+
+    /**
+     * GetOrderBy function.
+     *
+     * @return void
+     */
+    public function getOrderBy()
+    {
+        return $this->setOrderBy;
+    }
+
+    /**
+     * GetHaving function.
+     *
+     * @return void
+     */
+    public function getHaving()
+    {
+        if (!isset($this->setHaving) or empty($this->setHaving)) {
+            $this->setHaving = null;
+        }
+
+        return $this->setHaving;
+    }
+
+    /**
+     * GetLimit function.
+     *
+     * @return void
+     */
+    public function getLimit()
+    {
+        return $this->setLimit;
+    }
+
+    /**
      * PrepareGroupBy function.
      *
      * @param string $groupBy
@@ -335,23 +362,5 @@ class Database extends PdoWrapper
         }
 
         return $this;
-    }
-
-    /**
-     * PrepareParms function.
-     *
-     * @param array|string $params
-     *
-     * @return void
-     */
-    public function prepareParms($params)
-    {
-        if (is_array($params)) {
-            foreach ($params as $key => $value) {
-                array_push($this->setParams, $value);
-            }
-        } else {
-            array_push($this->setParams, $params);
-        }
     }
 }

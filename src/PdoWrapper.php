@@ -35,11 +35,18 @@ use PDO;
 class PdoWrapper extends \PDO
 {
     /**
-     * PHP Statement Handler.
+     * PDO Error File.
+     *
+     * @var string
+     */
+    const LOG_FILE = 'mysql.error.log';
+
+    /**
+     * PDO Object.
      *
      * @var object
      */
-    private $oSTH = null;
+    protected static $oPDO = null;
 
     /**
      * PDO SQL Statement.
@@ -141,11 +148,11 @@ class PdoWrapper extends \PDO
     public $batch = false;
 
     /**
-     * PDO Error File.
+     * PHP Statement Handler.
      *
-     * @var string
+     * @var object
      */
-    const LOG_FILE = 'mysql.error.log';
+    private $oSTH = null;
 
     /**
      * PDO Config/Settings.
@@ -160,13 +167,6 @@ class PdoWrapper extends \PDO
      * @var array
      */
     private $aValidOperation = ['SELECT', 'INSERT', 'UPDATE', 'DELETE'];
-
-    /**
-     * PDO Object.
-     *
-     * @var object
-     */
-    protected static $oPDO = null;
 
     /**
      * Auto Start on Object init.
@@ -238,33 +238,6 @@ class PdoWrapper extends \PDO
     }
 
     /**
-     * Start PDO Transaction.
-     */
-    public function start()
-    {
-        // begin the transaction
-        $this->beginTransaction();
-    }
-
-    /**
-     * Start PDO Commit.
-     */
-    public function end()
-    {
-        // commit the transaction
-        $this->commit();
-    }
-
-    /**
-     * Start PDO Rollback.
-     */
-    public function back()
-    {
-        // roll back the transaction if we fail
-        $this->rollback();
-    }
-
-    /**
      * Return PDO Query result by index value.
      *
      * @param int $iRow
@@ -304,16 +277,6 @@ class PdoWrapper extends \PDO
     public function getAllLastInsertId()
     {
         return $this->iAllLastId;
-    }
-
-    /**
-     * Get Helper Object.
-     *
-     * @return PDOHelper
-     */
-    public function helper()
-    {
-        return new PDOHelper();
     }
 
     /**
@@ -382,31 +345,31 @@ class PdoWrapper extends \PDO
                     // check operation type
                     switch ($operation[0]) :
                         case 'SELECT':
-                        // get affected rows by select statement
-                        $this->iAffectedRows = $this->oSTH->rowCount();
-                    // get pdo result array
-                        $this->aResults = $this->oSTH->fetchAll();
-                    // return PDO instance
-                        return $this;
-                        break;
-                    case 'INSERT':
-                        // return last insert id
-                        $this->iLastId = $this->lastInsertId();
-                    // return PDO instance
-                        return $this;
-                        break;
-                    case 'UPDATE':
-                        // get affected rows
-                        $this->iAffectedRows = $this->oSTH->rowCount();
-                    // return PDO instance
-                        return $this;
-                        break;
-                    case 'DELETE':
-                        // get affected rows
-                        $this->iAffectedRows = $this->oSTH->rowCount();
-                    // return PDO instance
-                        return $this;
-                        break;
+                            // get affected rows by select statement
+                            $this->iAffectedRows = $this->oSTH->rowCount();
+                            // get pdo result array
+                            $this->aResults = $this->oSTH->fetchAll();
+                            // return PDO instance
+                            return $this;
+                            break;
+                        case 'INSERT':
+                            // return last insert id
+                            $this->iLastId = $this->lastInsertId();
+                            // return PDO instance
+                            return $this;
+                            break;
+                        case 'UPDATE':
+                            // get affected rows
+                            $this->iAffectedRows = $this->oSTH->rowCount();
+                            // return PDO instance
+                            return $this;
+                            break;
+                        case 'DELETE':
+                            // get affected rows
+                            $this->iAffectedRows = $this->oSTH->rowCount();
+                            // return PDO instance
+                            return $this;
+                            break;
                     endswitch;
                     // close pdo cursor
                     $this->oSTH->closeCursor();
@@ -419,6 +382,183 @@ class PdoWrapper extends \PDO
         } else {
             self::error('Error Query');
         }
+    }
+
+    /**
+     * Catch Error in txt file.
+     *
+     * @param mixed $msg
+     */
+    public function error($msg)
+    {
+        file_put_contents($this->config['logDir'] . self::LOG_FILE, date('Y-m-d h:m:s') . ' :: ' . $msg . "\n", FILE_APPEND);
+
+        // log set as true
+        if ($this->log) {
+            // show executed query with error
+            $this->showQuery();
+            // die code
+            $this->helper()->errorBox($msg);
+        }
+    }
+
+    /**
+     * Show executed query on call.
+     *
+     * @param bool $logfile set true if wanna log all query in file
+     *
+     * @return self
+     */
+    public function showQuery($logfile = false)
+    {
+        if (!$logfile) {
+            echo "<div style='color:#990099; border:1px solid #777; padding:2px; background-color: #E5E5E5;'>";
+            echo " Executed Query -> <span style='color:#008000;'> ";
+            echo $this->helper()->formatSQL($this->interpolateQuery());
+            echo '</span></div>';
+        }
+
+        file_put_contents($this->config['logDir'] . self::LOG_FILE, date('Y-m-d h:m:s') . ' :: ' . $this->interpolateQuery() . "\n", FILE_APPEND);
+
+        return $this;
+    }
+
+    /**
+     * Get Helper Object.
+     *
+     * @return PDOHelper
+     */
+    public function helper()
+    {
+        return new PDOHelper();
+    }
+
+    /**
+     * Replaces any parameter placeholders in a query with the value of that
+     * parameter. Useful for debugging. Assumes anonymous parameters from.
+     *
+     * @return mixed
+     */
+    protected function interpolateQuery()
+    {
+        $sql = $this->oSTH->queryString;
+        // handle insert batch data
+        if (!$this->batch) {
+            $params = ((is_array($this->aData)) && (count($this->aData) > 0)) ? $this->aData : $this->sSql;
+            if (is_array($params)) {
+                // build a regular expression for each parameter
+                foreach ($params as $key => $value) {
+                    if (strstr($key, ' ')) {
+                        $real_key = $this->getFieldFromArrayKey($key);
+                        // update param value with quotes, if string value
+                        $params[$key] = is_string($value) ? '"' . $value . '"' : $value;
+                        // make replace array
+                        $keys[] = is_string($real_key) ? '/:s_' . $real_key . '/' : '/[?]/';
+                    } else {
+                        // update param value with quotes, if string value
+                        $params[$key] = is_string($value) ? '"' . $value . '"' : $value;
+                        // make replace array
+                        $keys[] = is_string($key) ? '/:s_' . $key . '/' : '/[?]/';
+                    }
+                }
+                $sql = preg_replace($keys, $params, $sql, 1, $count);
+
+                if (strstr($sql, ':s_')) {
+                    foreach ($this->aWhere as $key => $value) {
+                        if (strstr($key, ' ')) {
+                            $real_key = $this->getFieldFromArrayKey($key);
+                            // update param value with quotes, if string value
+                            $params[$key] = is_string($value) ? '"' . $value . '"' : $value;
+                            // make replace array
+                            $keys[] = is_string($real_key) ? '/:s_' . $real_key . '/' : '/[?]/';
+                        } else {
+                            // update param value with quotes, if string value
+                            $params[$key] = is_string($value) ? '"' . $value . '"' : $value;
+                            // make replace array
+                            $keys[] = is_string($key) ? '/:s_' . $key . '/' : '/[?]/';
+                        }
+                    }
+                    $sql = preg_replace($keys, $params, $sql, 1, $count);
+                }
+
+                return $sql;
+                // trigger_error('replaced '.$count.' keys');
+            }
+
+            return $params;
+        } else {
+            $params_batch = ((is_array($this->aData)) && (count($this->aData) > 0)) ? $this->aData : $this->sSql;
+            $batch_query = '';
+
+            if (is_array($params_batch)) {
+                // build a regular expression for each parameter
+                foreach ($params_batch as $keys => $params) {
+                    echo $params;
+                    foreach ($params as $key => $value) {
+                        if (strstr($key, ' ')) {
+                            $real_key = $this->getFieldFromArrayKey($key);
+                            // update param value with quotes, if string value
+                            $params[$key] = is_string($value) ? '"' . $value . '"' : $value;
+                            // make replace array
+                            $array_keys[] = is_string($real_key) ? '/:s_' . $real_key . '/' : '/[?]/';
+                        } else {
+                            // update param value with quotes, if string value
+                            $params[$key] = is_string($value) ? '"' . $value . '"' : $value;
+                            // make replace array
+                            $array_keys[] = is_string($key) ? '/:s_' . $key . '/' : '/[?]/';
+                        }
+                    }
+                    $batch_query .= '<br />' . preg_replace($array_keys, $params, $sql, 1, $count);
+                }
+
+                return $batch_query;
+                // trigger_error('replaced '.$count.' keys');
+            }
+
+            return $params_batch;
+        }
+    }
+
+    /**
+     * Return real table column from array key.
+     *
+     * @param string $array_key
+     *
+     * @return mixed
+     */
+    public function getFieldFromArrayKey($array_key)
+    {
+        // get table column from array key
+        $key_array = explode(' ', $array_key);
+        // check no of chunk
+        return (count($key_array) == '2') ? $key_array[0] : ((count($key_array) > 2) ? $key_array[1] : $key_array[0]);
+    }
+
+    /**
+     * Bind PDO Param without :namespace.
+     *
+     * @param array $array
+     */
+    private function _bindPdoParam($array = [])
+    {
+        // bind array data in pdo
+        foreach ($array as $f => $v) {
+            // check pass data type for appropriate field
+            switch (gettype($array[$f])) :
+                // is string found then pdo param as string
+                case 'string':
+                    $this->oSTH->bindParam($f + 1, $array[$f], PDO::PARAM_STR);
+                    break;
+                // if int found then pdo param set as int
+                case 'integer':
+                    $this->oSTH->bindParam($f + 1, $array[$f], PDO::PARAM_INT);
+                    break;
+                // if boolean found then set pdo param as boolean
+                case 'boolean':
+                    $this->oSTH->bindParam($f + 1, $array[$f], PDO::PARAM_BOOL);
+                    break;
+            endswitch;
+        } // end for each here
     }
 
     /**
@@ -494,6 +634,92 @@ class PdoWrapper extends \PDO
             } // end try catch block to get pdo error
         } else { // if table name empty
             self::error('Table name not found..');
+        }
+    }
+
+    /**
+     * @param array $array_data
+     *
+     * @return array
+     */
+    public function customWhere($array_data = [])
+    {
+        $syntax = '';
+        foreach ($array_data as $key => $value) {
+            $key = trim($key);
+            if (strstr($key, ' ')) {
+                $array = explode(' ', $key);
+                if (count($array) == '2') {
+                    $random = ''; //"_".rand(1,100);
+                    $field = $array[0];
+                    $operator = $array[1];
+                    $tmp[] = "$field $operator :s_$field" . "$random";
+                    $syntax .= " $field $operator :s_$field" . "$random ";
+                } elseif (count($array) == '3') {
+                    $random = ''; //"_".rand(1,100);
+                    $condition = $array[0];
+                    $field = $array[1];
+                    $operator = $array[2];
+                    $tmp[] = "$condition $field $operator :s_$field" . "$random";
+                    $syntax .= " $condition $field $operator :s_$field" . "$random ";
+                }
+            }
+        }
+
+        return [
+            'where' => $syntax,
+            'bind' => implode(' ', $tmp),
+        ];
+    }
+
+    /**
+     * PDO Bind Param with :namespace.
+     *
+     * @param array $array
+     */
+    private function _bindPdoNameSpace($array = [])
+    {
+        if (strstr(key($array), ' ')) {
+            // bind array data in pdo
+            foreach ($array as $f => $v) {
+                // get table column from array key
+                $field = $this->getFieldFromArrayKey($f);
+                // check pass data type for appropriate field
+                switch (gettype($array[$f])) :
+                    // is string found then pdo param as string
+                    case 'string':
+                        $this->oSTH->bindParam(':s' . '_' . "$field", $array[$f], PDO::PARAM_STR);
+                        break;
+                    // if int found then pdo param set as int
+                    case 'integer':
+                        $this->oSTH->bindParam(':s' . '_' . "$field", $array[$f], PDO::PARAM_INT);
+                        break;
+                    // if boolean found then set pdo param as boolean
+                    case 'boolean':
+                        $this->oSTH->bindParam(':s' . '_' . "$field", $array[$f], PDO::PARAM_BOOL);
+                        break;
+                endswitch;
+            } // end for each here
+        } else {
+
+            // bind array data in pdo
+            foreach ($array as $f => $v) {
+                // check pass data type for appropriate field
+                switch (gettype($array[$f])) :
+                    // is string found then pdo param as string
+                    case 'string':
+                        $this->oSTH->bindParam(':s' . '_' . "$f", $array[$f], PDO::PARAM_STR);
+                        break;
+                    // if int found then pdo param set as int
+                    case 'integer':
+                        $this->oSTH->bindParam(':s' . '_' . "$f", $array[$f], PDO::PARAM_INT);
+                        break;
+                    // if boolean found then set pdo param as boolean
+                    case 'boolean':
+                        $this->oSTH->bindParam(':s' . '_' . "$f", $array[$f], PDO::PARAM_BOOL);
+                        break;
+                endswitch;
+            } // end for each here
         }
     }
 
@@ -664,6 +890,33 @@ class PdoWrapper extends \PDO
     }
 
     /**
+     * Start PDO Transaction.
+     */
+    public function start()
+    {
+        // begin the transaction
+        $this->beginTransaction();
+    }
+
+    /**
+     * Start PDO Rollback.
+     */
+    public function back()
+    {
+        // roll back the transaction if we fail
+        $this->rollback();
+    }
+
+    /**
+     * Start PDO Commit.
+     */
+    public function end()
+    {
+        // commit the transaction
+        $this->commit();
+    }
+
+    /**
      * Execute PDO Update Statement
      * Get No OF Affected Rows updated.
      *
@@ -799,19 +1052,19 @@ class PdoWrapper extends \PDO
     {
         switch ($type) {
             case 'array':
-            // return array data
+                // return array data
                 return $this->aResults;
                 break;
             case 'xml':
-            //send the xml header to the browser
+                //send the xml header to the browser
                 header('Content-Type:text/xml');
-            // return xml content
+                // return xml content
                 return $this->helper()->arrayToXml($this->aResults);
                 break;
             case 'json':
-            // set header as json
+                // set header as json
                 header('Content-type: application/json; charset="utf-8"');
-            // return json encoded data
+                // return json encoded data
                 return json_encode($this->aResults);
                 break;
         }
@@ -949,259 +1202,6 @@ class PdoWrapper extends \PDO
     }
 
     /**
-     * @param array $array_data
-     *
-     * @return array
-     */
-    public function customWhere($array_data = [])
-    {
-        $syntax = '';
-        foreach ($array_data as $key => $value) {
-            $key = trim($key);
-            if (strstr($key, ' ')) {
-                $array = explode(' ', $key);
-                if (count($array) == '2') {
-                    $random = ''; //"_".rand(1,100);
-                    $field = $array[0];
-                    $operator = $array[1];
-                    $tmp[] = "$field $operator :s_$field" . "$random";
-                    $syntax .= " $field $operator :s_$field" . "$random ";
-                } elseif (count($array) == '3') {
-                    $random = ''; //"_".rand(1,100);
-                    $condition = $array[0];
-                    $field = $array[1];
-                    $operator = $array[2];
-                    $tmp[] = "$condition $field $operator :s_$field" . "$random";
-                    $syntax .= " $condition $field $operator :s_$field" . "$random ";
-                }
-            }
-        }
-
-        return [
-            'where' => $syntax,
-            'bind' => implode(' ', $tmp),
-        ];
-    }
-
-    /**
-     * PDO Bind Param with :namespace.
-     *
-     * @param array $array
-     */
-    private function _bindPdoNameSpace($array = [])
-    {
-        if (strstr(key($array), ' ')) {
-            // bind array data in pdo
-            foreach ($array as $f => $v) {
-                // get table column from array key
-                $field = $this->getFieldFromArrayKey($f);
-                // check pass data type for appropriate field
-                switch (gettype($array[$f])) :
-                    // is string found then pdo param as string
-                case 'string':
-                    $this->oSTH->bindParam(':s' . '_' . "$field", $array[$f], PDO::PARAM_STR);
-                    break;
-                // if int found then pdo param set as int
-                case 'integer':
-                    $this->oSTH->bindParam(':s' . '_' . "$field", $array[$f], PDO::PARAM_INT);
-                    break;
-                // if boolean found then set pdo param as boolean
-                case 'boolean':
-                    $this->oSTH->bindParam(':s' . '_' . "$field", $array[$f], PDO::PARAM_BOOL);
-                    break;
-                endswitch;
-            } // end for each here
-        } else {
-
-            // bind array data in pdo
-            foreach ($array as $f => $v) {
-                // check pass data type for appropriate field
-                switch (gettype($array[$f])) :
-                    // is string found then pdo param as string
-                case 'string':
-                    $this->oSTH->bindParam(':s' . '_' . "$f", $array[$f], PDO::PARAM_STR);
-                    break;
-                // if int found then pdo param set as int
-                case 'integer':
-                    $this->oSTH->bindParam(':s' . '_' . "$f", $array[$f], PDO::PARAM_INT);
-                    break;
-                // if boolean found then set pdo param as boolean
-                case 'boolean':
-                    $this->oSTH->bindParam(':s' . '_' . "$f", $array[$f], PDO::PARAM_BOOL);
-                    break;
-                endswitch;
-            } // end for each here
-        }
-    }
-
-    /**
-     * Bind PDO Param without :namespace.
-     *
-     * @param array $array
-     */
-    private function _bindPdoParam($array = [])
-    {
-        // bind array data in pdo
-        foreach ($array as $f => $v) {
-            // check pass data type for appropriate field
-            switch (gettype($array[$f])) :
-                // is string found then pdo param as string
-            case 'string':
-                $this->oSTH->bindParam($f + 1, $array[$f], PDO::PARAM_STR);
-                break;
-            // if int found then pdo param set as int
-            case 'integer':
-                $this->oSTH->bindParam($f + 1, $array[$f], PDO::PARAM_INT);
-                break;
-            // if boolean found then set pdo param as boolean
-            case 'boolean':
-                $this->oSTH->bindParam($f + 1, $array[$f], PDO::PARAM_BOOL);
-                break;
-            endswitch;
-        } // end for each here
-    }
-
-    /**
-     * Catch Error in txt file.
-     *
-     * @param mixed $msg
-     */
-    public function error($msg)
-    {
-        file_put_contents($this->config['logDir'] . self::LOG_FILE, date('Y-m-d h:m:s') . ' :: ' . $msg . "\n", FILE_APPEND);
-
-        // log set as true
-        if ($this->log) {
-            // show executed query with error
-            $this->showQuery();
-            // die code
-            $this->helper()->errorBox($msg);
-        }
-    }
-
-    /**
-     * Show executed query on call.
-     *
-     * @param bool $logfile set true if wanna log all query in file
-     *
-     * @return self
-     */
-    public function showQuery($logfile = false)
-    {
-        if (!$logfile) {
-            echo "<div style='color:#990099; border:1px solid #777; padding:2px; background-color: #E5E5E5;'>";
-            echo " Executed Query -> <span style='color:#008000;'> ";
-            echo $this->helper()->formatSQL($this->interpolateQuery());
-            echo '</span></div>';
-        }
-
-        file_put_contents($this->config['logDir'] . self::LOG_FILE, date('Y-m-d h:m:s') . ' :: ' . $this->interpolateQuery() . "\n", FILE_APPEND);
-
-        return $this;
-    }
-
-    /**
-     * Replaces any parameter placeholders in a query with the value of that
-     * parameter. Useful for debugging. Assumes anonymous parameters from.
-     *
-     * @return mixed
-     */
-    protected function interpolateQuery()
-    {
-        $sql = $this->oSTH->queryString;
-        // handle insert batch data
-        if (!$this->batch) {
-            $params = ((is_array($this->aData)) && (count($this->aData) > 0)) ? $this->aData : $this->sSql;
-            if (is_array($params)) {
-                // build a regular expression for each parameter
-                foreach ($params as $key => $value) {
-                    if (strstr($key, ' ')) {
-                        $real_key = $this->getFieldFromArrayKey($key);
-                        // update param value with quotes, if string value
-                        $params[$key] = is_string($value) ? '"' . $value . '"' : $value;
-                        // make replace array
-                        $keys[] = is_string($real_key) ? '/:s_' . $real_key . '/' : '/[?]/';
-                    } else {
-                        // update param value with quotes, if string value
-                        $params[$key] = is_string($value) ? '"' . $value . '"' : $value;
-                        // make replace array
-                        $keys[] = is_string($key) ? '/:s_' . $key . '/' : '/[?]/';
-                    }
-                }
-                $sql = preg_replace($keys, $params, $sql, 1, $count);
-
-                if (strstr($sql, ':s_')) {
-                    foreach ($this->aWhere as $key => $value) {
-                        if (strstr($key, ' ')) {
-                            $real_key = $this->getFieldFromArrayKey($key);
-                            // update param value with quotes, if string value
-                            $params[$key] = is_string($value) ? '"' . $value . '"' : $value;
-                            // make replace array
-                            $keys[] = is_string($real_key) ? '/:s_' . $real_key . '/' : '/[?]/';
-                        } else {
-                            // update param value with quotes, if string value
-                            $params[$key] = is_string($value) ? '"' . $value . '"' : $value;
-                            // make replace array
-                            $keys[] = is_string($key) ? '/:s_' . $key . '/' : '/[?]/';
-                        }
-                    }
-                    $sql = preg_replace($keys, $params, $sql, 1, $count);
-                }
-
-                return $sql;
-                // trigger_error('replaced '.$count.' keys');
-            }
-
-            return $params;
-        } else {
-            $params_batch = ((is_array($this->aData)) && (count($this->aData) > 0)) ? $this->aData : $this->sSql;
-            $batch_query = '';
-
-            if (is_array($params_batch)) {
-                // build a regular expression for each parameter
-                foreach ($params_batch as $keys => $params) {
-                    echo $params;
-                    foreach ($params as $key => $value) {
-                        if (strstr($key, ' ')) {
-                            $real_key = $this->getFieldFromArrayKey($key);
-                            // update param value with quotes, if string value
-                            $params[$key] = is_string($value) ? '"' . $value . '"' : $value;
-                            // make replace array
-                            $array_keys[] = is_string($real_key) ? '/:s_' . $real_key . '/' : '/[?]/';
-                        } else {
-                            // update param value with quotes, if string value
-                            $params[$key] = is_string($value) ? '"' . $value . '"' : $value;
-                            // make replace array
-                            $array_keys[] = is_string($key) ? '/:s_' . $key . '/' : '/[?]/';
-                        }
-                    }
-                    $batch_query .= '<br />' . preg_replace($array_keys, $params, $sql, 1, $count);
-                }
-
-                return $batch_query;
-                // trigger_error('replaced '.$count.' keys');
-            }
-
-            return $params_batch;
-        }
-    }
-
-    /**
-     * Return real table column from array key.
-     *
-     * @param array $array_key
-     *
-     * @return mixed
-     */
-    public function getFieldFromArrayKey($array_key = [])
-    {
-        // get table column from array key
-        $key_array = explode(' ', $array_key);
-        // check no of chunk
-        return (count($key_array) == '2') ? $key_array[0] : ((count($key_array) > 2) ? $key_array[1] : $key_array[0]);
-    }
-
-    /**
      * Set PDO Error Mode to get an error log file or true to show error on screen.
      *
      * @param bool $mode
@@ -1215,7 +1215,7 @@ class PdoWrapper extends \PDO
      * prepare PDO Query.
      *
      * @param string $statement
-     * @param array  $options   Value
+     * @param array  $options Value
      *
      * @return self
      */
@@ -1254,29 +1254,29 @@ class PdoWrapper extends \PDO
                 // check operation type
                 switch ($operation[0]) {
                     case 'SELECT':
-                    // get affected rows by select statement
+                        // get affected rows by select statement
                         $this->iAffectedRows = $this->oSTH->rowCount();
-                    // get pdo result array
+                        // get pdo result array
                         $this->aResults = $this->oSTH->fetchAll();
-                    // return PDO instance
+                        // return PDO instance
                         return $this;
                         break;
                     case 'INSERT':
-                    // return last insert id
+                        // return last insert id
                         $this->iLastId = $this->lastInsertId();
-                    // return PDO instance
+                        // return PDO instance
                         return $this;
                         break;
                     case 'UPDATE':
-                    // get affected rows
+                        // get affected rows
                         $this->iAffectedRows = $this->oSTH->rowCount();
-                    // return PDO instance
+                        // return PDO instance
                         return $this;
                         break;
                     case 'DELETE':
-                    // get affected rows
+                        // get affected rows
                         $this->iAffectedRows = $this->oSTH->rowCount();
-                    // return PDO instance
+                        // return PDO instance
                         return $this;
                         break;
                 }

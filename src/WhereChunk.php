@@ -16,7 +16,9 @@ namespace Dframe\Database;
 class WhereChunk
 {
     public $key;
+
     public $value;
+
     public $operator;
 
     /**
