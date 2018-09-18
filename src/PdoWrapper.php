@@ -213,7 +213,7 @@ class PdoWrapper extends \PDO
                 $password,
                 $settings['attributes']
             );
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             // get pdo error and pass on error method
             die('ERROR in establish connection: ' . $e->getMessage());
         }
@@ -329,7 +329,7 @@ class PdoWrapper extends \PDO
                 } else {
                     self::error($this->oSTH->errorInfo()); // if not run pdo statement sed error
                 }
-            } catch (PDOException $e) {
+            } catch (\PDOException $e) {
                 self::error($e->getMessage() . ': ' . __LINE__);
             } // end try catch block
         } elseif (count($aBindWhereParam) > 0) {  // if query pass with bind param
@@ -376,7 +376,7 @@ class PdoWrapper extends \PDO
                 } else {
                     self::error($this->oSTH->errorInfo());
                 }
-            } catch (PDOException $e) {
+            } catch (\PDOException $e) {
                 self::error($e->getMessage() . ': ' . __LINE__);
             } // end try catch block to get pdo error
         } else {
@@ -628,7 +628,7 @@ class PdoWrapper extends \PDO
                 } else {
                     self::error($this->oSTH->errorInfo());  // catch pdo error
                 }
-            } catch (PDOException $e) {
+            } catch (\PDOException $e) {
                 // get pdo error and pass on error method
                 self::error($e->getMessage() . ': ' . __LINE__);
             } // end try catch block to get pdo error
@@ -768,7 +768,7 @@ class PdoWrapper extends \PDO
                     } else {
                         self::error($this->oSTH->errorInfo());
                     }
-                } catch (PDOException $e) {
+                } catch (\PDOException $e) {
                     // get pdo error and pass on error method
                     self::error($e->getMessage() . ': ' . __LINE__);
                 }
@@ -829,7 +829,7 @@ class PdoWrapper extends \PDO
                         } else {
                             self::error($this->oSTH->errorInfo());
                         }
-                    } catch (PDOException $e) {
+                    } catch (\PDOException $e) {
                         // get pdo error and pass on error method
                         self::error($e->getMessage() . ': ' . __LINE__);
                         // PDO Rollback
@@ -868,7 +868,7 @@ class PdoWrapper extends \PDO
                             // on error PDO Rollback
                             $this->back();
                         }
-                    } catch (PDOException $e) {
+                    } catch (\PDOException $e) {
                         // get pdo error and pass on error method
                         self::error($e->getMessage() . ': ' . __LINE__);
                         // on error PDO Rollback
@@ -973,7 +973,7 @@ class PdoWrapper extends \PDO
                     } else {
                         self::error($this->oSTH->errorInfo());
                     }
-                } catch (PDOException $e) {
+                } catch (\PDOException $e) {
                     // get pdo error and pass on error method
                     self::error($e->getMessage() . ': ' . __LINE__);
                 } // try catch block end
@@ -1029,7 +1029,7 @@ class PdoWrapper extends \PDO
                     } else {
                         self::error($this->oSTH->errorInfo());
                     }
-                } catch (PDOException $e) {
+                } catch (\PDOException $e) {
                     // get pdo error and pass on error method
                     self::error($e->getMessage() . ': ' . __LINE__);
                 } // end try catch here
@@ -1102,7 +1102,7 @@ class PdoWrapper extends \PDO
                 } else {
                     self::error($this->oSTH->errorInfo());
                 }
-            } catch (PDOException $e) {
+            } catch (\PDOException $e) {
                 // get pdo error and pass on error method
                 self::error($e->getMessage() . ': ' . __LINE__);
             }
@@ -1136,7 +1136,7 @@ class PdoWrapper extends \PDO
                 } else {
                     self::error($this->oSTH->errorInfo());
                 }
-            } catch (PDOException $e) {
+            } catch (\PDOException $e) {
                 // get pdo error and pass on error method
                 self::error($e->getMessage() . ': ' . __LINE__);
             }
@@ -1170,7 +1170,7 @@ class PdoWrapper extends \PDO
                 } else {
                     self::error($this->oSTH->errorInfo());
                 }
-            } catch (PDOException $e) {
+            } catch (\PDOException $e) {
                 // get pdo error and pass on error method
                 self::error($e->getMessage() . ': ' . __LINE__);
             }
@@ -1285,7 +1285,7 @@ class PdoWrapper extends \PDO
             } else {
                 self::error($this->oSTH->errorInfo());
             }
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             // get pdo error and pass on error method
             self::error($e->getMessage() . ': ' . __LINE__);
         }
