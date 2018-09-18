@@ -18,27 +18,65 @@ use PDO;
  */
 class Database extends PdoWrapper
 {
+    /**
+     * @var
+     */
     public $WhereChunkKey;
 
+    /**
+     * @var
+     */
     public $WhereChunkValue;
 
+    /**
+     * @var
+     */
     public $WhereChunkperator;
 
+    /**
+     * @var array
+     */
     public $addWhereEndParams = [];
 
+    /**
+     * @var array
+     */
     protected $config;
 
+    /**
+     * @var null
+     */
     private $setWhere = null;
 
+    /**
+     * @var null
+     */
     private $setHaving = null;
 
+    /**
+     * @var array
+     */
     private $setParams = [];
 
+    /**
+     * @var null
+     */
     private $setOrderBy = null;
 
+    /**
+     * @var null
+     */
     private $setGroupBy = null;
 
+    /**
+     * @var null
+     */
     private $setLimit = null;
+
+    /**
+     * @var string
+     */
+    private $setQuery;
 
     /**
      * __construct function.
@@ -101,7 +139,7 @@ class Database extends PdoWrapper
     /**
      * PrepareWhere function.
      *
-     * @param Dframe\WhereChunk|Dframe\WhereChunkArray $whereObject
+     * @param \Dframe\Database\WhereChunk|\Dframe\Database\WhereStringChunk $whereObject
      *
      * @return Database
      */
@@ -143,7 +181,7 @@ class Database extends PdoWrapper
     /**
      * PrepareHaving function.
      *
-     * @param Dframe\WhereChunk $havingObject
+     * @param \Dframe\Database\WhereChunk $havingObject
      *
      * @return Database
      */
@@ -276,7 +314,7 @@ class Database extends PdoWrapper
     /**
      * GetWhere function.
      *
-     * @return void
+     * @return string
      */
     public function getWhere()
     {
@@ -290,7 +328,7 @@ class Database extends PdoWrapper
     /**
      * GetGroupBy function.
      *
-     * @return void
+     * @return string
      */
     public function getGroupBy()
     {
@@ -300,7 +338,7 @@ class Database extends PdoWrapper
     /**
      * GetOrderBy function.
      *
-     * @return void
+     * @return string
      */
     public function getOrderBy()
     {
@@ -310,7 +348,7 @@ class Database extends PdoWrapper
     /**
      * GetHaving function.
      *
-     * @return void
+     * @return string
      */
     public function getHaving()
     {
@@ -324,7 +362,7 @@ class Database extends PdoWrapper
     /**
      * GetLimit function.
      *
-     * @return void
+     * @return string
      */
     public function getLimit()
     {

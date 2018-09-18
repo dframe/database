@@ -63,7 +63,7 @@ class HavingStringChunk
      *
      * @param array $array
      *
-     * @return void
+     * @return array
      */
     public function flatter($array)
     {
