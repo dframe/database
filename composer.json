@@ -28,7 +28,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Dframe\\Database\\tests\\": "tests/"
+            "Dframe\\Database\\Tests\\": "tests/"
         }
     },
     "require": {

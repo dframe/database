@@ -1,6 +1,6 @@
 <?php
 
-namespace Dframe\Database\tests;
+namespace Dframe\Database\Tests;
 
 class QueryTest extends TestSetUp
 {
