@@ -400,6 +400,8 @@ class PdoWrapper extends \PDO
             // die code
             $this->helper()->errorBox($msg);
         }
+        
+        throw new \PDOException($msg);
     }
 
     /**
