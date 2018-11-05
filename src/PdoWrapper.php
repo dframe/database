@@ -440,6 +440,7 @@ class PdoWrapper extends \PDO
             $params = ((is_array($this->data)) && (count($this->data) > 0)) ? $this->data : $this->sql;
             if (is_array($params)) {
                 // build a regular expression for each parameter
+                $keys = [];
                 foreach ($params as $key => $value) {
                     if (strstr($key, ' ')) {
                         $real_key = $this->getFieldFromArrayKey($key);
@@ -485,6 +486,7 @@ class PdoWrapper extends \PDO
 
             if (is_array($params_batch)) {
                 // build a regular expression for each parameter
+                $array_keys = [];
                 foreach ($params_batch as $keys => $params) {
                     echo $params;
                     foreach ($params as $key => $value) {
@@ -584,6 +586,7 @@ class PdoWrapper extends \PDO
                     // get where syntax with namespace
                     $where = $tmp['where'];
                 } else {
+                    $tmp = [];
                     foreach ($arrayWhere as $k => $v) {
                         $tmp[] = "$k = :s_$k";
                     }
@@ -638,6 +641,7 @@ class PdoWrapper extends \PDO
     public function customWhere($array_data = [])
     {
         $syntax = '';
+        $tmp = [];
         foreach ($array_data as $key => $value) {
             $key = trim($key);
             if (strstr($key, ' ')) {
@@ -731,6 +735,7 @@ class PdoWrapper extends \PDO
             // and array data not empty
             if (count($data) > 0 && is_array($data)) {
                 // get array insert data in temp array
+                $tmp = [];
                 foreach ($data as $f => $v) {
                     $tmp[] = ":s_$f";
                 }
@@ -792,6 +797,7 @@ class PdoWrapper extends \PDO
             // and array data not empty
             if (count($data) > 0 && is_array($data)) {
                 // get array insert data in temp array
+                $tmp = [];
                 foreach ($data[0] as $f => $v) {
                     $tmp[] = ":s_$f";
                 }
@@ -927,6 +933,7 @@ class PdoWrapper extends \PDO
             // check if array data and where array is more then 0
             if (count($data) > 0 && count($arrayWhere) > 0) {
                 // parse array data and make a temp array
+                $tmp = [];
                 foreach ($data as $k => $v) {
                     $tmp[] = "$k = :s_$k";
                 }
@@ -934,6 +941,8 @@ class PdoWrapper extends \PDO
                 $sFields = implode(', ', $tmp);
                 // delete temp array from memory
                 unset($tmp);
+
+                $tmp = [];
                 // parse where array and store in temp array
                 foreach ($arrayWhere as $k => $v) {
                     $tmp[] = "$k = :s_$k";
@@ -994,6 +1003,7 @@ class PdoWrapper extends \PDO
             // check where condition array length
             if (count($arrayWhere) > 0 && is_array($arrayWhere)) {
                 // make an temp array from where array data
+                $tmp = [];
                 foreach ($arrayWhere as $k => $v) {
                     $tmp[] = "$k = :s_$k";
                 }
@@ -1186,6 +1196,8 @@ class PdoWrapper extends \PDO
         $this->STH->execute();
         $colList = $this->STH->fetchAll();
 
+        $field = [];
+        $type = [];
         foreach ($colList as $key) {
             $field[] = $key['Field'];
             $type[] = $key['Type'];
