@@ -334,7 +334,7 @@ class PdoWrapper extends \PDO
                 // run pdo statement with bind param
                 if ($this->oSTH->execute()) {
                     // check operation type
-                    switch ($operation[0]) :
+                    switch ($operation[0]) {
                         case 'SELECT':
                             // get affected rows by select statement
                             $this->iAffectedRows = $this->oSTH->rowCount();
@@ -361,7 +361,7 @@ class PdoWrapper extends \PDO
                             // return PDO instance
                             return $this;
                             break;
-                    endswitch;
+                    }
                     // close pdo cursor
                     $this->oSTH->closeCursor();
                 } else {
@@ -537,7 +537,7 @@ class PdoWrapper extends \PDO
         // bind array data in pdo
         foreach ($array as $f => $v) {
             // check pass data type for appropriate field
-            switch (gettype($array[$f])) :
+            switch (gettype($array[$f])) {
                 // is string found then pdo param as string
                 case 'string':
                     $this->oSTH->bindParam($f + 1, $array[$f], PDO::PARAM_STR);
@@ -550,7 +550,7 @@ class PdoWrapper extends \PDO
                 case 'boolean':
                     $this->oSTH->bindParam($f + 1, $array[$f], PDO::PARAM_BOOL);
                     break;
-            endswitch;
+            }
         } // end for each here
     }
 
@@ -678,7 +678,7 @@ class PdoWrapper extends \PDO
                 // get table column from array key
                 $field = $this->getFieldFromArrayKey($f);
                 // check pass data type for appropriate field
-                switch (gettype($array[$f])) :
+                switch (gettype($array[$f])) {
                     // is string found then pdo param as string
                     case 'string':
                         $this->oSTH->bindParam(':s' . '_' . "$field", $array[$f], PDO::PARAM_STR);
@@ -691,14 +691,14 @@ class PdoWrapper extends \PDO
                     case 'boolean':
                         $this->oSTH->bindParam(':s' . '_' . "$field", $array[$f], PDO::PARAM_BOOL);
                         break;
-                endswitch;
+                };
             } // end for each here
         } else {
 
             // bind array data in pdo
             foreach ($array as $f => $v) {
                 // check pass data type for appropriate field
-                switch (gettype($array[$f])) :
+                switch (gettype($array[$f])) {
                     // is string found then pdo param as string
                     case 'string':
                         $this->oSTH->bindParam(':s' . '_' . "$f", $array[$f], PDO::PARAM_STR);
@@ -711,7 +711,7 @@ class PdoWrapper extends \PDO
                     case 'boolean':
                         $this->oSTH->bindParam(':s' . '_' . "$f", $array[$f], PDO::PARAM_BOOL);
                         break;
-                endswitch;
+                }
             } // end for each here
         }
     }
