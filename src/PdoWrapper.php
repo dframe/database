@@ -273,7 +273,7 @@ class PdoWrapper extends \PDO
     /**
      * Execute PDO Query.
      *
-     * @param string $sSql
+     * @param string $sql
      * @param array  $bindWhereParam Bind Param Value
      *
      * @return self|void
