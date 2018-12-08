@@ -121,7 +121,7 @@ class Database extends PdoWrapper
     /**
      * PrepareWhere function.
      *
-     * @param \Dframe\Database\WhereChunk|\Dframe\Database\WhereStringChunk $whereObject
+     * @param array
      *
      * @return Database
      */
