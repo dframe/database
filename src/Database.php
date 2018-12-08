@@ -18,25 +18,7 @@ use PDO;
  */
 class Database extends PdoWrapper
 {
-    /**
-     * @var
-     */
-    public $WhereChunkKey;
 
-    /**
-     * @var
-     */
-    public $WhereChunkValue;
-
-    /**
-     * @var
-     */
-    public $WhereChunkperator;
-
-    /**
-     * @var array
-     */
-    public $addWhereEndParams = [];
 
     /**
      * @var array
@@ -44,12 +26,12 @@ class Database extends PdoWrapper
     protected $config;
 
     /**
-     * @var null
+     * @var null|int
      */
     private $setWhere = null;
 
     /**
-     * @var null
+     * @var null|int
      */
     private $setHaving = null;
 
@@ -59,17 +41,17 @@ class Database extends PdoWrapper
     private $setParams = [];
 
     /**
-     * @var null
+     * @var null|int
      */
     private $setOrderBy = null;
 
     /**
-     * @var null
+     * @var null|int
      */
     private $setGroupBy = null;
 
     /**
-     * @var null
+     * @var null|int
      */
     private $setLimit = null;
 
@@ -249,8 +231,8 @@ class Database extends PdoWrapper
     /**
      * Undocumented function.
      *
-     * @param string $query
-     * @param bool   $params
+     * @param string     $query
+     * @param bool|array $params
      *
      * @return Database
      */
@@ -290,7 +272,7 @@ class Database extends PdoWrapper
     /**
      * GetQuery function.
      *
-     * @return void
+     * @return string
      */
     public function getQuery()
     {
@@ -386,12 +368,12 @@ class Database extends PdoWrapper
     /**
      * PrepareLimit function.
      *
-     * @param int $limit
-     * @param int $offset
+     * @param int      $limit
+     * @param int|null $offset
      *
      * @return Database
      */
-    public function prepareLimit($limit, $offset)
+    public function prepareLimit($limit, $offset = null)
     {
         if ($offset) {
             $this->setLimit = ' LIMIT ' . $limit . ', ' . $offset . '';
