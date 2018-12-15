@@ -9,11 +9,13 @@
 
 namespace Dframe\Database;
 
+use Dframe\Database\Chunk\ChunkInterface;
+
 /**
  * Klasa wspomagająca warunki wyszukiwania
  * new WhereStringChunk('`kolumna` LIKE ?', ['test']);.
  */
-class WhereStringChunk
+class WhereStringChunk implements ChunkInterface
 {
     public $string;
 

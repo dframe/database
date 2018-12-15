@@ -9,11 +9,13 @@
 
 namespace Dframe\Database;
 
+use Dframe\Database\Chunk\ChunkInterface;
+
 /**
  * new WhereChunk('kolumna', 'test', 'LIKE');
  * Based on https://github.com/Appsco/component-share/blob/9b29a7579c9bdcf9832b94b05ecebc74d771adf9/src/BWC/Share/Data/Select.php.
  */
-class WhereChunk
+class WhereChunk implements ChunkInterface
 {
     public $key;
 

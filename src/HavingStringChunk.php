@@ -9,11 +9,13 @@
 
 namespace Dframe\Database;
 
+use Dframe\Database\Chunk\ChunkInterface;
+
 /**
  * Klasa wspomagająca warunki wyszukiwania
  * new setHaving('`kolumna` = ?', [test']);.
  */
-class HavingStringChunk
+class HavingStringChunk implements ChunkInterface
 {
     /**
      * String variable.
