@@ -64,9 +64,11 @@ class Database extends PdoWrapper
      * __construct function.
      *
      * @param array $dsn
+     * @param       $username
+     * @param       $password
      * @param array $config
      */
-    public function __construct($dsn = [], $config = null)
+    public function __construct($dsn, $username, $password, $config = null)
     {
         $this->config = $config;
         if (is_null($this->config)) {
@@ -82,7 +84,7 @@ class Database extends PdoWrapper
             ];
         }
 
-        parent::__construct($dsn, $this->config);
+        parent::__construct($dsn, $username, $password, $this->config);
     }
 
     /**

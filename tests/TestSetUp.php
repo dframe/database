@@ -8,15 +8,15 @@ use PHPUnit\Framework\TestCase;
 
 abstract class TestSetUp extends TestCase
 {
+    protected $db;
+
     public function getConnection()
     {
         try {
-            $dbConfig = [
+            $dsn = [
                 'dbtype' => 'mysql',
                 'host' => 'localhost',
-                'dbname' => 'test',
-                'username' => 'root',
-                'password' => '',
+                'dbname' => 'test'
             ];
 
             $config = [
@@ -29,7 +29,7 @@ abstract class TestSetUp extends TestCase
                 ],
             ];
 
-            $this->db = new Database($dbConfig, $config);
+            $this->db = new Database($dsn, 'root', '', $config);
         } catch (\PDOException $e) {
             echo $e->getMessage();
         }

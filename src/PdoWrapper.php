@@ -146,13 +146,6 @@ class PdoWrapper extends \PDO
     private $STH = null;
 
     /**
-     * PDO Config/Settings.
-     *
-     * @var array
-     */
-    private $dbInfo = [];
-
-    /**
      * Set PDO valid Query operation.
      *
      * @var array
@@ -162,66 +155,60 @@ class PdoWrapper extends \PDO
     /**
      * Auto Start on Object init.
      *
-     * @param array $dsn
+     * @param array|string $dsn
      *
-     * @param array $settings
+     * @param              $username
+     * @param              $password
+     * @param array        $settings
      */
-    public function __construct($dsn = [], $settings = ['attributes' => []])
+    public function __construct($dsn, $username, $password, $settings = ['attributes' => []])
     {
-        // if isset $dsn and it is array
-        if (is_array($dsn) && count($dsn) > 0) {
-            // check valid array key name
-            if (!isset($dsn['host']) || !isset($dsn['dbname']) || !isset($dsn['username']) || !isset($dsn['password'])) {
-                die("Dude!! You haven't pass valid db config array key.");
-            }
-            $this->dbInfo = $dsn;
-        } else {
-            if (count($this->dbInfo) > 0) {
-                $dsn = $this->dbInfo;
-                // check valid array key name
-                if (!isset($dsn['host']) || !isset($dsn['dbname']) || !isset($dsn['username']) || !isset($dsn['password'])) {
-                    die("Dude!! You haven't set valid db config array key.");
-                }
-            } else {
-                die("Dude!! You haven't set valid db config array.");
-            }
-        }
 
-        if (!isset($dsn['dbtype'])) {
-            $dsn['dbtype'] = 'mysql';
-        }
-
-        // Okay, everything is clear. now connect
-        // spilt array key in php variable
-        extract($this->dbInfo);
-        // try catch block start
         try {
 
+            // if isset $dsn and it is array
+            if (is_array($dsn)) {
+                // check valid array key name
+                if (!isset($dsn['host']) || !isset($dsn['dbname'])) {
+                    die("Dude!! You haven't pass valid db config array key.");
+                }
+
+                if (!isset($dsn['dbtype'])) {
+                    $dsn['dbtype'] = 'mysql';
+                }
+
+                /**
+                 * Prepare dns from array
+                 */
+                $dsn = $dsn['dbtype'] . ":host=" . $dsn['host'] . "; dbname=" . $dsn['dbname'];
+            }
+
             // use native pdo class and connect
-            parent::__construct(
-                $dsn['dbtype'] . ":host=$host; dbname=$dbname",
-                $username,
-                $password,
-                $settings['attributes']
-            );
+            parent::__construct($dsn, $username, $password, $settings['attributes']);
+
         } catch (\PDOException $e) {
             // get pdo error and pass on error method
             die('ERROR in establish connection: ' . $e->getMessage());
         }
+
+
     }
 
     /**
      * Get Instance of PDO Class as Singleton Pattern.
      *
-     * @param array $dsn
+     * @param array|string $dsn
+     * @param              $username
+     * @param              $password
+     * @param array        $settings
      *
-     * @return object $PDO
+     * @return PdoWrapper|object
      */
-    public static function getPDO($dsn = [])
+    public static function getPDO($dsn, $username, $password, $settings = ['attributes' => []])
     {
         // if not set self pdo object property or pdo set as null
         if (!isset(self::$PDO) || (self::$PDO !== null)) {
-            self::$PDO = new self($dsn); // set class pdo property with new connection
+            self::$PDO = new self($dsn, $username, $password, $settings); // set class pdo property with new connection
         }
 
         // return class property object
@@ -299,7 +286,9 @@ class PdoWrapper extends \PDO
 
         // check valid sql operation statement
         if (!in_array($operation[0], $this->validOperation)) {
-            self::error('invalid operation called in query. use only ' . implode(', ', $this->validOperation) . ' You can have NO SPACE be between ' . implode(', ', $this->validOperation) . ' AND parms');
+            self::error('invalid operation called in query. use only ' . implode(', ',
+                    $this->validOperation) . ' You can have NO SPACE be between ' . implode(', ',
+                    $this->validOperation) . ' AND parms');
         }
 
         // sql query pass with no bind param
@@ -382,7 +371,8 @@ class PdoWrapper extends \PDO
      */
     public function error($msg)
     {
-        file_put_contents($this->config['logDir'] . self::LOG_FILE, date('Y-m-d h:m:s') . ' :: ' . $msg . "\n", FILE_APPEND);
+        file_put_contents($this->config['logDir'] . self::LOG_FILE, date('Y-m-d h:m:s') . ' :: ' . $msg . "\n",
+            FILE_APPEND);
 
         // log set as true
         if ($this->log) {
@@ -411,7 +401,8 @@ class PdoWrapper extends \PDO
             echo '</span></div>';
         }
 
-        file_put_contents($this->config['logDir'] . self::LOG_FILE, date('Y-m-d h:m:s') . ' :: ' . $this->interpolateQuery() . "\n", FILE_APPEND);
+        file_put_contents($this->config['logDir'] . self::LOG_FILE,
+            date('Y-m-d h:m:s') . ' :: ' . $this->interpolateQuery() . "\n", FILE_APPEND);
 
         return $this;
     }
