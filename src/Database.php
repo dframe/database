@@ -131,9 +131,8 @@ class Database extends PdoWrapper
         $params = [];
         if (!empty($whereObject)) {
             $arr = [];
-            /***
-             ** @var $chunk WhereChunk
-             */
+
+            /** @var \Dframe\Database\Chunk\ChunkInterface $chunk */
             foreach ($whereObject as $chunk) {
                 list($wSQL, $wParams) = $chunk->build();
                 $arr[] = $wSQL;
@@ -173,9 +172,8 @@ class Database extends PdoWrapper
         $params = [];
         if (!empty($havingObject)) {
             $arr = [];
-            /**
-             * @var WhereChunk
-             */
+
+            /** @var \Dframe\Database\Chunk\ChunkInterface $chunk */
             foreach ($havingObject as $chunk) {
                 list($wSQL, $wParams) = $chunk->build();
                 $arr[] = $wSQL;
