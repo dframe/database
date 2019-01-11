@@ -163,7 +163,6 @@ class PdoWrapper extends \PDO
      */
     public function __construct($dsn, $username, $password, $settings = ['attributes' => []])
     {
-
         try {
 
             // if isset $dsn and it is array
@@ -185,13 +184,10 @@ class PdoWrapper extends \PDO
 
             // use native pdo class and connect
             parent::__construct($dsn, $username, $password, $settings['attributes']);
-
         } catch (\PDOException $e) {
             // get pdo error and pass on error method
             die('ERROR in establish connection: ' . $e->getMessage());
         }
-
-
     }
 
     /**
