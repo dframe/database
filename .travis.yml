@@ -30,4 +30,5 @@ only: master
 install: 
    composer install
 
-script: phpunit
+script:
+  - vendor/bin/phpunit
