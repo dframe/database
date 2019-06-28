@@ -374,7 +374,7 @@ class Database extends PdoWrapper
     public function prepareLimit($limit, $offset = null)
     {
         if ($offset) {
-            $this->setLimit = ' LIMIT ' . $limit . ', ' . $offset . '';
+            $this->setLimit = ' LIMIT ' . $offset . ', ' . $limit . '';
         } else {
             $this->setLimit = ' LIMIT ' . $limit . '';
         }
