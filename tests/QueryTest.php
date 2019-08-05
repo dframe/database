@@ -4,7 +4,7 @@ namespace Dframe\Database\Tests;
 
 class QueryTest extends TestSetUp
 {
-    public function setUp()
+    protected function setUp()
     {
         $this->dataSetup = [
             'data1' => [

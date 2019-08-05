@@ -13,7 +13,7 @@ services:
 before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
   - mysql -u root --password="" test < tests/data/db.sql
-  
+
 addons:
 apt:
   sources:
@@ -29,8 +29,8 @@ sudo: false
 branches:
 only: master
 
-install: 
-   composer install
+install:
+  composer install
 
 script:
   - vendor/bin/phpunit
