@@ -282,14 +282,13 @@ class Database extends PdoWrapper
         $sql .= $this->getHaving();
         $sql .= $this->getOrderBy();
         $sql .= $this->getLimit();
-
+        
         $this->setQuery = null;
         $this->setWhere = null;
         $this->setGroupBy = null;
         $this->setHaving = null;
         $this->setOrderBy = null;
         $this->setLimit = null;
-
         return str_replace('  ', ' ', $sql);
     }
 
