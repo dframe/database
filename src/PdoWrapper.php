@@ -261,7 +261,7 @@ class PdoWrapper extends \PDO
      *
      * @return self|void
      */
-    public function pdoQuery($sql = '', $bindWhereParam = [])
+    public function pdoQuery($sql = '', $bindWhereParam = [], $allow = false)
     {
         // Check empty query
         if (empty($sql)) {
@@ -280,11 +280,13 @@ class PdoWrapper extends \PDO
         // set class statement handler
         $this->STH = $this->prepare($this->sql);
 
-        // check valid sql operation statement
-        if (!in_array($operation[0], $this->validOperation)) {
-            self::error('invalid operation called in query. use only ' . implode(', ',
-                    $this->validOperation) . ' You can have NO SPACE be between ' . implode(', ',
-                    $this->validOperation) . ' AND parms');
+        if ($allow === false) {
+            // check valid sql operation statement
+            if (!in_array($operation[0], $this->validOperation)) {
+                self::error('invalid operation called in query. use only ' . implode(', ',
+                        $this->validOperation) . ' You can have NO SPACE be between ' . implode(', ',
+                        $this->validOperation) . ' AND parms');
+            }
         }
 
         // sql query pass with no bind param
@@ -296,10 +298,11 @@ class PdoWrapper extends \PDO
                 if ($this->STH->execute()) {
                     // get affected rows and set it to class property
                     $this->affectedRows = $this->STH->rowCount();
-                    // set pdo result array with class property
+                    // set pdo result arraay with class property
                     $this->results = $this->STH->fetchAll();
                     // close pdo cursor
                     $this->STH->closeCursor();
+
                     // return pdo result
                     return $this;
                 } else {
@@ -318,35 +321,41 @@ class PdoWrapper extends \PDO
             try {
                 // run pdo statement with bind param
                 if ($this->STH->execute()) {
-                    // check operation type
-                    switch ($operation[0]) {
-                        case 'SELECT':
-                            // get affected rows by select statement
-                            $this->affectedRows = $this->STH->rowCount();
-                            // get pdo result array
-                            $this->results = $this->STH->fetchAll();
-                            // return PDO instance
-                            return $this;
-                            break;
-                        case 'INSERT':
-                            // return last insert id
-                            $this->lastId = $this->lastInsertId();
-                            // return PDO instance
-                            return $this;
-                            break;
-                        case 'UPDATE':
-                            // get affected rows
-                            $this->affectedRows = $this->STH->rowCount();
-                            // return PDO instance
-                            return $this;
-                            break;
-                        case 'DELETE':
-                            // get affected rows
-                            $this->affectedRows = $this->STH->rowCount();
-                            // return PDO instance
-                            return $this;
-                            break;
+                    if ($allow === false) {
+
+                        // check operation type
+                        switch ($operation[0]) {
+                            case 'SELECT':
+                                // get affected rows by select statement
+                                $this->affectedRows = $this->STH->rowCount();
+                                // get pdo result array
+                                $this->results = $this->STH->fetchAll();
+                                // return PDO instance
+                                return $this;
+                                break;
+                            case 'INSERT':
+                                // return last insert id
+                                $this->lastId = $this->lastInsertId();
+                                // return PDO instance
+                                return $this;
+                                break;
+                            case 'UPDATE':
+                                // get affected rows
+                                $this->affectedRows = $this->STH->rowCount();
+                                // return PDO instance
+                                return $this;
+                                break;
+                            case 'DELETE':
+                                // get affected rows
+                                $this->affectedRows = $this->STH->rowCount();
+                                // return PDO instance
+                                return $this;
+                                break;
+                        }
+                    } else {
+                        return $this;
                     }
+
                     // close pdo cursor
                     $this->STH->closeCursor();
                 } else {
