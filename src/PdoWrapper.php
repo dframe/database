@@ -220,7 +220,7 @@ class PdoWrapper extends \PDO
      */
     public function result($row = 0)
     {
-        return (is_array($this->results) AND isset($this->results[$row])) ? $this->results[$row] : false;
+        return (is_array($this->results) and isset($this->results[$row])) ? $this->results[$row] : false;
     }
 
     /**
