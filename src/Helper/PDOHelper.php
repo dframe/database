@@ -100,20 +100,26 @@ class PDOHelper
         }
         $regex_sign = ['/\b', '\b/'];
         // replace matching words
+
+        $pregReplace = preg_replace(
+            $list,
+            array_map(
+                [
+                    $this,
+                    'highlight_sql',
+                ],
+                $list
+            ),
+            strtolower($sql)
+        );
+
+        if (is_null($pregReplace)) {
+            $pregReplace = [];
+        }
         return str_replace(
             $regex_sign,
             '',
-            preg_replace(
-                $list,
-                array_map(
-                    [
-                        $this,
-                        'highlight_sql',
-                    ],
-                    $list
-                ),
-                strtolower($sql)
-            )
+            $pregReplace
         );
     }
 
