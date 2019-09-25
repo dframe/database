@@ -1066,7 +1066,7 @@ class PdoWrapper extends \PDO
                 //send the xml header to the browser
                 header('Content-Type:text/xml');
                 // return xml content
-                if($this->results === false){
+                if ($this->results === false) {
                     $this->results = [];
                 }
                 return $this->helper()->arrayToXml($this->results);
@@ -1202,7 +1202,7 @@ class PdoWrapper extends \PDO
         $this->STH = $this->prepare($sql);
         $this->STH->execute();
         $colList = $this->STH->fetchAll();
-        if($colList === false){
+        if ($colList === false) {
             $colList = [];
         }
 
