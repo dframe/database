@@ -21,7 +21,7 @@ abstract class TestSetUp extends TestCase
 
             $config = [
                 'logDir' => APP_DIR . 'View/logs/',
-                'attributes' => [
+                'options' => [
                     PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // If you want to Show Class exceptions on Screen, Uncomment below code
                     PDO::ATTR_EMULATE_PREPARES => true, // Use this setting to force PDO to either always emulate prepared statements (if TRUE), or to try to use native prepared statements (if FALSE).
