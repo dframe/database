@@ -41,7 +41,7 @@ class PdoWrapper extends \PDO
     /**
      * PDO Object.
      *
-     * @var object
+     * @var \PDOStatement|null
      */
     protected static $PDO = null;
 
@@ -126,7 +126,7 @@ class PdoWrapper extends \PDO
     /**
      * Catch temp data.
      *
-     * @var null|array
+     * @var array
      */
     public $data = null;
 
@@ -584,7 +584,7 @@ class PdoWrapper extends \PDO
             if (count($arrayWhere) > 0 && is_array($arrayWhere)) {
                 // set class where array
                 $this->data = $arrayWhere;
-                // parse where array and get in temp var with key name and val
+                // parse where array and get in temp var with key name and val\
                 if (strstr(key($arrayWhere), ' ')) {
                     $tmp = $this->customWhere($this->data);
                     // get where syntax with namespace
@@ -1066,6 +1066,9 @@ class PdoWrapper extends \PDO
                 //send the xml header to the browser
                 header('Content-Type:text/xml');
                 // return xml content
+                if($this->results === false){
+                    $this->results = [];
+                }
                 return $this->helper()->arrayToXml($this->results);
                 break;
             case 'json':
@@ -1199,6 +1202,9 @@ class PdoWrapper extends \PDO
         $this->STH = $this->prepare($sql);
         $this->STH->execute();
         $colList = $this->STH->fetchAll();
+        if($colList === false){
+            $colList = [];
+        }
 
         $field = [];
         $type = [];
