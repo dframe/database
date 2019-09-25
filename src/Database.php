@@ -74,7 +74,7 @@ class Database extends PdoWrapper
         if (is_null($this->config)) {
             $this->config = [
                 'logDir' => APP_DIR . 'View/logs/',
-                'attributes' => [
+                'options' => [
                     PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,  // Set pdo error mode silent
                     //PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // If you want to Show Class exceptions on Screen, Uncomment below code

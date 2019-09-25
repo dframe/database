@@ -159,11 +159,13 @@ class PdoWrapper extends \PDO
      *
      * @param string       $username
      * @param string       $password
-     * @param array        $settings
+     * @param array        $config
      */
-    public function __construct($dsn, $username, $password, $settings = ['attributes' => []])
+    public function __construct($dsn, $username, $password, $config = ['logDir' => '', 'options' => []])
     {
         try {
+
+            $this->config = $config;
 
             // if isset $dsn and it is array
             if (is_array($dsn)) {
@@ -183,7 +185,7 @@ class PdoWrapper extends \PDO
             }
 
             // use native pdo class and connect
-            parent::__construct($dsn, $username, $password, $settings['attributes']);
+            parent::__construct($dsn, $username, $password, $this->config['options']);
         } catch (\PDOException $e) {
             // get pdo error and pass on error method
             die('ERROR in establish connection: ' . $e->getMessage());
@@ -196,15 +198,15 @@ class PdoWrapper extends \PDO
      * @param array|string $dsn
      * @param string       $username
      * @param string       $password
-     * @param array        $settings
+     * @param array        $config
      *
      * @return PdoWrapper|object
      */
-    public static function getPDO($dsn, $username, $password, $settings = ['attributes' => []])
+    public static function getPDO($dsn, $username, $password, $config = ['attributes' => []])
     {
         // if not set self pdo object property or pdo set as null
         if (!isset(self::$PDO) || (self::$PDO !== null)) {
-            self::$PDO = new self($dsn, $username, $password, $settings); // set class pdo property with new connection
+            self::$PDO = new self($dsn, $username, $password, $config); // set class pdo property with new connection
         }
 
         // return class property object
