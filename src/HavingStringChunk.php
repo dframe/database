@@ -27,15 +27,15 @@ class HavingStringChunk implements ChunkInterface
     /**
      * BindWhere variable.
      *
-     * @var array
+     * @var null|array
      */
     public $bindWhere;
 
     /**
      * HavingStringChunk constructor.
      *
-     * @param      $string
-     * @param null $bindWhere
+     * @param string $string
+     * @param null|array $bindWhere
      */
     public function __construct($string, $bindWhere = null)
     {

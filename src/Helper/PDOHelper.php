@@ -85,7 +85,7 @@ class PDOHelper
     /**
      * Format the SQL Query.
      *
-     * @param  $sql string
+     * @param string $sql
      *
      * @return mixed
      */
@@ -120,7 +120,7 @@ class PDOHelper
     /**
      * Coloring for MySQL reserved keywords.
      *
-     * @param  $param
+     * @param string $param
      *
      * @return string
      */

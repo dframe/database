@@ -49,7 +49,7 @@ class PdoWrapper extends \PDO
     /**
      * PDO SQL table name.
      *
-     * @var string
+     * @var array
      */
     public $table = [];
 
@@ -77,21 +77,21 @@ class PdoWrapper extends \PDO
     /**
      * PDO Results,Fetch All PDO Results array.
      *
-     * @var array
+     * @var array|false
      */
     public $results = [];
 
     /**
      * PDO Result,Fetch One PDO Row.
      *
-     * @var array
+     * @var array|false
      */
     public $result = [];
 
     /**
      * Get PDO Last Insert ID.
      *
-     * @var int
+     * @var int|string
      */
     public $lastId = 0;
 
@@ -113,14 +113,14 @@ class PdoWrapper extends \PDO
     /**
      * Get All PDO Affected Rows.
      *
-     * @var int
+     * @var int|false
      */
     public $affectedRows = 0;
 
     /**
      * Catch temp data.
      *
-     * @var null
+     * @var null|array
      */
     public $data = null;
 
@@ -141,9 +141,9 @@ class PdoWrapper extends \PDO
     /**
      * PHP Statement Handler.
      *
-     * @var object
+     * @var \PDOStatement
      */
-    private $STH = null;
+    private $STH;
 
     /**
      * Set PDO valid Query operation.
@@ -220,7 +220,7 @@ class PdoWrapper extends \PDO
      */
     public function result($row = 0)
     {
-        return isset($this->results[$row]) ? $this->results[$row] : false;
+        return (is_array($this->results) AND isset($this->results[$row])) ? $this->results[$row] : false;
     }
 
     /**
@@ -236,7 +236,7 @@ class PdoWrapper extends \PDO
     /**
      * Get Last Insert id by Insert query.
      *
-     * @return int
+     * @return int|string
      */
     public function getLastInsertId()
     {
@@ -246,7 +246,7 @@ class PdoWrapper extends \PDO
     /**
      * Get all last insert id by insert batch query.
      *
-     * @return array
+     * @return array|string
      */
     public function getAllLastInsertId()
     {
@@ -298,7 +298,7 @@ class PdoWrapper extends \PDO
                 if ($this->STH->execute()) {
                     // get affected rows and set it to class property
                     $this->affectedRows = $this->STH->rowCount();
-                    // set pdo result arraay with class property
+                    // set pdo result array with class property
                     $this->results = $this->STH->fetchAll();
                     // close pdo cursor
                     $this->STH->closeCursor();
@@ -1183,7 +1183,7 @@ class PdoWrapper extends \PDO
      *
      * @param string $table
      *
-     * @return array Field Type and Field Name
+     * @return array|false
      */
     public function describe($table = '')
     {
@@ -1230,7 +1230,7 @@ class PdoWrapper extends \PDO
     /**
      * Execute PDO Query.
      *
-     * @param array Bind Param Value
+     * @param array $bindWhereParam
      *
      * @return self|int
      */
