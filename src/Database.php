@@ -64,8 +64,8 @@ class Database extends PdoWrapper
      * __construct function.
      *
      * @param array $dsn
-     * @param       $username
-     * @param       $password
+     * @param string $username
+     * @param string $password
      * @param array $config
      */
     public function __construct($dsn, $username, $password, $config = null)

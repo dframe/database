@@ -157,8 +157,8 @@ class PdoWrapper extends \PDO
      *
      * @param array|string $dsn
      *
-     * @param              $username
-     * @param              $password
+     * @param string       $username
+     * @param string       $password
      * @param array        $settings
      */
     public function __construct($dsn, $username, $password, $settings = ['attributes' => []])
@@ -194,8 +194,8 @@ class PdoWrapper extends \PDO
      * Get Instance of PDO Class as Singleton Pattern.
      *
      * @param array|string $dsn
-     * @param              $username
-     * @param              $password
+     * @param string       $username
+     * @param string       $password
      * @param array        $settings
      *
      * @return PdoWrapper|object
