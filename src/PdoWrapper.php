@@ -170,7 +170,6 @@ class PdoWrapper extends \PDO
     public function __construct($dsn, $username, $password, $config = ['logDir' => '', 'options' => []])
     {
         try {
-
             $this->config = $config;
 
             // if isset $dsn and it is array
