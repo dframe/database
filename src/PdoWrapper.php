@@ -25,6 +25,12 @@ use PDO;
  **/
 class PdoWrapper extends \PDO
 {
+
+    /**
+     * @var null|array
+     */
+    protected $config;
+
     /**
      * PDO Error File.
      *
