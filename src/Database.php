@@ -21,17 +21,17 @@ class Database extends PdoWrapper
 
 
     /**
-     * @var array
+     * @var null|array
      */
     protected $config;
 
     /**
-     * @var null|int
+     * @var null|string
      */
     private $setWhere = null;
 
     /**
-     * @var null|int
+     * @var null|string
      */
     private $setHaving = null;
 
@@ -41,22 +41,22 @@ class Database extends PdoWrapper
     private $setParams = [];
 
     /**
-     * @var null|int
+     * @var null|string
      */
     private $setOrderBy = null;
 
     /**
-     * @var null|int
+     * @var null|string
      */
     private $setGroupBy = null;
 
     /**
-     * @var null|int
+     * @var null|string
      */
     private $setLimit = null;
 
     /**
-     * @var string
+     * @var null|string
      */
     private $setQuery;
 
@@ -121,7 +121,7 @@ class Database extends PdoWrapper
     /**
      * PrepareWhere function.
      *
-     * @param array
+     * @param array $whereObject
      *
      * @return Database
      */
@@ -162,7 +162,7 @@ class Database extends PdoWrapper
     /**
      * PrepareHaving function.
      *
-     * @param \Dframe\Database\WhereChunk $havingObject
+     * @param \Dframe\Database\WhereChunk[] $havingObject
      *
      * @return Database
      */
@@ -293,7 +293,7 @@ class Database extends PdoWrapper
     /**
      * GetWhere function.
      *
-     * @return string
+     * @return null|string
      */
     public function getWhere()
     {
@@ -307,7 +307,7 @@ class Database extends PdoWrapper
     /**
      * GetGroupBy function.
      *
-     * @return string
+     * @return null|string
      */
     public function getGroupBy()
     {
@@ -317,7 +317,7 @@ class Database extends PdoWrapper
     /**
      * GetOrderBy function.
      *
-     * @return string
+     * @return null|string
      */
     public function getOrderBy()
     {
@@ -327,7 +327,7 @@ class Database extends PdoWrapper
     /**
      * GetHaving function.
      *
-     * @return string
+     * @return null|string
      */
     public function getHaving()
     {
@@ -341,7 +341,7 @@ class Database extends PdoWrapper
     /**
      * GetLimit function.
      *
-     * @return string
+     * @return null|string
      */
     public function getLimit()
     {

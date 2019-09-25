@@ -49,7 +49,7 @@ class PdoWrapper extends \PDO
     /**
      * PDO SQL table name.
      *
-     * @var string
+     * @var array
      */
     public $table = [];
 
@@ -77,21 +77,21 @@ class PdoWrapper extends \PDO
     /**
      * PDO Results,Fetch All PDO Results array.
      *
-     * @var array
+     * @var array|false
      */
     public $results = [];
 
     /**
      * PDO Result,Fetch One PDO Row.
      *
-     * @var array
+     * @var array|false
      */
     public $result = [];
 
     /**
      * Get PDO Last Insert ID.
      *
-     * @var int
+     * @var int|string
      */
     public $lastId = 0;
 
@@ -113,14 +113,14 @@ class PdoWrapper extends \PDO
     /**
      * Get All PDO Affected Rows.
      *
-     * @var int
+     * @var int|false
      */
     public $affectedRows = 0;
 
     /**
      * Catch temp data.
      *
-     * @var null
+     * @var null|array
      */
     public $data = null;
 
@@ -141,9 +141,9 @@ class PdoWrapper extends \PDO
     /**
      * PHP Statement Handler.
      *
-     * @var object
+     * @var \PDOStatement
      */
-    private $STH = null;
+    private $STH;
 
     /**
      * PDO Config/Settings.
@@ -237,7 +237,7 @@ class PdoWrapper extends \PDO
      */
     public function result($row = 0)
     {
-        return isset($this->results[$row]) ? $this->results[$row] : false;
+        return (is_array($this->results) AND isset($this->results[$row])) ? $this->results[$row] : false;
     }
 
     /**
@@ -253,7 +253,7 @@ class PdoWrapper extends \PDO
     /**
      * Get Last Insert id by Insert query.
      *
-     * @return int
+     * @return int|string
      */
     public function getLastInsertId()
     {
@@ -263,7 +263,7 @@ class PdoWrapper extends \PDO
     /**
      * Get all last insert id by insert batch query.
      *
-     * @return array
+     * @return array|string
      */
     public function getAllLastInsertId()
     {
@@ -299,7 +299,9 @@ class PdoWrapper extends \PDO
 
         // check valid sql operation statement
         if (!in_array($operation[0], $this->validOperation)) {
-            self::error('invalid operation called in query. use only ' . implode(', ', $this->validOperation) . ' You can have NO SPACE be between ' . implode(', ', $this->validOperation) . ' AND parms');
+            self::error('invalid operation called in query. Use only ' . implode(', ',
+                    $this->validOperation) . ' You can have NO SPACE be between ' . implode(', ',
+                    $this->validOperation) . ' AND parms.');
         }
 
         // sql query pass with no bind param
@@ -382,7 +384,8 @@ class PdoWrapper extends \PDO
      */
     public function error($msg)
     {
-        file_put_contents($this->config['logDir'] . self::LOG_FILE, date('Y-m-d h:m:s') . ' :: ' . $msg . "\n", FILE_APPEND);
+        file_put_contents($this->config['logDir'] . self::LOG_FILE, date('Y-m-d h:m:s') . ' :: ' . $msg . "\n",
+            FILE_APPEND);
 
         // log set as true
         if ($this->log) {
@@ -411,7 +414,8 @@ class PdoWrapper extends \PDO
             echo '</span></div>';
         }
 
-        file_put_contents($this->config['logDir'] . self::LOG_FILE, date('Y-m-d h:m:s') . ' :: ' . $this->interpolateQuery() . "\n", FILE_APPEND);
+        file_put_contents($this->config['logDir'] . self::LOG_FILE,
+            date('Y-m-d h:m:s') . ' :: ' . $this->interpolateQuery() . "\n", FILE_APPEND);
 
         return $this;
     }
@@ -1187,7 +1191,7 @@ class PdoWrapper extends \PDO
      *
      * @param string $table
      *
-     * @return array Field Type and Field Name
+     * @return array|false
      */
     public function describe($table = '')
     {
@@ -1234,7 +1238,7 @@ class PdoWrapper extends \PDO
     /**
      * Execute PDO Query.
      *
-     * @param array Bind Param Value
+     * @param array $bindWhereParam
      *
      * @return self|int
      */
