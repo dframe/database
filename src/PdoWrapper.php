@@ -176,7 +176,7 @@ class PdoWrapper extends \PDO
             if (is_array($dsn)) {
                 // check valid array key name
                 if (!isset($dsn['host']) || !isset($dsn['dbname'])) {
-                    throw new \PDOException('Dude!! You haven\'t pass valid db config array key.);
+                    throw new \PDOException('Dude!! You haven\'t pass valid db config array key.');
                 }
 
                 if (!isset($dsn['dbtype'])) {
