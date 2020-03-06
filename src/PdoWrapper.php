@@ -20,8 +20,6 @@ use PDO;
  *
  * @author   Neeraj Singh <neeraj.singh@lbi.co.in>
  * @author   Sławomir Kaleta <slaszka@gmail.com>
- * @author   Neeraj Singh <neeraj.singh@lbi.co.in>
- * @author   Sławomir Kaleta <slaszka@gmail.com>
  **/
 class PdoWrapper extends \PDO
 {
