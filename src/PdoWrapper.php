@@ -176,7 +176,7 @@ class PdoWrapper extends \PDO
             if (is_array($dsn)) {
                 // check valid array key name
                 if (!isset($dsn['host']) || !isset($dsn['dbname'])) {
-                    die("Dude!! You haven't pass valid db config array key.");
+                    throw new \PDOException('Dude!! You haven\'t pass valid db config array key.);
                 }
 
                 if (!isset($dsn['dbtype'])) {
@@ -193,7 +193,7 @@ class PdoWrapper extends \PDO
             parent::__construct($dsn, $username, $password, $this->config['options']);
         } catch (\PDOException $e) {
             // get pdo error and pass on error method
-            die('ERROR in establish connection: ' . $e->getMessage());
+            throw new \PDOException('ERROR in establish connection: ' . $e->getMessage());
         }
     }
 
