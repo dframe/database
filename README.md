@@ -2,10 +2,7 @@
 
 [![Build Status](https://travis-ci.org/dframe/database.svg?branch=master)](https://travis-ci.org/dframe/database) [![Latest Stable Version](https://poser.pugx.org/dframe/database/v/stable)](https://packagist.org/packages/dframe/database) [![Total Downloads](https://poser.pugx.org/dframe/database/downloads)](https://packagist.org/packages/dframe/database) [![Latest Unstable Version](https://poser.pugx.org/dframe/dframe/v/unstable)](https://packagist.org/packages/dframe/database) [![License](https://poser.pugx.org/dframe/dframe/license)](https://packagist.org/packages/dframe/dframe)
 
-**Documentation available at** [https://dframeframework.com](https://dframeframework.com/en/page/index)
-
-Language
-[Polish](https://dframeframework.com/en/page/docs) | [English](https://dframeframework.com/en/page/docs)
+Dframe **[Documentation](https://dframeframework.com/en/page/index)**
 
 ### Installation Composer
 
@@ -14,6 +11,11 @@ $ composer require dframe/database
 ```
 
 
+## What's included?
+ * [MySql PDO](https://dframeframework.com/en/docs/database/master/configuration) 
+ * [MySql Query Builder](https://dframeframework.com/en/docs/database/master/query-builder) 
+ * [MySql WHERE Builder](https://dframeframework.com/en/docs/database/master/chunks)
+ 
 Methods
 -------------
 Description | name
