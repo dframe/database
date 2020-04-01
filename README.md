@@ -12,9 +12,9 @@ $ composer require dframe/database
 
 
 ## What's included?
- * [MySql PDO](https://dframeframework.com/en/docs/database/master/configuration) 
- * [MySql Query Builder](https://dframeframework.com/en/docs/database/master/query-builder) 
- * [MySql WHERE Builder](https://dframeframework.com/en/docs/database/master/chunks)
+ * [MySQL PDO](https://dframeframework.com/en/docs/database/master/configuration) 
+ * [MySQL Query Builder](https://dframeframework.com/en/docs/database/master/query-builder) 
+ * [MySQL WHERE Builder](https://dframeframework.com/en/docs/database/master/chunks)
  
 Methods
 -------------
