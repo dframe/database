@@ -288,9 +288,13 @@ class PdoWrapper extends \PDO
         if ($allow === false) {
             // check valid sql operation statement
             if (!in_array($operation[0], $this->validOperation)) {
-                self::error('invalid operation called in query. use only ' . implode(', ',
-                        $this->validOperation) . ' You can have NO SPACE be between ' . implode(', ',
-                        $this->validOperation) . ' AND parms');
+                self::error('invalid operation called in query. use only ' . implode(
+                    ', ',
+                    $this->validOperation
+                ) . ' You can have NO SPACE be between ' . implode(
+                            ', ',
+                            $this->validOperation
+                        ) . ' AND parms');
             }
         }
 
@@ -381,8 +385,11 @@ class PdoWrapper extends \PDO
      */
     public function error($msg)
     {
-        file_put_contents($this->config['logDir'] . self::LOG_FILE, date('Y-m-d h:m:s') . ' :: ' . $msg . "\n",
-            FILE_APPEND);
+        file_put_contents(
+            $this->config['logDir'] . self::LOG_FILE,
+            date('Y-m-d h:m:s') . ' :: ' . $msg . "\n",
+            FILE_APPEND
+        );
 
         // log set as true
         if ($this->log) {
@@ -411,8 +418,11 @@ class PdoWrapper extends \PDO
             echo '</span></div>';
         }
 
-        file_put_contents($this->config['logDir'] . self::LOG_FILE,
-            date('Y-m-d h:m:s') . ' :: ' . $this->interpolateQuery() . "\n", FILE_APPEND);
+        file_put_contents(
+            $this->config['logDir'] . self::LOG_FILE,
+            date('Y-m-d h:m:s') . ' :: ' . $this->interpolateQuery() . "\n",
+            FILE_APPEND
+        );
 
         return $this;
     }
