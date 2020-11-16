@@ -292,9 +292,9 @@ class PdoWrapper extends \PDO
                     ', ',
                     $this->validOperation
                 ) . ' You can have NO SPACE be between ' . implode(
-                            ', ',
-                            $this->validOperation
-                        ) . ' AND parms');
+                    ', ',
+                    $this->validOperation
+                ) . ' AND parms');
             }
         }
 
