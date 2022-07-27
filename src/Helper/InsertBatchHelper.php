@@ -44,7 +44,7 @@ class InsertBatchHelper
     public function prepareInsert(string $table, array $columns, array $updateCols): void
     {
         $sql = "INSERT INTO " . $table . " (" . trim(
-                implode(
+            implode(
                     ', ',
                     $this->arrayMapAssoc(
                         function ($k, $v) {
@@ -53,7 +53,7 @@ class InsertBatchHelper
                         $columns
                     )
                 )
-            ) . ")";
+        ) . ")";
         /**
          * Search if query string already exist
          */

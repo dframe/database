@@ -389,7 +389,8 @@ class Database extends PdoWrapper
      *
      * @return void
      */
-    protected function setQuery($query){
+    protected function setQuery($query)
+    {
         $this->setQuery = $query;
     }
 
@@ -398,7 +399,8 @@ class Database extends PdoWrapper
      *
      * @return void
      */
-    protected function setParams($params){
+    protected function setParams($params)
+    {
         $this->setParams = $params;
     }
 
