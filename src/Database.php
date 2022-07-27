@@ -9,6 +9,7 @@
 
 namespace Dframe\Database;
 
+use Exception;
 use PDO;
 
 /**
@@ -381,5 +382,68 @@ class Database extends PdoWrapper
         }
 
         return $this;
+    }
+
+    /**
+     * @param $query
+     *
+     * @return void
+     */
+    protected function setQuery($query){
+        $this->setQuery = $query;
+    }
+
+    /**
+     * @param $params
+     *
+     * @return void
+     */
+    protected function setParams($params){
+        $this->setParams = $params;
+    }
+
+    /**
+     * @param string     $sql
+     * @param array      $values
+     * @param null|array $updateCols
+     *
+     * @throws \Exception
+     */
+    public function prepareBatchInsert(string $sql, array $values, ?array $updateCols = null): bool
+    {
+        $rowPlaces = [];
+
+        foreach ($values as $value) {
+            $count = count($value) - 1;
+            $rowPlaces[] = '(' . str_repeat('?,', $count) . '?)';
+        }
+
+        // (optional) setup the ON DUPLICATE column names
+        $colsToUpdate = [];
+
+        if (!is_null($updateCols)) {
+            foreach ($updateCols as $curCol) {
+                $colsToUpdate[] = $curCol . " = VALUES($curCol)";
+            }
+        }
+
+        $allPlaces = implode(', ', $rowPlaces);
+
+        if (!empty($updateCols)) {
+            $sql .= ' VALUES ' . $allPlaces . ' ON DUPLICATE KEY UPDATE ' . implode(', ', $colsToUpdate);
+        } else {
+            $sql .= ' VALUES ' . $allPlaces;
+        }
+
+        $dataToInsert = [];
+
+        foreach ($values as $val) {
+            foreach ($val as $v) {
+                $dataToInsert[] = $v;
+            }
+        }
+
+        $this->setQuery($sql);
+        $this->setParams($dataToInsert);
     }
 }

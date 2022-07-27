@@ -177,6 +177,83 @@ HavingStringChunk
 $where[] = new Dframe\Database\HavingStringChunk('col_id > ?', ['1']); // col_id > 1
 ```
 
+
+GroupInsertBatchHelper
+===================
+```php
+/**
+ * Multiple insert products with details in to tables
+ */
+$InsertBatchHelper = new InsertBatchHelper();
+
+/**
+* -----------------------------------------------------------------
+* Prepare Product
+* -----------------------------------------------------------------
+*/
+foreach ($data as $item) {
+    
+    $somePrimaryKey = md5($item->name.$item->price.$item->clientId);
+    /** 
+     *  First Query
+     */    
+    $Field = $InsertBatchHelper
+        ->addRequireFields(
+            [
+                'id' => $somePrimaryKey,
+                'name' => $item->name,
+            ]
+        )
+        ->addField('client_id', $item->clientId, true)
+        ->isCondition('available', 1, false);
+    
+    /**
+     * Generate query string without params
+     */
+    $InsertBatchHelper->prepareInsert('products', $Field->getValues(), $Field->getColsForUpdate());
+
+   /** 
+    *  Second Query
+    */
+    $Field = $InsertBatchHelper
+        ->addRequireFields(
+            [
+                'id' => $somePrimaryKey,
+                'size' => $item->size,
+                'price' => $item->price,
+            ]
+        )
+        ->addField('client_id', $item->clientId, true)
+        ->isCondition('available', 1, false);
+    
+    /**
+     * Generate query string without params
+     */
+    $InsertBatchHelper->prepareInsert('products_details', $Field->getValues(), $Field->getColsForUpdate());
+    
+}
+
+/** 
+ * Get first and second query  
+ */
+$getQueriesBatchInsert = $InsertBatchHelper->getQueriesBatchInsert();
+
+/**
+ * Generate query for first and second query with params and run query
+ */
+foreach ($getQueriesBatchInsert as $sql => $queryBatchInsert) {
+
+    $sqlProduct = $queryBatchInsert['sql'];
+    $valuesProduct = $queryBatchInsert['data'];
+    $updateColsProduct = $queryBatchInsert['updateCols'];
+    
+    $query = $this->baseClass->prepareBatchInsert($sqlProduct, $valuesProduct, $updateColsProduct);
+    $results = $this->baseClass->db->pdoQuery($query->getQuery(), $query->getParams())->results();
+ 
+}
+```
+
+
 ### Original author
 
 neerajsinghsonu/PDO_Class_Wrapper [^neerajsinghsonu/PDO_Class_Wrapper]
