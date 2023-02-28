@@ -45,14 +45,14 @@ class InsertBatchHelper
     {
         $sql = "INSERT INTO " . $table . " (" . trim(
             implode(
-                    ', ',
-                    $this->arrayMapAssoc(
-                        function ($k, $v) {
-                            return ltrim($k, ':');
-                        },
-                        $columns
-                    )
+                ', ',
+                $this->arrayMapAssoc(
+                    function ($k, $v) {
+                        return ltrim($k, ':');
+                    },
+                    $columns
                 )
+            )
         ) . ")";
         /**
          * Search if query string already exist
