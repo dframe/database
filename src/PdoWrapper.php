@@ -706,6 +706,10 @@ class PdoWrapper extends \PDO
                     case 'boolean':
                         $this->STH->bindParam(':s' . '_' . "$field", $array[$f], PDO::PARAM_BOOL);
                         break;
+                    case 'NULL':
+                        // if NULL found then set pdo param as NULL
+                        $this->STH->bindParam(':s' . '_' . "$field", $array[$f], PDO::PARAM_NULL);
+                        break;
                 };
             } // end for each here
         } else {
@@ -725,6 +729,10 @@ class PdoWrapper extends \PDO
                     // if boolean found then set pdo param as boolean
                     case 'boolean':
                         $this->STH->bindParam(':s' . '_' . "$f", $array[$f], PDO::PARAM_BOOL);
+                        break;
+                    case 'NULL':
+                        // if NULL found then set pdo param as NULL
+                        $this->STH->bindParam(':s' . '_' . "$f", $array[$f], PDO::PARAM_NULL);
                         break;
                 }
             } // end for each here
