@@ -23,7 +23,6 @@ use PDO;
  **/
 class PdoWrapper extends \PDO
 {
-
     /**
      * @var null|array
      */
@@ -300,7 +299,6 @@ class PdoWrapper extends \PDO
 
         // sql query pass with no bind param
         if (count($bindWhereParam) <= 0) {
-
             // try catch block start
             try {
                 // execute pdo statement
@@ -321,7 +319,6 @@ class PdoWrapper extends \PDO
                 self::error($e->getMessage() . ': ' . __LINE__);
             } // end try catch block
         } elseif (count($bindWhereParam) > 0) {  // if query pass with bind param
-
             $this->data = $bindWhereParam;
             // start binding fields
             // bind pdo param
@@ -331,7 +328,6 @@ class PdoWrapper extends \PDO
                 // run pdo statement with bind param
                 if ($this->STH->execute()) {
                     if ($allow === false) {
-
                         // check operation type
                         switch ($operation[0]) {
                             case 'SELECT':
@@ -555,11 +551,11 @@ class PdoWrapper extends \PDO
                 case 'string':
                     $this->STH->bindParam($f + 1, $array[$f], PDO::PARAM_STR);
                     break;
-                // if int found then pdo param set as int
+                    // if int found then pdo param set as int
                 case 'integer':
                     $this->STH->bindParam($f + 1, $array[$f], PDO::PARAM_INT);
                     break;
-                // if boolean found then set pdo param as boolean
+                    // if boolean found then set pdo param as boolean
                 case 'boolean':
                     $this->STH->bindParam($f + 1, $array[$f], PDO::PARAM_BOOL);
                     break;
@@ -698,11 +694,11 @@ class PdoWrapper extends \PDO
                     case 'string':
                         $this->STH->bindParam(':s' . '_' . "$field", $array[$f], PDO::PARAM_STR);
                         break;
-                    // if int found then pdo param set as int
+                        // if int found then pdo param set as int
                     case 'integer':
                         $this->STH->bindParam(':s' . '_' . "$field", $array[$f], PDO::PARAM_INT);
                         break;
-                    // if boolean found then set pdo param as boolean
+                        // if boolean found then set pdo param as boolean
                     case 'boolean':
                         $this->STH->bindParam(':s' . '_' . "$field", $array[$f], PDO::PARAM_BOOL);
                         break;
@@ -713,7 +709,6 @@ class PdoWrapper extends \PDO
                 };
             } // end for each here
         } else {
-
             // bind array data in pdo
             foreach ($array as $f => $v) {
                 // check pass data type for appropriate field
@@ -722,11 +717,11 @@ class PdoWrapper extends \PDO
                     case 'string':
                         $this->STH->bindParam(':s' . '_' . "$f", $array[$f], PDO::PARAM_STR);
                         break;
-                    // if int found then pdo param set as int
+                        // if int found then pdo param set as int
                     case 'integer':
                         $this->STH->bindParam(':s' . '_' . "$f", $array[$f], PDO::PARAM_INT);
                         break;
-                    // if boolean found then set pdo param as boolean
+                        // if boolean found then set pdo param as boolean
                     case 'boolean':
                         $this->STH->bindParam(':s' . '_' . "$f", $array[$f], PDO::PARAM_BOOL);
                         break;
@@ -808,7 +803,6 @@ class PdoWrapper extends \PDO
      */
     public function insertBatch($table, $data = [], $safeModeInsert = true)
     {
-
         // PDO transactions start
         $this->start();
         // check if table name not empty
@@ -1265,7 +1259,6 @@ class PdoWrapper extends \PDO
      */
     public function execute($bindWhereParam = [])
     {
-
         // clean query from white space
         $sql = trim($this->STH->queryString);
         // get operation type

@@ -19,8 +19,6 @@ use PDO;
  */
 class Database extends PdoWrapper
 {
-
-
     /**
      * @var null|array
      */
