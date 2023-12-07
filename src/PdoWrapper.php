@@ -216,6 +216,14 @@ class PdoWrapper extends \PDO
     }
 
     /**
+     * @return \PDOStatement
+     */
+    public function getSTH(): \PDOStatement
+    {
+        return $this->STH;
+    }
+
+    /**
      * Return PDO Query result by index value.
      *
      * @param int $row
